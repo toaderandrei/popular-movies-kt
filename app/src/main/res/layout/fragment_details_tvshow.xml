@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.ant.models.entities.TvShowDetails" />
+
+        <variable
+            name="item"
+            type="com.ant.models.entities.TvShowDetails" />
+
+        <variable
+            name="titleVisible"
+            type="boolean" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/details_movie_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:elevation="@dimen/appbar_elevation">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/details_view_movie_collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/collapsing_toolbar_height"
+                android:fitsSystemWindows="true"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="@dimen/margin_64"
+                app:expandedTitleMarginStart="@dimen/margin_48"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+                app:toolbarId="@+id/toolbar"
+                app:toolbarTitle="@{item.tvSeriesData.tvSeriesName}"
+                app:toolbarTitleEnabled="@{titleVisible}">
+
+                <include
+                    android:id="@+id/details_tvseries_appbar_content_id"
+                    layout="@layout/fragment_details_tvshow_appbar"
+                    app:item="@{item}"
+                    app:visibleGone="@{item.tvSeriesData!=null}" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/details_movies_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:contentInsetStartWithNavigation="0dp"
+                    app:layout_collapseMode="pin" />
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/movie_details"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:behavior_overlapTop="@dimen/margin_2"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <include
+                android:id="@+id/details_tvseries_info"
+                layout="@layout/fragment_details_tvshow_overview"
+                app:item="@{item}" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/loading_state"
+            layout="@layout/view_holder_loading_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:layout_anchor="@+id/loading_state"
+            app:layout_anchorGravity="center" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

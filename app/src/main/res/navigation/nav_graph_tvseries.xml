@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@id/navigation_graph_tvseries"
+    app:startDestination="@id/navigation_tvshow">
+
+    <fragment
+        android:id="@id/navigation_tvshow"
+        android:name="com.ant.app.ui.main.tvseries.TvShowFragment"
+        android:label="@string/tvshow">
+        <action
+            android:id="@+id/to_popular"
+            app:destination="@id/navigation_tvshow_popular" />
+
+        <action
+            android:id="@+id/to_toprated"
+            app:destination="@id/navigation_tvshow_toprated" />
+
+        <action
+            android:id="@+id/to_now_ontv"
+            app:destination="@id/navigation_tvshow_ontv" />
+        <action
+            android:id="@+id/to_airing_today"
+            app:destination="@id/navigation_tvshow_airingtoday" />
+
+        <action
+            android:id="@+id/to_details"
+            app:destination="@id/navigation_tvshow_details" />
+    </fragment>
+
+    <fragment
+        android:id="@id/navigation_tvshow_toprated"
+        android:name="com.ant.app.ui.main.tvseries.top.TopRatedTvShowFragment"
+        android:label="@string/movies_toprated">
+        <action
+            android:id="@+id/to_details"
+            app:destination="@id/navigation_tvshow_details" />
+    </fragment>
+
+    <fragment
+        android:id="@id/navigation_tvshow_popular"
+        android:name="com.ant.app.ui.main.tvseries.popular.PopularTvShowFragment"
+        android:label="@string/tvshows_popular">
+        <action
+            android:id="@+id/to_details"
+            app:destination="@id/navigation_tvshow_details" />
+    </fragment>
+
+    <fragment
+        android:id="@id/navigation_tvshow_airingtoday"
+        android:name="com.ant.app.ui.main.tvseries.airing_today.AiringTodayTvShowFragment"
+        android:label="@string/tvshows_airing_today">
+        <action
+            android:id="@+id/to_details"
+            app:destination="@id/navigation_tvshow_details" />
+    </fragment>
+
+    <fragment
+        android:id="@id/navigation_tvshow_ontv"
+        android:name="com.ant.app.ui.main.tvseries.ontv.OnTvTvShowFragment"
+        android:label="@string/tvshows_now_on_tv">
+        <action
+            android:id="@+id/to_details"
+            app:destination="@id/navigation_tvshow_details" />
+    </fragment>
+
+    <fragment
+        android:id="@id/navigation_tvshow_details"
+        android:name="com.ant.app.ui.details.tvseries.DetailsTvSeriesFragment"
+        android:label="@string/details_tvshow">
+        <argument
+            android:name="tmdb_id"
+            app:argType="long" />
+    </fragment>
+
+    <include app:graph="@navigation/nav_graph_settings" />
+
+</navigation>

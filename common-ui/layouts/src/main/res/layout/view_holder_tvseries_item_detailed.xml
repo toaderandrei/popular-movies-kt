@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.ant.models.entities.TvShow" />
+
+        <variable
+            name="posterSize"
+            type="String" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_8"
+        android:background="@color/md_grey_200">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/tvseries_item_image"
+            style="?attr/textAppearanceHeadline5"
+            android:layout_width="@dimen/poster_image_width"
+            android:layout_height="@dimen/poster_image_height"
+            android:layout_marginEnd="@dimen/margin_8"
+            android:adjustViewBounds="true"
+            android:contentDescription="@string/movie_image_desc"
+            android:src="@drawable/error_poster_image"
+            app:dimension="@{posterSize}"
+            app:image="@{item.posterPath}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/placeholder_movie_item_image" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/movie_item_title"
+            style="@style/TextAppearance.PopularMovies.Headline6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="3"
+            android:maxWidth="@dimen/text_max_normal"
+            android:text="@{item.tvSeriesName}"
+            android:textColor="@color/md_grey_700"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/tvseries_item_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="The Shawshank Redemption" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvseries_item_genres"
+            style="?attr/textAppearanceSubtitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_16"
+            android:maxWidth="@dimen/text_max_normal"
+            android:scrollHorizontally="true"
+            android:text="@{item.genres}"
+            android:singleLine="false"
+            android:textSize="@dimen/text_6"
+            app:layout_constraintHorizontal_bias="0.08"
+            app:layout_constraintStart_toEndOf="@+id/tvseries_item_image"
+            app:layout_constraintStart_toStartOf="@+id/movie_item_title"
+            app:layout_constraintTop_toBottomOf="@+id/movie_item_title"
+            tools:text="Genre" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvseries_rating_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_2"
+            android:drawablePadding="@dimen/padding_2"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            app:drawableEndCompat="@drawable/ic_rating_stars"
+            app:errorId="@{@string/no_rating_available}"
+            app:layout_constraintTop_toBottomOf="@+id/tvseries_item_genres"
+            app:layout_constraintStart_toStartOf="@+id/movie_item_title"
+            app:rating="@{item.voteAverageRounded}"
+            tools:text="7/10" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

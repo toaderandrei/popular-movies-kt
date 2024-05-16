@@ -1,0 +1,33 @@
+package com.ant.app.di
+
+import com.ant.domain.qualifiers.DefaultDispatcher
+import com.ant.domain.qualifiers.IoDispatcher
+import com.ant.domain.qualifiers.MainDispatcher
+import com.ant.domain.qualifiers.MainImmediateDispatcher
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+
+@Module
+@InstallIn(SingletonComponent::class)
+object CoroutinesModule {
+
+    @DefaultDispatcher
+    @Provides
+    fun providesDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
+
+    @IoDispatcher
+    @Provides
+    fun providesIoDispatcher(): CoroutineDispatcher = Dispatchers.IO
+
+    @MainDispatcher
+    @Provides
+    fun providesMainDispatcher(): CoroutineDispatcher = Dispatchers.Main
+
+    @MainImmediateDispatcher
+    @Provides
+    fun providesMainImmediateDispatcher(): CoroutineDispatcher = Dispatchers.Main.immediate
+}

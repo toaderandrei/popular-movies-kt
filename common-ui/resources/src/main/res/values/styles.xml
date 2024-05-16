@@ -1,0 +1,143 @@
+<resources>
+    <!-- Begin reviewed -->
+    <style name="TextAppearance.PopularMovies.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:letterSpacing">-0.002</item>
+    </style>
+
+    <style name="TextAppearance.PopularMovies.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:letterSpacing">-0.002</item>
+    </style>
+
+    <style name="TextAppearance.PopularMovies.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:letterSpacing">-0.002</item>
+    </style>
+
+    <style name="TextAppearance.PopularMovies.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:letterSpacing">-0.002</item>
+    </style>
+
+    <style name="TextAppearance.PopularMovies.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:letterSpacing">-0.002</item>
+    </style>
+
+    <style name="TextAppearance.PopularMovies.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:letterSpacing">-0.002</item>
+    </style>
+
+    <style name="TextAppearance.PopularMovies.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:letterSpacing">-0.002</item>
+    </style>
+
+    <style name="TextAppearance.PopularMovies.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:letterSpacing">-0.002</item>
+    </style>
+
+    <style name="Widget.PopularMovies.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:paddingEnd">@dimen/padding_8</item>
+        <item name="popupTheme">@style/AppTheme.PopupTheme</item>
+
+        <!-- todo-> to change color <item name="titleTextColor">@color/material_green400</item>-->
+
+        <item name="titleTextAppearance">@style/TextAppearance.PopularMovies.Headline4</item>
+    </style>
+
+    <style name="TextAppearance.PopularMovies.Button" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:textSize">@dimen/text_7_5</item>
+        <item name="android:letterSpacing">@dimen/text_spacing_0.125</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
+    </style>
+
+    <style name="TextAppearance.PopularMovies.SimpleButton" parent="TextAppearance.MaterialComponents.Button">
+        <item name="fontFamily">@font/robotomono</item>
+        <item name="android:fontFamily">@font/robotomono</item>
+        <item name="android:textSize">@dimen/text_7_5</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored" />
+
+    <!-- End reviewed -->
+
+    <style name="MovieItem" parent="CardView">
+        <item name="android:layout_margin">@dimen/item_spacing_half</item>
+        <item name="android:clickable">true</item>
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
+    <style name="MovieItemText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/md_grey_800</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:textSize">@dimen/text_7_5</item>
+    </style>
+
+    <style name="MovieTitleItemText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:lineSpacingMultiplier">1.1</item>
+        <item name="android:textColor">@color/md_grey_700</item>
+        <item name="android:textSize">@dimen/text_10</item>
+    </style>
+
+    <style name="FavoriteButton">
+        <item name="paddingStart">12dp</item>
+        <item name="paddingEnd">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:src">@drawable/fav_button_selector</item>
+    </style>
+
+    <style name="FavoriteButtonBig">
+        <item name="paddingStart">12dp</item>
+        <item name="paddingEnd">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="ShareButton">
+        <item name="paddingStart">12dp</item>
+        <item name="paddingEnd">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:layout_margin">2dp</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:src">@drawable/share_button_selector_32dp</item>
+    </style>
+
+    <style name="chipTextAppearance" parent="TextAppearance.MaterialComponents.Chip">
+        <item name="android:textSize">8sp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textStyle">italic|bold</item>
+    </style>
+
+    <style name="ThemeOverlay.PopularMovies.Light" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="colorPrimary">@color/material_blue500</item>
+        <item name="colorPrimaryVariant">@color/material_blue800</item>
+    </style>
+
+</resources>

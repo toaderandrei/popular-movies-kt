@@ -14,16 +14,22 @@ This Kotlin-based Android application showcases popular movies and TV series usi
 
 ## Features
 - Browse popular movies and TV series.
+  - Filter by popular, top-rated, upcoming, and now playing.
+  - Horizontal lists for categories such as popular and upcoming movies.
+  - Swipe horizontally on the main screen through categories.
 - View detailed information about each movie or TV show.
 - Dynamic loading of more results with swipe.
-- Horizontal lists for categories such as popular and upcoming movies.
 - Clean and modular code following MVVM and Clean Architecture.
+- Save favorite movies and TV shows.
+- View saved favorites, tv series or movies.
 
 
 ## Architecture and Project Structure
 Architecture
 The project follows the principles of Clean Architecture, focused on separation of concerns and maintainability.
 https://developer.android.com/topic/architecture
+![android_architecture_diagram.png](pictures/clean_architecture_diagram.png)
+
 It's organized into the following layers:
 - **app**: Contains the main activity and UI components.
 - **build-logic**: Gradle configurations and dependencies.

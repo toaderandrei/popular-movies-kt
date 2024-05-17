@@ -24,7 +24,6 @@ This Kotlin-based Android application showcases popular movies and TV series usi
 Architecture
 The project follows the principles of Clean Architecture, focused on separation of concerns and maintainability.
 https://developer.android.com/topic/architecture
-![android_architecture_diagram.png](pictures/android_architecture_diagram.png)
 It's organized into the following layers:
 - **app**: Contains the main activity and UI components.
 - **build-logic**: Gradle configurations and dependencies.

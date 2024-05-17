@@ -44,7 +44,7 @@ This approach is heavily based on https://developer.squareup.com/blog/herding-el
 <img src="pictures/popular_movies_2.jpg" alt="popular_movies_2" width="300"/> <img src="pictures/popular_movies_1.jpg" alt="popular_movies_1" width="200"/> <img src="pictures/popular_movies_3.jpg" alt="popular_movies_3" width="200"/>
 
 ## Technologies Used
-- Kotlin, Coroutines & Flow, Hilt, Retrofit, Jetpack Components.
+- Kotlin, Coroutines & Flow, Hilt, Retrofit, MVVM.
 
 ## Libraries Used
 - [Retrofit](https://square.github.io/retrofit/): A type-safe HTTP client for Android and Java.

@@ -6,6 +6,7 @@ This Kotlin-based Android application showcases popular movies and TV series usi
 - [Features](#features)
 - [Project Structure](#Architecture-and-Project-Structure)
 - [Technologies Used](#technologies-used)
+- [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
@@ -19,12 +20,11 @@ This Kotlin-based Android application showcases popular movies and TV series usi
 - Clean and modular code following MVVM and Clean Architecture.
 
 
-
 ## Architecture and Project Structure
 Architecture
 The project follows the principles of Clean Architecture, focused on separation of concerns and maintainability.
 https://developer.android.com/topic/architecture
-![android_architecture_diagram.png](android_architecture_diagram.png)
+![android_architecture_diagram.png](pictures/android_architecture_diagram.png)
 It's organized into the following layers:
 - **app**: Contains the main activity and UI components.
 - **build-logic**: Gradle configurations and dependencies.
@@ -33,6 +33,9 @@ This approach is heavily based on https://developer.squareup.com/blog/herding-el
 - **common-ui**: Common UI components and extensions.
 - **data**: Responsible for interacting with external data sources like networks or local databases using repositories and data sources.
 - **domain**: Contains the business logic and use cases of the application.
+
+## Screenshots
+<img src="pictures/popular_movies_2.jpg" alt="popular_movies_2" width="300"/> <img src="pictures/popular_movies_1.jpg" alt="popular_movies_1" width="200"/> <img src="pictures/popular_movies_3.jpg" alt="popular_movies_3" width="200"/>
 
 ## Technologies Used
 - Kotlin, Coroutines & Flow, Dagger, Retrofit, Jetpack Components.

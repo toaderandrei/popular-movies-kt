@@ -6,6 +6,7 @@ This Kotlin-based Android application showcases popular movies and TV series usi
 - [Features](#features)
 - [Project Structure](#Architecture-and-Project-Structure)
 - [Technologies Used](#technologies-used)
+- [Libraries Used](#libraries-used)
 - [Screenshots](#screenshots)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -43,8 +44,14 @@ This approach is heavily based on https://developer.squareup.com/blog/herding-el
 <img src="pictures/popular_movies_2.jpg" alt="popular_movies_2" width="300"/> <img src="pictures/popular_movies_1.jpg" alt="popular_movies_1" width="200"/> <img src="pictures/popular_movies_3.jpg" alt="popular_movies_3" width="200"/>
 
 ## Technologies Used
-- Kotlin, Coroutines & Flow, Dagger, Retrofit, Jetpack Components.
+- Kotlin, Coroutines & Flow, Hilt, Retrofit, Jetpack Components.
 
+## Libraries Used
+- [Retrofit](https://square.github.io/retrofit/): A type-safe HTTP client for Android and Java.
+- [Epoxy](https://github.com/airbnb/epoxy): A library for building complex RecyclerView layouts.
+- [Coil](https://github.com/coil-kt/coil): An image loading library for Android backed by Kotlin Coroutines.
+- [Hilt](https://developer.android.com/training/dependency-injection/hilt-android): A dependency injection library for Android that reduces the boilerplate of doing manual dependency injection in your project. 
+- [Mockk](https://mockk.io/ANDROID.html): A mocking library for Kotlin.
 
 ## Installation
 1. Clone the repository:

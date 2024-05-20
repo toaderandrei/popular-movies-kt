@@ -4,14 +4,15 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
+import com.ant.app.ui.extensions.parseResponse
 import com.ant.app.ui.main.base.movies.BaseViewModelMovieList
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.tvseries.TvShowListUseCase
 import com.ant.models.entities.TvShow
-import com.ant.models.model.Result
-import com.ant.models.model.TvSeriesListState
-import com.ant.models.model.isLoading
-import com.ant.models.model.isSuccess
+import com.ant.models.model.Error
+import com.ant.models.model.Loading
+import com.ant.models.model.MoviesState
+import com.ant.models.model.Success
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
 import kotlinx.coroutines.launch
@@ -19,8 +20,8 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModelTvShowList(
     val logger: TmdbLogger,
     val useCase: TvShowListUseCase,
-) : BaseViewModel<TvSeriesListState>(
-    TvSeriesListState()
+) : BaseViewModel<MoviesState<List<TvShow>?>>(
+    MoviesState()
 ) {
     private val _currentPage = MutableLiveData<Int>().apply { value = 0 }
     val currentPage = MediatorLiveData<Int>()
@@ -50,7 +51,18 @@ abstract class BaseViewModelTvShowList(
                 parameters = getMovieParams(page)
             ).collectAndSetState {
                 logger.d("state: $this")
-                parseResponse(it)
+                parseResponse(
+                    response = it,
+                    onSuccess = {
+                        Success
+                    },
+                    onLoading = {
+                        Loading
+                    },
+                    onError = {
+                        Error
+                    }
+                )
             }
         }
     }
@@ -63,15 +75,6 @@ abstract class BaseViewModelTvShowList(
     }
 
     abstract fun getTvSeriesRequest(): RequestType.TvShowRequest
-
-    internal fun TvSeriesListState.parseResponse(it: Result<List<TvShow>>) =
-        if (it.isLoading) {
-            copy(loading = true, items = null, error = null)
-        } else if (it.isSuccess) {
-            copy(loading = false, items = it.get(), error = null)
-        } else {
-            copy(loading = false, items = null, error = (it as Result.Error).throwable)
-        }
 
     companion object {
         const val FIRST_PAGE = 1

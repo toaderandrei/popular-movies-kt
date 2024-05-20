@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), ToolbarWithNavigation {
             R2.id.navigation_movies,
             R2.id.navigation_tvshow,
             R2.id.navigation_favorites,
-            R2.id.navigation_settings,
+            R2.id.navigation_account,
         )
     }
 }

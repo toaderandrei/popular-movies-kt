@@ -7,7 +7,6 @@ import com.ant.domain.usecases.movies.DeleteMovieDetailsUseCase
 import com.ant.domain.usecases.movies.MovieDetailsUseCase
 import com.ant.domain.usecases.movies.SaveMovieDetailsUseCase
 import com.ant.models.entities.MovieDetails
-import com.ant.models.model.MovieDetailsState
 import com.ant.models.model.Result
 import com.ant.models.model.isLoading
 import com.ant.models.model.isSuccess

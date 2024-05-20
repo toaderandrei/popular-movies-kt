@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.ant.common.listeners.LoginCallback" />
+
+        <variable
+            name="username"
+            type="String" />
+
+        <variable
+            name="loginCallback"
+            type="LoginCallback" />
+
+        <variable
+            name="isLoggedIn"
+            type="Boolean" />
+
+        <variable
+            name="isLoading"
+            type="Boolean" />
+
+        <variable
+            name="password"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Poster Image at the Top -->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_login_poster"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="@string/poster_image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/movie_theater"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Username Label -->
+        <TextView
+            android:id="@+id/textview_username"
+            style="@style/TextStyle.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="16dp"
+            android:text="@string/username"
+            android:textColor="@color/md_black_1000"
+            app:layout_constraintStart_toStartOf="@id/edt_username"
+            app:layout_constraintTop_toBottomOf="@id/iv_login_poster" />
+
+        <!-- Username Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edt_username"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_16"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textview_username">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:maxLength="24"
+                android:maxLines="1"
+                android:padding="@dimen/margin_16"
+                android:text="@{username}"
+                android:textAppearance="@style/TextStyle.Medium"
+                android:textColor="@color/md_black_1000" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Password Label -->
+        <TextView
+            android:id="@+id/tv_password"
+            style="@style/TextStyle.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="16dp"
+            android:text="@string/password"
+            android:textColor="@color/md_black_1000"
+            app:layout_constraintStart_toStartOf="@id/edt_password"
+            app:layout_constraintTop_toBottomOf="@id/edt_username" />
+
+        <!-- Password Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/edt_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_16"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_password"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/md_black_1000">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:padding="@dimen/padding_16"
+                android:text="@{password}"
+                android:textAppearance="@style/TextStyle.Medium"
+                android:textColor="@color/md_white_1000" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Login Button -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/button_login"
+            style="@style/TextStyle.Small"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/margin_48"
+            android:layout_marginHorizontal="@dimen/margin_16"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/blue_button"
+            android:onClick="@{() -> loginCallback.login()}"
+            android:text="@string/login"
+            app:visibleGone="@{!isLoading}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/edt_password" />
+
+        <!-- No Account Text -->
+        <TextView
+            android:id="@+id/tv_have_account"
+            style="@style/TextStyle.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_16"
+            android:layout_marginTop="24dp"
+            android:text="@string/no_account"
+            app:layout_constraintEnd_toStartOf="@id/tv_signup"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/button_login" />
+
+        <!-- Sign Up Text -->
+        <TextView
+            android:id="@+id/tv_signup"
+            style="@style/TextStyle.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:onClick="@{() -> loginCallback.signUp()}"
+            android:text="@string/signup"
+            android:textColor="@color/md_black_1000"
+            app:layout_constraintBottom_toBottomOf="@id/tv_have_account"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_have_account"
+            app:layout_constraintTop_toTopOf="@id/tv_have_account" />
+
+        <!-- Loading State Include -->
+        <include
+            android:id="@+id/loading_state"
+            layout="@layout/view_holder_loading_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -38,7 +38,10 @@ logging = "3.0.5"
 assistedInject = "0.6.0"
 espresso = "3.5.1"
 kotlin-serialization = "1.6.3"
-
+firebaseBom = "33.0.0"
+dataStore = "1.1.1"
+gmsPlugin = "4.4.1"
+firebaseCrashlyticsPlugin = "3.0.1"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 
@@ -55,6 +58,15 @@ kotlinSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-js
 # oss licenses
 google-oss-licenses-plugin = { module = "com.google.android.gms:oss-licenses-plugin", version.ref = "openSourceLicensesPlugin" }
 openSourceLicensesLibrary = { module = "com.google.android.gms:play-services-oss-licenses", version.ref = "openSourceLicensesLibrary" }
+
+# Firebase
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth-ktx" }
+
+# Storage
+data-store = { module = "androidx.datastore:datastore", version.ref = "dataStore" }
+data-store-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
 
 # UI & Material
 cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -136,6 +148,11 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
 safe-args = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
+
+# Custon plugins
 popular-movies-android-application = { id = "popular.movies.android.application", version = "unspecified" }
 popular-movies-android-library = { id = "popular.movies.android.library", version = "unspecified" }
+popular-movies-android-firebase = { id = "popular.movies.android.firebase", version = "unspecified" }
+

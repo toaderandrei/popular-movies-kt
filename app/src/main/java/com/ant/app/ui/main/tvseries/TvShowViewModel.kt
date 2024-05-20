@@ -3,6 +3,7 @@ package com.ant.app.ui.main.tvseries
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
 import com.ant.domain.usecases.tvseries.TvShowListUseCase
+import com.ant.models.model.TvShowGroupState
 import com.ant.models.model.getErrorOrNull
 import com.ant.models.model.isLoading
 import com.ant.models.model.isSuccess
@@ -16,8 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TvShowViewModel @Inject constructor(
     private val loadTvSeriesListUseCase: TvShowListUseCase,
-) : BaseViewModel<TvShowState>(
-    TvShowState()
+) : BaseViewModel<TvShowGroupState>(
+    TvShowGroupState()
 ) {
     init {
         loadAllMovies()

@@ -7,18 +7,18 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.safe.args)
     alias(libs.plugins.popular.movies.android.application)
+    alias(libs.plugins.popular.movies.android.firebase)
+    alias(libs.plugins.gms)
 }
 
 android {
 
     defaultConfig {
-        versionCode = 1
-        versionName = "1.0"
-
-        multiDexEnabled = true
-        vectorDrawables.useSupportLibrary = true
-
-        buildConfigField("String", "TMDB_API_KEY", "\"" + getLocalProperty("AUTH_TMDB_API_KEY", "") + "\"")
+        buildConfigField(
+            "String",
+            "TMDB_API_KEY",
+            "\"" + getLocalProperty("AUTH_TMDB_API_KEY", "") + "\""
+        )
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -28,7 +28,7 @@ android {
     }
 
     // Add this line
-    namespace  = "com.ant.app"
+    namespace = "com.ant.app"
 
     buildTypes {
         // todo fix proguard
@@ -67,14 +67,6 @@ android {
         buildConfig = true
         //noinspection DataBindingWithoutKapt
         dataBinding = true
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
     }
 }
 
@@ -124,6 +116,14 @@ dependencies {
 
     // image loading
     implementation(libs.coil)
+
+    // firebase
+    implementation(libs.firebase.analytics)
+    // check if still needed after plugin
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.data.store)
+    implementation(libs.data.store.preferences)
 }
 
 fun getLocalProperty(propertyName: String, defaultValue: String): String {

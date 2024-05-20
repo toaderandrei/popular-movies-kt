@@ -27,19 +27,21 @@
     <dimen name="thick_120">120dp</dimen>
 
     <!--TODO move to attrs? -->
-    <dimen name="width_icon_1">12dp</dimen>
-    <dimen name="height_icon_1">12dp</dimen>
-    <dimen name="width_icon_2">24dp</dimen>
-    <dimen name="height_icon_2">24dp</dimen>
-    <dimen name="width_icon_4">48dp</dimen>
-    <dimen name="height_icon_4">48dp</dimen>
-    <dimen name="width_icon_6">72dp</dimen>
-    <dimen name="height_icon_6">72dp</dimen>
+    <dimen name="width_icon_12">12dp</dimen>
+    <dimen name="height_icon_12">12dp</dimen>
+    <dimen name="width_icon_24">24dp</dimen>
+    <dimen name="height_icon_24">24dp</dimen>
+    <dimen name="width_icon_48">48dp</dimen>
+    <dimen name="height_icon_48">48dp</dimen>
+    <dimen name="width_icon_72">72dp</dimen>
+    <dimen name="height_icon_72">72dp</dimen>
+    <dimen name="width_icon_90">90dp</dimen>
+    <dimen name="height_icon_90">90dp</dimen>
+    <dimen name="width_icon_120">120dp</dimen>
+    <dimen name="height_icon_120">120dp</dimen>
+    <dimen name="width_icon_320">320dp</dimen>
+    <dimen name="height_icon_320">320dp</dimen>
 
-    <dimen name="height_video_1">60dp</dimen>
-    <dimen name="width_video_1">90dp</dimen>
-    <dimen name="height_video_2">120dp</dimen>
-    <dimen name="width_video_2">180dp</dimen>
 
     <!-- spinner -->
     <dimen name="dropdownListPreferredItemHeight">48dp</dimen>

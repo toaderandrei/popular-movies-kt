@@ -1,8 +1,8 @@
-package com.ant.app.ui.main.movies
+package com.ant.models.model
 
 import com.ant.models.entities.MovieData
 
-data class MoviesState(
+data class MoviesGroupState(
     val popularItems: List<MovieData> = emptyList(),
     val isPopularMoviesLoading: Boolean = false,
     val isPopularMoviesError: Boolean = false,

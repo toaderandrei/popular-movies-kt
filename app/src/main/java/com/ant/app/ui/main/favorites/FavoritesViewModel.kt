@@ -2,8 +2,7 @@ package com.ant.app.ui.main.favorites
 
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
-import com.ant.models.model.isLoading
-import com.ant.models.model.isSuccess
+import com.ant.app.ui.extensions.parseResponse
 import com.ant.domain.usecases.movies.LoadFavoredMoviesUseCase
 import com.ant.domain.usecases.tvseries.LoadFavoredTvSeriesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,16 +22,20 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             loadMoviesUseCase(parameters = true)
                 .collectAndSetState {
-                    if (it.isLoading) {
-                        copy(
-                            isMoviesFavoredLoading = true,
-                        )
-                    } else if (it.isSuccess) {
-                        copy(
-                            moviesFavored = it.get() ?: emptyList(),
-                            isMoviesFavoredLoading = false
-                        )
-                    } else {
+                    parseResponse(
+                        response = it,
+                        onSuccess = {
+                            copy(
+                                moviesFavored = it,
+                                isMoviesFavoredLoading = false
+                            )
+                        },
+                        onLoading = {
+                            copy(
+                                isMoviesFavoredLoading = true,
+                            )
+                        }
+                    ) {
                         copy(
                             isMoviesFavoredLoading = false,
                             isMoviesFavoredError = true
@@ -44,21 +47,25 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             loadTvSeriesUseCase(parameters = true)
                 .collectAndSetState {
-                    if (it.isLoading) {
-                        copy(
-                            isTvSeriesFavoredLoading = true,
-                        )
-                    } else if (it.isSuccess) {
-                        copy(
-                            tvSeriesFavored = it.get() ?: emptyList(),
-                            isTvSeriesFavoredLoading = false
-                        )
-                    } else {
-                        copy(
-                            isTvSeriesFavoredLoading = false,
-                            isTvSeriesFavoredError = true
-                        )
-                    }
+                    parseResponse(response = it,
+                        onSuccess = {
+                            copy(
+                                tvSeriesFavored = it,
+                                isTvSeriesFavoredLoading = false
+                            )
+                        },
+                        onLoading = {
+                            copy(
+                                isTvSeriesFavoredLoading = true,
+                            )
+                        },
+                        onError = {
+                            copy(
+                                isTvSeriesFavoredLoading = false,
+                                isTvSeriesFavoredError = true
+                            )
+                        }
+                    )
                 }
         }
     }

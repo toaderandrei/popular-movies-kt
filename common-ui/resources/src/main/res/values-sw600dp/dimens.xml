@@ -4,14 +4,14 @@
     <dimen name="poster_image_width">160dp</dimen>
     <dimen name="poster_image_height">240dp</dimen>
 
-    <dimen name="width_icon_1">16dp</dimen>
-    <dimen name="height_icon_1">16dp</dimen>
-    <dimen name="width_icon_2">32dp</dimen>
-    <dimen name="height_icon_2">32dp</dimen>
-    <dimen name="width_icon_4">64dp</dimen>
-    <dimen name="height_icon_4">64dp</dimen>
-    <dimen name="width_icon_6">96dp</dimen>
-    <dimen name="height_icon_6">96dp</dimen>
+    <dimen name="width_icon_12">16dp</dimen>
+    <dimen name="height_icon_12">16dp</dimen>
+    <dimen name="width_icon_24">32dp</dimen>
+    <dimen name="height_icon_24">32dp</dimen>
+    <dimen name="width_icon_48">64dp</dimen>
+    <dimen name="height_icon_48">64dp</dimen>
+    <dimen name="width_icon_72">96dp</dimen>
+    <dimen name="height_icon_72">96dp</dimen>
 
     <dimen name="height_video_1">120dp</dimen>
     <dimen name="width_video_1">180dp</dimen>

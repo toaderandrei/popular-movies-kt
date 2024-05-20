@@ -1,9 +1,7 @@
 package com.ant.app.ui.main.tvseries
 
 import android.annotation.SuppressLint
-import android.content.Context
 import com.airbnb.epoxy.EpoxyController
-import com.ant.app.R
 import com.ant.resources.R as R2
 import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.ImageEntity
@@ -12,17 +10,16 @@ import com.ant.models.extensions.toReadableError
 import com.ant.epoxy.extensions.tmdbCarousel
 import com.ant.epoxy.extensions.withModelsFrom
 import com.ant.layouts.*
+import com.ant.models.model.TvShowGroupState
 import com.ant.models.source.extensions.observable
 import com.ant.tmdb.old.PosterSizes
-import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
 
 class TvShowEpoxyController @Inject constructor(
-    @ActivityContext private val context: Context,
     private val logger: TmdbLogger,
 ) : EpoxyController() {
     var callbacks: Callbacks? by observable(null, ::requestModelBuild)
-    var state: TvShowState by observable(TvShowState(), ::requestModelBuild)
+    var state: TvShowGroupState by observable(TvShowGroupState(), ::requestModelBuild)
 
     interface Callbacks {
         fun onPopularTvSeriesClicked()

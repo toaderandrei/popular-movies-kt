@@ -1,8 +1,8 @@
-package com.ant.app.ui.main.tvseries
+package com.ant.models.model
 
 import com.ant.models.entities.TvShow
 
-data class TvShowState(
+data class TvShowGroupState(
     val popularTvSeriesItems: List<TvShow> = emptyList(),
     val isPopularTvSeriesLoading: Boolean = false,
     val isPopularTvSeriesError: Boolean = false,

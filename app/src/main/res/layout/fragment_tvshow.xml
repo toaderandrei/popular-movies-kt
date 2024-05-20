@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.ant.app.ui.main.tvseries.TvShowState" />
+        <import type="com.ant.models.model.TvShowGroupState" />
 
         <variable
             name="state"
-            type="TvShowState" />
+            type="com.ant.models.model.TvShowGroupState" />
 
     </data>
 

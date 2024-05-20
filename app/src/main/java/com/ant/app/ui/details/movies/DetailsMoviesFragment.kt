@@ -21,8 +21,8 @@ import com.ant.common.listeners.FavoriteCallback
 import com.ant.common.listeners.RetryCallback
 import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.MovieDetails
-import com.ant.models.model.MovieDetailsState
 import com.ant.common.utils.Constants.TMDB_KEY_ID
+import com.ant.models.model.MoviesState
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -97,14 +97,14 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
         }
     }
 
-    private fun renderModels(moviesState: MovieDetailsState?) {
+    private fun renderModels(moviesState: MoviesState<MovieDetails>?) {
         moviesState?.let {
             logger.d("state: $moviesState")
             with(binding) {
                 loadingState.isError = moviesState.error != null
                 loadingState.errorMsg.error = moviesState.error?.message
                 loadingState.isLoading = moviesState.loading
-                moviesState.movieDetails?.let { movieDetailsData ->
+                moviesState.data?.let { movieDetailsData ->
                     item = movieDetailsData
                     movieCastAdapter.submitList(movieDetailsData.movieCasts)
                     movieDetailsData.movieCasts?.let {

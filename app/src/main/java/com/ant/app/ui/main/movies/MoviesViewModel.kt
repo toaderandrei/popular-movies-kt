@@ -3,6 +3,7 @@ package com.ant.app.ui.main.movies
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
 import com.ant.domain.usecases.movies.MovieListUseCase
+import com.ant.models.model.MoviesGroupState
 import com.ant.models.model.getErrorOrNull
 import com.ant.models.model.isLoading
 import com.ant.models.model.isSuccess
@@ -16,8 +17,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
     private val loadMovieListUseCase: MovieListUseCase,
-) : BaseViewModel<MoviesState>(
-    MoviesState()
+) : BaseViewModel<MoviesGroupState>(
+    MoviesGroupState()
 ) {
     fun refresh() {
         loadAllMovies()
@@ -37,12 +38,14 @@ class MoviesViewModel @Inject constructor(
                             isPopularMoviesLoading = true,
                         )
                     }
+
                     it.isSuccess -> {
                         copy(
                             isPopularMoviesLoading = false,
                             popularItems = it.get() ?: emptyList(),
                         )
                     }
+
                     else -> {
                         copy(
                             isPopularMoviesLoading = false,

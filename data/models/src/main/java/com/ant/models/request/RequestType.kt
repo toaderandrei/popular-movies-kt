@@ -1,15 +1,30 @@
 package com.ant.models.request
 
-sealed class RequestType {
-    class MovieRequest(val movieType: MovieType) : RequestType()
-    class MovieRequestDetails(
+sealed interface RequestType {
+    data class MovieRequest(val movieType: MovieType) : RequestType
+
+    data class MovieRequestDetails(
         val tmdbMovieId: Long,
         val appendToResponseItems: List<MovieAppendToResponseItem> = mutableListOf()
-    ) : RequestType()
+    ) : RequestType
 
-    class TvShowRequest(val tvSeriesType: TvShowType) : RequestType()
-    class TvSeriesRequestDetails(
+    data class TvShowRequest(val tvSeriesType: TvShowType) : RequestType
+
+    data class TvSeriesRequestDetails(
         val tmdbTvSeriesId: Long,
         val appendToResponseItems: List<TvSeriesAppendToResponseItem> = mutableListOf()
-    ) : RequestType()
+    ) : RequestType
+
+    data class LoginSessionRequest(val username: String, val password: String) : RequestType
+
+    sealed interface FirebaseRequest : RequestType {
+        data class SignIn(val username: String, val password: String) : FirebaseRequest
+        data class SignUp(val username: String, val password: String) : FirebaseRequest
+
+        object SignOut : FirebaseRequest
+
+        object GetUser : FirebaseRequest
+
+        data class SendPasswordReset(val email: String) : FirebaseRequest
+    }
 }

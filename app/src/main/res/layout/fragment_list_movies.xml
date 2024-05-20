@@ -6,11 +6,13 @@
 
     <data>
 
-        <import type="com.ant.models.model.MoviesListState" />
+        <import type="com.ant.models.model.MoviesState" />
+        <import type="java.util.List" />
+        <import type="com.ant.models.entities.MovieData" />
 
         <variable
             name="state"
-            type="com.ant.models.model.MoviesListState" />
+            type="MoviesState&lt;List&lt;MovieData>?>" />
 
         <variable
             name="callback"

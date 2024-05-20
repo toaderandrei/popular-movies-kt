@@ -2,17 +2,18 @@ package com.ant.app.ui.details.tvseries
 
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
+import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
-import com.ant.models.entities.TvShowDetails
-import com.ant.models.model.Result
-import com.ant.models.model.TvSeriesDetailsState
-import com.ant.models.model.isLoading
-import com.ant.models.model.isSuccess
-import com.ant.models.request.RequestType
-import com.ant.models.request.TvSeriesAppendToResponseItem
 import com.ant.domain.usecases.tvseries.DeleteTvSeriesDetailsUseCase
 import com.ant.domain.usecases.tvseries.SaveTvSeriesDetailsUseCase
 import com.ant.domain.usecases.tvseries.TvSeriesDetailsUseCase
+import com.ant.models.entities.TvShowDetails
+import com.ant.models.model.Error
+import com.ant.models.model.Loading
+import com.ant.models.model.MoviesState
+import com.ant.models.model.Success
+import com.ant.models.request.RequestType
+import com.ant.models.request.TvSeriesAppendToResponseItem
 import com.ant.models.source.repositories.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,23 +25,32 @@ class DetailsTvSeriesViewModel @Inject constructor(
     val tvSeriesDetailsUseCase: TvSeriesDetailsUseCase,
     val tvSeriesSaveDetailsUseCase: SaveTvSeriesDetailsUseCase,
     val tvSeriesDeleteDetailsUseCase: DeleteTvSeriesDetailsUseCase,
-) : BaseViewModel<TvSeriesDetailsState>(TvSeriesDetailsState()) {
+) : BaseViewModel<MoviesState<TvShowDetails>>(MoviesState()) {
+
     fun loadMovieDetails(movieId: Long) {
-        viewModelScope.launch {
-            tvSeriesDetailsUseCase(
-                Repository.Params(
-                    RequestType.TvSeriesRequestDetails(
-                        tmdbTvSeriesId = movieId,
-                        appendToResponseItems = mutableListOf(
-                            TvSeriesAppendToResponseItem.REVIEWS,
-                            TvSeriesAppendToResponseItem.VIDEOS,
-                            TvSeriesAppendToResponseItem.CREDITS,
-                        )
-                    )
-                )
-            ).collectAndSetState {
-                logger.d("state: $this")
-                parseResponse(it)
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
+            try {
+                tvSeriesDetailsUseCase.invoke(
+                    getTvSeriesRequestDetailsParams(movieId)
+                ).collectAndSetState { it ->
+                    logger.d("state: $this")
+                    parseResponse(response = it,
+                        onSuccess = {
+                            Success
+                        },
+                        onLoading = {
+                            Loading
+                        }
+                    ) {
+                        logger.e(it, "Error: ${it.message}")
+                        Error
+                    }
+                }
+            } catch (
+                e: Exception
+            ) {
+                logger.e(e, "Canceled job: ${e.message}")
             }
         }
     }
@@ -67,11 +77,14 @@ class DetailsTvSeriesViewModel @Inject constructor(
         }
     }
 
-    private fun TvSeriesDetailsState.parseResponse(it: Result<TvShowDetails>) = if (it.isLoading) {
-        copy(loading = true, tvSeriesDetails = null, error = null)
-    } else if (it.isSuccess) {
-        copy(loading = false, tvSeriesDetails = it.get(), error = null)
-    } else {
-        copy(loading = false, tvSeriesDetails = null, error = (it as Result.Error).throwable)
-    }
+    private fun getTvSeriesRequestDetailsParams(movieId: Long) = Repository.Params(
+        RequestType.TvSeriesRequestDetails(
+            tmdbTvSeriesId = movieId,
+            appendToResponseItems = mutableListOf(
+                TvSeriesAppendToResponseItem.REVIEWS,
+                TvSeriesAppendToResponseItem.VIDEOS,
+                TvSeriesAppendToResponseItem.CREDITS,
+            )
+        )
+    )
 }

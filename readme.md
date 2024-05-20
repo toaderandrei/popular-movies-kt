@@ -12,6 +12,7 @@ This Kotlin-based Android application showcases popular movies and TV series usi
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [License](#license)
+- [Copyrights](#copyrights)
 
 ## Features
 - Browse popular movies and TV series.
@@ -70,6 +71,10 @@ This approach is heavily based on https://developer.squareup.com/blog/herding-el
 1. Run the application on an Android device or emulator.
 2. Browse through the list of popular movies and TV shows.
 3. Tap on any item to view detailed information.
+
+## Copyrights
+UI inspired from TIVI app.
+https://github.com/chrisbanes/tivi
 
 ## Contributing
 Contributions are welcome! Please fork, create a feature branch, commit changes, and submit a pull request.

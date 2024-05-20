@@ -4,13 +4,14 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
+import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.movies.MovieListUseCase
 import com.ant.models.entities.MovieData
-import com.ant.models.model.MoviesListState
-import com.ant.models.model.Result
-import com.ant.models.model.isLoading
-import com.ant.models.model.isSuccess
+import com.ant.models.model.Error
+import com.ant.models.model.Loading
+import com.ant.models.model.MoviesState
+import com.ant.models.model.Success
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
 import kotlinx.coroutines.launch
@@ -18,8 +19,8 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModelMovieList(
     val logger: TmdbLogger,
     val useCase: MovieListUseCase,
-) : BaseViewModel<MoviesListState>(
-    MoviesListState()
+) : BaseViewModel<MoviesState<List<MovieData>?>>(
+    MoviesState()
 ) {
     private val _currentPage = MutableLiveData<Int>().apply { value = 0 }
     val currentPage = MediatorLiveData<Int>()
@@ -47,7 +48,17 @@ abstract class BaseViewModelMovieList(
                 parameters = getMovieParams(page)
             ).collectAndSetState {
                 logger.d("state: $this")
-                parseResponse(it)
+                parseResponse(response = it,
+                    onSuccess = {
+                        Success
+                    },
+                    onLoading = {
+                        Loading
+                    }
+                ) { throwable ->
+                    logger.e(throwable, "Error loading movie list: ${throwable.message}")
+                    Error
+                }
             }
         }
     }
@@ -60,14 +71,6 @@ abstract class BaseViewModelMovieList(
     }
 
     abstract fun getMovieRequest(): RequestType.MovieRequest
-
-    private fun MoviesListState.parseResponse(it: Result<List<MovieData>>) = if (it.isLoading) {
-        copy(loading = true, items = null, error = null)
-    } else if (it.isSuccess) {
-        copy(loading = false, items = it.get(), error = null)
-    } else {
-        copy(loading = false, items = null, error = (it as Result.Error).throwable)
-    }
 
     companion object {
         const val FIRST_PAGE = 1

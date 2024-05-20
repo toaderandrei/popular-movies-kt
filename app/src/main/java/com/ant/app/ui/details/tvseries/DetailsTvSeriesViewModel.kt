@@ -35,16 +35,10 @@ class DetailsTvSeriesViewModel @Inject constructor(
                     getTvSeriesRequestDetailsParams(movieId)
                 ).collectAndSetState { it ->
                     logger.d("state: $this")
-                    parseResponse(response = it,
-                        onSuccess = {
-                            Success
-                        },
-                        onLoading = {
-                            Loading
-                        }
+                    parseResponse(
+                        response = it,
                     ) {
                         logger.e(it, "Error: ${it.message}")
-                        Error
                     }
                 }
             } catch (

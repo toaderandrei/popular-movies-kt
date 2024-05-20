@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), ToolbarWithNavigation {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() ?: false
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     // =========================== private stuff =========================================================//

@@ -33,8 +33,8 @@ val <T> MoviesState<T>.isLoading: Boolean
 val <T> MoviesState<T>.isError: Boolean
     get() = error != null
 
-val <T> MoviesState<T>.isEmpty: Boolean
-    get() = data == null
+val <T> MoviesState<T>.isSuccess: Boolean
+    get() = data != null
 
 val <T> MoviesState<T>.errorMessage: String?
     get() = error?.message

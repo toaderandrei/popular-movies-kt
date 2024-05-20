@@ -9,10 +9,7 @@ import com.ant.app.ui.main.base.movies.BaseViewModelMovieList
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.tvseries.TvShowListUseCase
 import com.ant.models.entities.TvShow
-import com.ant.models.model.Error
-import com.ant.models.model.Loading
 import com.ant.models.model.MoviesState
-import com.ant.models.model.Success
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
 import kotlinx.coroutines.launch
@@ -53,14 +50,8 @@ abstract class BaseViewModelTvShowList(
                 logger.d("state: $this")
                 parseResponse(
                     response = it,
-                    onSuccess = {
-                        Success
-                    },
-                    onLoading = {
-                        Loading
-                    },
-                    onError = {
-                        Error
+                    onError = { throwable ->
+                        logger.e(throwable, "Error: ${throwable.message}")
                     }
                 )
             }

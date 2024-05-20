@@ -5,9 +5,10 @@ import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.login.AuthenticateUserUseCase
+import com.ant.models.entities.LoginSession
 import com.ant.models.model.Error
 import com.ant.models.model.Loading
-import com.ant.models.model.LoginState
+import com.ant.models.model.MoviesState
 import com.ant.models.model.Success
 import com.ant.models.request.RequestType
 import com.ant.models.session.SessionManager
@@ -20,7 +21,7 @@ class LoginViewModel @Inject constructor(
     private val authenticateUserUseCase: AuthenticateUserUseCase,
     sessionManagerDelegate: SessionManagerDelegate,
     private val logger: TmdbLogger,
-) : BaseViewModel<LoginState<String>>(LoginState()) {
+) : BaseViewModel<MoviesState<LoginSession?>>(MoviesState()) {
     private val sessionManager: SessionManager by sessionManagerDelegate
 
     fun authenticateUser(userName: String, password: String) {
@@ -38,13 +39,8 @@ class LoginViewModel @Inject constructor(
             ).collectAndSetState {
                 parseResponse(
                     response = it,
-                    onSuccess = {
-                        Success
-                    },
-                    onLoading = { Loading },
                     onError = { throwable ->
                         logger.e(throwable, "Error: ${throwable.message}")
-                        Error
                     })
             }
         }

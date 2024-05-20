@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="com.ant.models.model.MoviesGroupState" />
+        <import type="com.ant.models.model.MoviesListState" />
 
         <variable
             name="state"
-            type="com.ant.models.model.MoviesGroupState" />
+            type="com.ant.models.model.MoviesListState" />
 
     </data>
 

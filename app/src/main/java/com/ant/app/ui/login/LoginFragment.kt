@@ -14,11 +14,12 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class LoginFragment @Inject constructor(
-    val logger: TmdbLogger,
-) : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
+class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
 
     override val viewModel: LoginViewModel by viewModels()
+
+    @Inject
+    lateinit var logger: TmdbLogger
 
     override fun createViewBinding(
         inflater: LayoutInflater, container: ViewGroup?

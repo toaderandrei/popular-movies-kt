@@ -12,4 +12,9 @@
             android:id="@+id/to_login"
             app:destination="@id/navigation_login" />
     </fragment>
+    <fragment
+        android:id="@id/navigation_login"
+        android:name="com.ant.app.ui.login.LoginFragment"
+        android:label="@string/account" />
+
 </navigation>

@@ -42,6 +42,10 @@
     <dimen name="width_icon_320">320dp</dimen>
     <dimen name="height_icon_320">320dp</dimen>
 
+    <dimen name="height_video_1">60dp</dimen>
+    <dimen name="width_video_1">90dp</dimen>
+    <dimen name="height_video_2">120dp</dimen>
+    <dimen name="width_video_2">180dp</dimen>
 
     <!-- spinner -->
     <dimen name="dropdownListPreferredItemHeight">48dp</dimen>

@@ -15,6 +15,7 @@ import com.ant.common.logger.TmdbLogger
 import com.ant.epoxy.extensions.init
 import com.ant.models.entities.MovieData
 import com.ant.models.entities.TvShow
+import com.ant.models.model.FavoritesState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

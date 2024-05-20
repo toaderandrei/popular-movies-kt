@@ -109,7 +109,7 @@ dependencies {
     implementation(libs.okhttpLoggingInterceptor)
 
     //navigation
-    implementation(libs.navigationFragment)
+    implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui)
     implementation(libs.fragmentKtx)
     implementation(libs.fragment)

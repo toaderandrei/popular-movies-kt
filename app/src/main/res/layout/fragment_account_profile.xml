@@ -37,7 +37,7 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_login_poster"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_54"
@@ -58,29 +58,10 @@
                 android:ellipsize="middle"
                 android:text="@string/login_title"
                 android:textAlignment="center"
-                android:textColor="@color/md_white_1000"
+                android:textColor="@color/md_black_1000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_profile" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/bt_login"
-                style="@style/TextStyle.Small"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginEnd="@dimen/margin_16"
-                android:layout_marginBottom="@dimen/margin_54"
-                android:layout_marginTop="@dimen/margin_16"
-                android:onClick="@{()->loginCallback.login()}"
-                android:text="@string/login"
-                android:textAllCaps="false"
-                android:background="@drawable/blue_button"
-                android:textColor="@color/material_white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/iv_login_poster"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/iv_login_poster" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/iv_profile"
@@ -91,7 +72,7 @@
                 app:image="@{avatarUrl}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_login_title"
                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
                 tools:src="@tools:sample/backgrounds/scenic" />
 
@@ -125,23 +106,40 @@
                 android:textColor="@color/md_black_1000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_login_title" />
+                app:layout_constraintTop_toBottomOf="@id/tv_username" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_login"
+                style="@style/TextStyle.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_16"
+                android:layout_marginEnd="@dimen/margin_16"
+                android:layout_marginBottom="@dimen/margin_54"
+                android:background="@drawable/blue_button"
+                android:onClick="@{()->loginCallback.login()}"
+                android:text="@string/login"
+                android:textAllCaps="false"
+                android:textColor="@color/material_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_logout" />
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/user_not_logged_in"
+                android:id="@+id/group_user_not_logged_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="bt_login,
-            iv_profile,tv_login_title"
-                app:visibleGone="@{!userLoggedIn}" />
+                app:constraint_referenced_ids="bt_login,tv_login_title,iv_login_poster"
+                app:visibleGone="@{userLoggedIn == false}" />
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/user_logged_in"
+                android:id="@+id/group_user_logged_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tv_logout,
-            iv_login_poster,tv_username"
-                app:visibleGone="@{userLoggedIn}" />
+                app:constraint_referenced_ids="tv_logout,iv_profile,tv_username"
+                app:visibleGone="@{userLoggedIn == true}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

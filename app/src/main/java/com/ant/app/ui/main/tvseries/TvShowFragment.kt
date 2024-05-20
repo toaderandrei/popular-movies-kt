@@ -16,7 +16,7 @@ import com.ant.app.ui.main.movies.MoviesFragment
 import com.ant.common.extensions.doOnSizeChange
 import com.ant.epoxy.extensions.init
 import com.ant.models.entities.TvShow
-import com.ant.models.model.TvShowGroupState
+import com.ant.models.model.TvShowListState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -101,7 +101,7 @@ class TvShowFragment : NavigationFragment<TvShowViewModel, FragmentTvshowBinding
         }
     }
 
-    private fun renderModels(moviesState: TvShowGroupState?) {
+    private fun renderModels(moviesState: TvShowListState?) {
         moviesState?.let {
             controller.state = it
             binding.state = it

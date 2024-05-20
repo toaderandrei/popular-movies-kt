@@ -13,7 +13,10 @@ import com.ant.layouts.infiniteLoading
 import com.ant.models.entities.ImageEntity
 import com.ant.models.entities.MovieData
 import com.ant.models.extensions.toReadableError
-import com.ant.models.model.MoviesState
+import com.ant.models.model.Error
+import com.ant.models.model.MoviesListState
+import com.ant.models.model.errorMessage
+import com.ant.models.model.isError
 import com.ant.models.source.extensions.observable
 import com.ant.tmdb.old.PosterSizes
 import dagger.hilt.android.qualifiers.ActivityContext
@@ -25,7 +28,7 @@ class MoviesEpoxyController @Inject constructor(
     private val logger: TmdbLogger,
 ) : EpoxyController() {
     var callbacks: Callbacks? by observable(null, ::requestModelBuild)
-    var state: MoviesState by observable(MoviesState(), ::requestModelBuild)
+    var state: MoviesListState by observable(MoviesListState(), ::requestModelBuild)
 
     interface Callbacks {
         fun onPopularMoviesClicked()
@@ -37,10 +40,10 @@ class MoviesEpoxyController @Inject constructor(
 
     @SuppressLint("StringFormatInvalid")
     override fun buildModels() {
-        val popular = state.popularItems
-        val top = state.topMovieItems
-        val nowPlaying = state.nowPlayingItems
-        val onUpcoming = state.upcomingItems
+        val popular = state.popularMovies.data
+        val top = state.topMovies.data
+        val nowPlaying = state.nowPlayingMovies.data
+        val onUpcoming = state.upcomingMovies.data
         logger.d("building models")
 
         // todo use the strings value instead of hardcoded.
@@ -50,9 +53,9 @@ class MoviesEpoxyController @Inject constructor(
             movieTitle = R2.string.movies_popular,
             "popular_carousel",
             "popular_placeholder",
-            errorMessage = this@MoviesEpoxyController.state.popularMoviesError?.toReadableError(),
-            isLoading = this@MoviesEpoxyController.state.isPopularMoviesLoading,
-            isError = this@MoviesEpoxyController.state.isPopularMoviesError,
+            errorMessage = this@MoviesEpoxyController.state.popularMovies.error?.toReadableError(),
+            isLoading = this@MoviesEpoxyController.state.popularMovies.loading,
+            isError = this@MoviesEpoxyController.state.popularMovies.isError,
             callback = { callbacks?.onPopularMoviesClicked() }
         )
 
@@ -63,9 +66,9 @@ class MoviesEpoxyController @Inject constructor(
             movieTitle = R2.string.movies_toprated,
             "top_carousel",
             "top_placeholder",
-            errorMessage = this@MoviesEpoxyController.state.topMoviesError?.toReadableError(),
-            isLoading = this@MoviesEpoxyController.state.isTopMoviesLoading,
-            isError = this@MoviesEpoxyController.state.isTopMoviesError,
+            errorMessage = this@MoviesEpoxyController.state.topMovies.error?.toReadableError(),
+            isLoading = this@MoviesEpoxyController.state.topMovies.loading,
+            isError = this@MoviesEpoxyController.state.topMovies.isError,
             callback = { callbacks?.onTopMoviesClicked() }
         )
 
@@ -76,9 +79,9 @@ class MoviesEpoxyController @Inject constructor(
             movieTitle = R2.string.movies_now_on_theaters,
             "now_playing_carousel",
             "now_playing_placeholder",
-            errorMessage = this@MoviesEpoxyController.state.nowPlayingMoviesError?.toReadableError(),
-            isLoading = this@MoviesEpoxyController.state.isNowPlayingMoviesLoading,
-            isError = this@MoviesEpoxyController.state.isNowPlayingMoviesError,
+            errorMessage = this@MoviesEpoxyController.state.nowPlayingMovies.error?.toReadableError(),
+            isLoading = this@MoviesEpoxyController.state.nowPlayingMovies.loading,
+            isError = this@MoviesEpoxyController.state.nowPlayingMovies.isError,
             callback = { callbacks?.onNowPlayingMoviesClicked() }
         )
 
@@ -89,15 +92,15 @@ class MoviesEpoxyController @Inject constructor(
             movieTitle = R2.string.movies_upcoming,
             "upcoming_carousel",
             "upcoming_placeholder",
-            errorMessage = this@MoviesEpoxyController.state.upcomingMoviesError?.toReadableError(),
-            isLoading = this@MoviesEpoxyController.state.isUpcomingMoviesLoading,
-            isError = this@MoviesEpoxyController.state.isUpcomingMoviesError,
+            errorMessage = this@MoviesEpoxyController.state.upcomingMovies.error?.toReadableError(),
+            isLoading = this@MoviesEpoxyController.state.upcomingMovies.loading,
+            isError = this@MoviesEpoxyController.state.upcomingMovies.isError,
             callback = { callbacks?.onUpComingMoviesClicked() }
         )
     }
 
     private fun buildModel(
-        moviesResult: List<MovieData> = emptyList(),
+        moviesResult: List<MovieData>? = null,
         keyId: String? = "",
         movieTitle: Int = -1,
         carouselId: String? = "",
@@ -113,10 +116,13 @@ class MoviesEpoxyController @Inject constructor(
             title(movieTitle)
             buttonClickListener { _ -> callback() }
         }
+        if (moviesResult.isNullOrEmpty()) {
+            logger.d("building model: null. $keyId")
+        }
 
         when {
-            moviesResult.isNotEmpty() -> {
-                logger.d("building model: movie")
+            !moviesResult.isNullOrEmpty() -> {
+                logger.d("building model: $moviesResult")
                 tmdbCarousel {
                     id(carouselId)
                     hasFixedSize(true)
@@ -145,16 +151,21 @@ class MoviesEpoxyController @Inject constructor(
                 }
             }
 
-            isLoading -> {
-                infiniteLoading {
-                    id("loading_carousel")
-                }
-            }
 
             isError -> {
                 errorState {
                     id(emptyCarousel)
                     message(errorMessage)
+                }
+            }
+            isLoading -> {
+                infiniteLoading {
+                    id("loading_carousel")
+                }
+            }
+            else -> {
+                infiniteLoading {
+                    id("loading_carousel")
                 }
             }
         }

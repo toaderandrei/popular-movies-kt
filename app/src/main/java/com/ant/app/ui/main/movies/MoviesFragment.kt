@@ -15,7 +15,7 @@ import com.ant.common.extensions.doOnSizeChange
 import com.ant.common.logger.TmdbLogger
 import com.ant.epoxy.extensions.init
 import com.ant.models.entities.MovieData
-import com.ant.models.model.MoviesState
+import com.ant.models.model.MoviesListState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -65,8 +65,8 @@ class MoviesFragment : NavigationFragment<MoviesViewModel, FragmentMoviesBinding
         }
     }
 
-    private fun renderModels(moviesState: MoviesState?) {
-        moviesState?.let {
+    private fun renderModels(moviesListState: MoviesListState?) {
+        moviesListState?.let {
             controller.state = it
             binding.state = it
         }

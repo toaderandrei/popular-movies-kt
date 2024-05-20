@@ -49,16 +49,10 @@ abstract class BaseViewModelMovieList(
             ).collectAndSetState {
                 logger.d("state: $this")
                 parseResponse(response = it,
-                    onSuccess = {
-                        Success
-                    },
-                    onLoading = {
-                        Loading
+                    onError = { throwable ->
+                        logger.e(throwable, "Error loading movie list: ${throwable.message}")
                     }
-                ) { throwable ->
-                    logger.e(throwable, "Error loading movie list: ${throwable.message}")
-                    Error
-                }
+                )
             }
         }
     }

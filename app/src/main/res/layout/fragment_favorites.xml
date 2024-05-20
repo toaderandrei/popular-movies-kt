@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="com.ant.app.ui.main.favorites.FavoritesState" />
+        <import type="com.ant.models.model.FavoritesState" />
 
         <variable
             name="state"
-            type="FavoritesState" />
+            type="com.ant.models.model.FavoritesState" />
 
     </data>
 

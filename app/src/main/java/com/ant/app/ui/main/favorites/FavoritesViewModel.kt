@@ -5,6 +5,7 @@ import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.domain.usecases.movies.LoadFavoredMoviesUseCase
 import com.ant.domain.usecases.tvseries.LoadFavoredTvSeriesUseCase
+import com.ant.models.model.FavoritesState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,50 +23,14 @@ class FavoritesViewModel @Inject constructor(
         viewModelScope.launch {
             loadMoviesUseCase(parameters = true)
                 .collectAndSetState {
-                    parseResponse(
-                        response = it,
-                        onSuccess = {
-                            copy(
-                                moviesFavored = it,
-                                isMoviesFavoredLoading = false
-                            )
-                        },
-                        onLoading = {
-                            copy(
-                                isMoviesFavoredLoading = true,
-                            )
-                        }
-                    ) {
-                        copy(
-                            isMoviesFavoredLoading = false,
-                            isMoviesFavoredError = true
-                        )
-                    }
+                    parseResponse(responseMovies = it)
                 }
         }
 
         viewModelScope.launch {
             loadTvSeriesUseCase(parameters = true)
                 .collectAndSetState {
-                    parseResponse(response = it,
-                        onSuccess = {
-                            copy(
-                                tvSeriesFavored = it,
-                                isTvSeriesFavoredLoading = false
-                            )
-                        },
-                        onLoading = {
-                            copy(
-                                isTvSeriesFavoredLoading = true,
-                            )
-                        },
-                        onError = {
-                            copy(
-                                isTvSeriesFavoredLoading = false,
-                                isTvSeriesFavoredError = true
-                            )
-                        }
-                    )
+                    parseResponse(responseTvSeries = it)
                 }
         }
     }

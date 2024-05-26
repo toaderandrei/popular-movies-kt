@@ -8,10 +8,7 @@ import com.ant.domain.usecases.tvseries.DeleteTvSeriesDetailsUseCase
 import com.ant.domain.usecases.tvseries.SaveTvSeriesDetailsUseCase
 import com.ant.domain.usecases.tvseries.TvSeriesDetailsUseCase
 import com.ant.models.entities.TvShowDetails
-import com.ant.models.model.Error
-import com.ant.models.model.Loading
 import com.ant.models.model.MoviesState
-import com.ant.models.model.Success
 import com.ant.models.request.RequestType
 import com.ant.models.request.TvSeriesAppendToResponseItem
 import com.ant.models.source.repositories.Repository

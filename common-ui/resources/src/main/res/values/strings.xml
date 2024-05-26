@@ -33,10 +33,21 @@
     <!-- User account -->
     <string name="poster_image">Poster image</string>
     <string name="account">Account</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="tmdb_account">TMDb Account</string>
+    <string name="firebase_account">Firebase Account(optional)</string>
+
+    <string name="username_tmdb">Username</string>
+    <string name="username_tmdb_logged_in">User logged in in Tmdb API</string>
+
+    <string name="email">Email</string>
+
+    <string name="password_tmdb">Password</string>
+    <string name="password_firebase">Password</string>
+
     <string name="signup">Signup</string>
     <string name="no_account">No account</string>
+    <string name="no_firebase_account">No firebase account</string>
+
     <!--Movies-->
     <string name="movies">Movies</string>
     <string name="movies_new_releases">New Releases</string>

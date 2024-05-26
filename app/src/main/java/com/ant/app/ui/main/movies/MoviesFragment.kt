@@ -61,11 +61,11 @@ class MoviesFragment : NavigationFragment<MoviesViewModel, FragmentMoviesBinding
 
         with(viewModel) {
             viewModel.refresh()
-            stateAsLiveData.observe(viewLifecycleOwner, ::renderModels)
+            stateAsLiveData.observe(viewLifecycleOwner, ::updateUi)
         }
     }
 
-    private fun renderModels(moviesListState: MoviesListState?) {
+    private fun updateUi(moviesListState: MoviesListState?) {
         moviesListState?.let {
             controller.state = it
             binding.state = it

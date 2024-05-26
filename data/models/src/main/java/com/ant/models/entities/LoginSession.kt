@@ -21,6 +21,9 @@ data class LoginSession(
     @ColumnInfo(name = "session_id")
     val sessionId: String? = null,
 
+    @ColumnInfo(name = "is_firebase_registered")
+    val isFirebaseRegistered: Boolean? = false,
+
     @ColumnInfo(name = "success")
     val success: Boolean? = false,
 ) : TmdbEntity {

@@ -16,7 +16,6 @@ import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
 import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.MovieData
-import com.ant.models.model.MoviesListState
 import com.ant.models.model.MoviesState
 import javax.inject.Inject
 

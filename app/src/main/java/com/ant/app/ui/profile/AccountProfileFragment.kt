@@ -46,24 +46,23 @@ class AccountProfileFragment(
 
                 override fun logout() {
                     logger.d("Account logout.")
+                    // TODO: consider making it lifecycle aware
+                    updateUi(MoviesState(loading = false, data = false, error = null))
                 }
             }
         }
     }
 
-    private fun updateUi(loginState: MoviesState<Boolean>?) {
-
-        loginState?.let {
-            if (loginState.isLoading) {
-                logger.d("Loading...")
-            } else if (loginState.isSuccess) {
-                logger.d("Success loading profile: $loginState.")
-                with(binding) {
-                    userLoggedIn = loginState.data ?: false
-                }
-            } else {
-                logger.d("Error.")
+    private fun updateUi(loginState: MoviesState<Boolean>) {
+        if (loginState.isLoading) {
+            logger.d("Loading...")
+        } else if (loginState.isSuccess) {
+            logger.d("Success loading profile: $loginState.")
+            with(binding) {
+                userLoggedIn = loginState.data ?: false
             }
+        } else {
+            logger.d("Error.")
         }
     }
 

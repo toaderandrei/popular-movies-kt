@@ -8,10 +8,7 @@ import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.movies.MovieListUseCase
 import com.ant.models.entities.MovieData
-import com.ant.models.model.Error
-import com.ant.models.model.Loading
 import com.ant.models.model.MoviesState
-import com.ant.models.model.Success
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
 import kotlinx.coroutines.launch

@@ -14,15 +14,13 @@ class SessionManagerImpl(
 ) : SessionManager {
     override suspend fun saveSessionId(sessionId: String?): Boolean {
         var isSaved = false
-        val isUserLoggedIn = firebaseAuthentication.getUser() != null
-        if (isUserLoggedIn) {
-            sessionId?.let {
-                dataStore.edit { preferences ->
-                    preferences[SESSION_ID] = it
-                    isSaved = true
-                }
+        sessionId?.let {
+            dataStore.edit { preferences ->
+                preferences[SESSION_ID] = it
+                isSaved = true
             }
         }
+
         return isSaved
     }
 

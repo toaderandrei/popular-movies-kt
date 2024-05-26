@@ -8,10 +8,7 @@ import com.ant.domain.usecases.movies.DeleteMovieDetailsUseCase
 import com.ant.domain.usecases.movies.MovieDetailsUseCase
 import com.ant.domain.usecases.movies.SaveMovieDetailsUseCase
 import com.ant.models.entities.MovieDetails
-import com.ant.models.model.Error
-import com.ant.models.model.Loading
 import com.ant.models.model.MoviesState
-import com.ant.models.model.Success
 import com.ant.models.request.MovieAppendToResponseItem
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository

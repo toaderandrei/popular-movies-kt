@@ -13,32 +13,30 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
-class AuthenticateUserToTmdbAndSaveSessionUseCase @Inject constructor(
+class AuthenticateUserToTmDbAndSaveSessionUseCase @Inject constructor(
     private val logger: TmdbLogger,
     private val loginUserToTmDbUseCase: LoginUserToTmDbUseCase,
     private val sessionManager: SessionManager,
     @IoDispatcher dispatcher: CoroutineDispatcher,
 ) : UseCase<Repository.Params<RequestType.LoginSessionRequest>, LoginSession>(dispatcher) {
     override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest>): LoginSession {
-        val session = loginUserToTmDbUseCase.invoke(parameters).firstOrNull {
+        val tmDbSession = loginUserToTmDbUseCase.invoke(parameters).firstOrNull {
             it is Result.Success || it is Result.Error
         }
 
-        logger.d("Login to TmDb APi successful: $session")
+        logger.d("Login to TmDb APi successful: $tmDbSession")
 
-        if (session is Result.Error || session == null) {
-            throw TmdbException("Error: ${session?.get()}")
+        if (tmDbSession is Result.Error || tmDbSession == null || tmDbSession.get() == null) {
+            throw TmdbException("Error: ${tmDbSession?.get()}")
         }
 
-        logger.d("Login to TmDb APi successful. SessionId: ${session.get()?.sessionId}")
+        logger.d("Login to TmDb APi successful. SessionId: ${tmDbSession.get()?.sessionId}")
 
-        return session.get()?.sessionId.let {
+        tmDbSession.get()?.sessionId.let {
             // We retrieved session from tmdb api. Next authenticate user with firebase.
             sessionManager.saveSessionId(it)
-
-            LoginSession(
-                sessionId = it
-            )
+            sessionManager.saveUsername(username = parameters.request.username)
         }
+        return tmDbSession.get()!!
     }
 }

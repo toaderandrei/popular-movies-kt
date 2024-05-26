@@ -12,7 +12,7 @@ import com.ant.common.listeners.ClickCallback
 import com.ant.common.listeners.LoginCallback
 import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.LoginSession
-import com.ant.models.model.LoginState
+import com.ant.resources.R as R2
 import com.ant.models.model.MoviesState
 import com.ant.models.model.errorMessage
 import com.ant.models.model.isLoading
@@ -87,8 +87,9 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
                 with(binding) {
                     loginState.data?.let {
                         logger.d("User: ${it.sessionId}")
-
-
+                        isTmdbApiLogggedIn = true
+                        val formattedString = getString(R2.string.username_tmdb_logged_in, username)
+                        tvUsernameLoggedInTmdb.text = formattedString
                     }
                 }
             }
@@ -100,6 +101,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
                     loginState.errorMessage?.let {
                         loadingState.errorMsg.error = it
                     }
+                    isTmdbApiLogggedIn = false
                 }
             }
         }

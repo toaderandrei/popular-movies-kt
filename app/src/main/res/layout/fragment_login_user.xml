@@ -65,53 +65,72 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <!-- User logged in -->
+
+            <TextView
+                android:id="@+id/tv_account_logged_in_tmdb"
+                style="@style/TextStyle.Medium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_16"
+                android:text="@string/tmdb_account_logged_in"
+                android:textColor="@color/md_black_1000"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_login_poster" />
+
+            <!-- Username Label -->
+            <TextView
+                android:id="@+id/tv_username_logged_in_tmdb"
+                style="@style/TextStyle.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16"
+                android:layout_marginTop="@dimen/margin_16"
+                android:visibility="gone"
+                android:text="@string/username_tmdb_logged_in"
+                android:textColor="@color/md_black_1000"
+                app:layout_constraintStart_toStartOf="@id/tv_account_logged_in_tmdb"
+                app:layout_constraintTop_toBottomOf="@id/tv_account_logged_in_tmdb" />
+
+            <!-- User not logged in -->
+
             <TextView
                 android:id="@+id/tv_account_tmdb"
                 style="@style/TextStyle.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="16dp"
-                android:text="@string/username_tmdb_logged_in"
+                android:layout_marginTop="@dimen/margin_16"
+                android:text="@string/tmdb_account"
                 android:textColor="@color/md_black_1000"
-                app:layout_constraintStart_toStartOf="@id/edt_username_tmdb"
+                app:layout_constraintStart_toStartOf="@id/edt_username"
                 app:layout_constraintTop_toBottomOf="@id/iv_login_poster" />
 
             <TextView
-                android:id="@+id/tv_account_logged_in_tmdb"
+                android:id="@+id/tv_username"
                 style="@style/TextStyle.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/margin_16"
                 android:text="@string/username_tmdb"
                 android:textColor="@color/md_black_1000"
-                app:layout_constraintStart_toStartOf="@id/edt_username_tmdb"
-                app:layout_constraintTop_toBottomOf="@id/tv_account_tmdb" />
-
-            <!-- Username Label -->
-            <TextView
-                android:id="@+id/tv_username_tmdb"
-                style="@style/TextStyle.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="16dp"
-                android:text="@string/username_tmdb"
-                android:textColor="@color/md_black_1000"
-                app:layout_constraintStart_toStartOf="@id/edt_username_tmdb"
+                app:layout_constraintStart_toStartOf="@id/edt_username"
                 app:layout_constraintTop_toBottomOf="@id/tv_account_tmdb" />
 
             <!-- Username Input -->
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/edt_username_tmdb"
+                android:id="@+id/edt_username"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/margin_16"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/margin_4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_username_tmdb">
+                app:layout_constraintTop_toBottomOf="@id/tv_username">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
@@ -137,7 +156,7 @@
                 android:text="@string/password_tmdb"
                 android:textColor="@color/md_black_1000"
                 app:layout_constraintStart_toStartOf="@id/edt_password"
-                app:layout_constraintTop_toBottomOf="@id/edt_username_tmdb" />
+                app:layout_constraintTop_toBottomOf="@id/edt_username" />
 
 
             <!-- Password Input -->
@@ -172,7 +191,7 @@
                 android:layout_width="0dp"
                 android:layout_height="@dimen/margin_48"
                 android:layout_marginHorizontal="@dimen/margin_16"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/margin_32"
                 android:background="@drawable/blue_button"
                 android:onClick="@{() -> loginCallback.login()}"
                 android:text="@string/login"
@@ -183,21 +202,21 @@
 
             <!-- Tmdb No Account Text -->
             <TextView
-                android:id="@+id/tv_have_account"
+                android:id="@+id/tv_no_tmdb_account"
                 style="@style/TextStyle.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_24"
                 android:text="@string/no_account"
-                app:layout_constraintEnd_toStartOf="@id/tv_tmdb_signup"
+                app:layout_constraintEnd_toStartOf="@id/tv_no_account_tmdb_signup"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_login" />
 
             <!-- Tmdb Sign Up Text -->
             <TextView
-                android:id="@+id/tv_tmdb_signup"
+                android:id="@+id/tv_no_account_tmdb_signup"
                 style="@style/TextStyle.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -205,29 +224,29 @@
                 android:onClick="@{() -> loginCallback.signUp()}"
                 android:text="@string/signup"
                 android:textColor="@color/md_black_1000"
-                app:layout_constraintBottom_toBottomOf="@id/tv_have_account"
+                app:layout_constraintBottom_toBottomOf="@id/tv_no_tmdb_account"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_have_account"
-                app:layout_constraintTop_toTopOf="@id/tv_have_account" />
+                app:layout_constraintStart_toEndOf="@id/tv_no_tmdb_account"
+                app:layout_constraintTop_toTopOf="@id/tv_no_tmdb_account" />
 
 
             <!-- Firebase no account text -->
             <TextView
-                android:id="@+id/tv_firebase_account"
+                android:id="@+id/tv_no_firebase_account"
                 style="@style/TextStyle.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_4"
                 android:text="@string/no_firebase_account"
-                app:layout_constraintEnd_toStartOf="@id/tv_firebase_signup"
+                app:layout_constraintEnd_toStartOf="@id/tv_no_account_firebase_signup"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_have_account" />
+                app:layout_constraintTop_toBottomOf="@id/tv_no_tmdb_account" />
 
             <!-- Firebase Sign Up Tex -->
             <TextView
-                android:id="@+id/tv_firebase_signup"
+                android:id="@+id/tv_no_account_firebase_signup"
                 style="@style/TextStyle.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -235,11 +254,11 @@
                 android:onClick="@{() -> callback.click()}"
                 android:text="@string/signup"
                 android:textColor="@color/md_black_1000"
-                app:layout_constraintBottom_toBottomOf="@id/tv_firebase_account"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/tv_no_firebase_account"
                 app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-                app:layout_constraintStart_toEndOf="@id/tv_firebase_account"
-                app:layout_constraintTop_toTopOf="@id/tv_firebase_account" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tv_no_firebase_account"
+                app:layout_constraintTop_toTopOf="@id/tv_no_firebase_account" />
 
             <!-- Loading State Include -->
             <include
@@ -254,18 +273,24 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.Group
-                android:id="@+id/group_tmdb_api_logged_in"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tv_username_tmdb, edt_password"
-                app:visibleGone="@{isTmdbApiLogggedIn == false}" />
-
-            <androidx.constraintlayout.widget.Group
                 android:id="@+id/group_tmdb_api_not_logged_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="tv_account_logged_in_tmdb"
-                app:visibleGone="@{isTmdbApiLogggedIn == true}" />
+                app:constraint_referenced_ids="tv_account_tmdb,
+                    tv_username, edt_username,
+                    tv_password, edt_password,
+                    tv_no_tmdb_account, tv_no_account_tmdb_signup,
+                    tv_no_firebase_account, tv_no_account_firebase_signup,
+                    button_login"
+                app:visibleGone="@{!isTmdbApiLogggedIn}" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/group_tmdb_api_logged_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:constraint_referenced_ids="tv_account_logged_in_tmdb, tv_username_logged_in_tmdb"
+                app:visibleGone="@{isTmdbApiLogggedIn}" />
+
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/guideline_bottom"

@@ -37,7 +37,9 @@
     <string name="firebase_account">Firebase Account(optional)</string>
 
     <string name="username_tmdb">Username</string>
-    <string name="username_tmdb_logged_in">User logged in in Tmdb API</string>
+    <string name="username_tmdb_logged_in">Username: %s</string>
+
+    <string name="tmdb_account_logged_in">User logged in Tmdb API</string>
 
     <string name="email">Email</string>
 

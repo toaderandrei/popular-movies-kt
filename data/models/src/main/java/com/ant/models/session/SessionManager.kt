@@ -9,6 +9,9 @@ interface SessionManager {
      */
     suspend fun saveSessionId(sessionId: String?): Boolean
 
+
+    suspend fun saveUsername(username: String?): Boolean
+
     /**
      * Clear session and sign out from data store and firebase.
      * @return Boolean true if signed out, false otherwise.
@@ -19,10 +22,16 @@ interface SessionManager {
      * Check if user is logged in with firebase.
      * @return Boolean true if logged in, false otherwise.
      */
-    suspend fun isUserLoggedIn(): Boolean
+    suspend fun isUserLoggedInToTmdbApi(): Boolean
+
+
+    fun isUserLoggedInToFirebase(): Boolean
+
 
     /**
      * Retrieves the current session id.
      */
     suspend fun getSessionId(): String?
+
+    suspend fun getUsername(): String?
 }

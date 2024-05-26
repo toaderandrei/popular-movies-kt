@@ -26,6 +26,9 @@ data class LoginSession(
 
     @ColumnInfo(name = "success")
     val success: Boolean? = false,
+
+    @ColumnInfo(name = "username")
+    val username: String? = null,
 ) : TmdbEntity {
     @Ignore
     constructor() : this(id = 0)

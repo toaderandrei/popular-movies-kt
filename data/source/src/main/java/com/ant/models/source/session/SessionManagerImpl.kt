@@ -24,6 +24,18 @@ class SessionManagerImpl(
         return isSaved
     }
 
+    override suspend fun saveUsername(username: String?): Boolean {
+        var isSaved = false
+        username?.let {
+            dataStore.edit { preferences ->
+                preferences[USERNAME] = it
+                isSaved = true
+            }
+        }
+
+        return isSaved
+    }
+
     override suspend fun clearSessionAndSignOut(): Boolean {
         val isUserLoggedIn = firebaseAuthentication.getUser() != null
         if (!isUserLoggedIn || getSessionId() == null) {
@@ -37,15 +49,25 @@ class SessionManagerImpl(
         return true
     }
 
-    override suspend fun isUserLoggedIn(): Boolean {
-        return firebaseAuthentication.getUser() != null && getSessionId() != null
+    override suspend fun isUserLoggedInToTmdbApi(): Boolean {
+        return getSessionId() != null
+    }
+
+    override fun isUserLoggedInToFirebase(): Boolean {
+        return firebaseAuthentication.getUser() != null
     }
 
     override suspend fun getSessionId(): String? {
         return dataStore.data.firstOrNull()?.get(SESSION_ID)
     }
 
+    override suspend fun getUsername(): String? {
+        return dataStore.data.firstOrNull()?.get(USERNAME)
+    }
+
     companion object {
         val SESSION_ID = stringPreferencesKey("SESSION_ID")
+        val USERNAME = stringPreferencesKey("USERNAME")
+
     }
 }

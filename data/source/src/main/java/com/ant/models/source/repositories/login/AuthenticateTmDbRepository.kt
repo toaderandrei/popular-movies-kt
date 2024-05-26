@@ -44,6 +44,7 @@ class AuthenticateTmDbRepository @Inject constructor(
             .bodyOrThrow()
 
         // If successful we return the session.
-        return loginSessionMapper.map(accountSession)
+        val session =  loginSessionMapper.map(accountSession)
+        return session.copy(username = params.request.username)
     }
 }

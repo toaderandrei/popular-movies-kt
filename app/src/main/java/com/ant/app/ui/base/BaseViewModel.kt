@@ -1,6 +1,9 @@
 package com.ant.app.ui.base
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -9,10 +12,11 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 abstract class BaseViewModel<S>(
-    initialState: S
+    initialState: S,
 ) : ViewModel() {
     val state = MutableStateFlow(initialState)
     private val lock = Mutex()
+    protected var searchJob: Job? = null
 
     /**
      * Returns a snapshot of the current state.
@@ -31,5 +35,10 @@ abstract class BaseViewModel<S>(
                 state.value = reducer(state.value, item)
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        searchJob?.cancel()
     }
 }

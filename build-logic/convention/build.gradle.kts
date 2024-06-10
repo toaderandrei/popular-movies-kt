@@ -1,4 +1,3 @@
-
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -38,6 +37,10 @@ gradlePlugin {
         register("androidLibrary") {
             id = "popular.movies.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidFirebase") {
+            id = "popular.movies.android.firebase"
+            implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
     }
 }

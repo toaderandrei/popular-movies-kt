@@ -16,7 +16,7 @@ import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
 import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.TvShow
-import com.ant.models.model.TvSeriesListState
+import com.ant.models.model.MoviesState
 import javax.inject.Inject
 
 abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelTvShowList> :
@@ -83,15 +83,15 @@ abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelTvShowList
         return FragmentListTvshowBinding.inflate(inflater, container, false)
     }
 
-    private fun showData(tvSeriesData: TvSeriesListState) {
+    private fun showData(tvSeriesData: MoviesState<List<TvShow>?>) {
         with(tvSeriesData) {
-            logger.d("showData: ${tvSeriesData.items}")
+            logger.d("showData: ${tvSeriesData.data}")
             binding.tvseriesGridSwipeRefresh.isRefreshing = loading
             recyclerViewScrollListener.isLoading.value = loading
             binding.moviesLoadingStateId.isError = error != null
             binding.moviesLoadingStateId.errorMsg.error = error?.message
 
-            tvSeriesData.items?.let {
+            tvSeriesData.data?.let {
                 logger.d("items: $it")
                 val newList = ArrayList(rvAdapter.currentList)
                 newList.addAll(it)

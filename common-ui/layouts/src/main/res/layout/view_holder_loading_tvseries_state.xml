@@ -4,10 +4,13 @@
     <data>
 
         <import type="android.view.View" />
+        <import type="com.ant.models.model.MoviesState" />
+        <import type="com.ant.models.entities.TvShow" />
+        <import type="java.util.List" />
 
         <variable
             name="result"
-            type="com.ant.models.model.TvSeriesListState" />
+            type="com.ant.models.model.MoviesState&lt;List&lt;TvShow>>" />
 
         <variable
             name="errorMessage"
@@ -24,7 +27,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/margin_8"
-        app:visibleGone="@{result.items == null}">
+        app:visibleGone="@{result.data == null}">
 
 <!--        <ProgressBar-->
 <!--            android:id="@+id/progress_bar"-->
@@ -47,6 +50,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{errorMessage ?? @string/unknown_error}"
-            app:visibleGone="@{result.items!=null}" />
+            app:visibleGone="@{result.data!=null}" />
     </LinearLayout>
 </layout>

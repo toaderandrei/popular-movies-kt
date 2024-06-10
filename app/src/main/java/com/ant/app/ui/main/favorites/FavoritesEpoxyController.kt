@@ -6,10 +6,15 @@ import com.airbnb.epoxy.EpoxyController
 import com.ant.common.logger.TmdbLogger
 import com.ant.epoxy.extensions.tmdbCarousel
 import com.ant.epoxy.extensions.withModelsFrom
-import com.ant.layouts.*
+import com.ant.layouts.MovieItemBindingModel_
+import com.ant.layouts.TvseriesItemBindingModel_
+import com.ant.layouts.errorState
+import com.ant.layouts.header
+import com.ant.layouts.infiniteLoading
 import com.ant.models.entities.ImageEntity
 import com.ant.models.entities.MovieData
 import com.ant.models.entities.TvShow
+import com.ant.models.model.FavoritesState
 import com.ant.models.source.extensions.observable
 import com.ant.tmdb.old.PosterSizes
 import dagger.hilt.android.qualifiers.ActivityContext
@@ -30,8 +35,8 @@ class FavoritesEpoxyController @Inject constructor(
 
     @SuppressLint("StringFormatInvalid")
     override fun buildModels() {
-        val moviesResult = state.moviesFavored
-        val tvseriesResult = state.tvSeriesFavored
+        val moviesFavoredResult = state.moviesFavored.data
+        val tvShowFavoredResult = state.tvSeriesFavored.data
         logger.d("building models")
 
         // todo use the strings value instead of hardcoded.
@@ -40,13 +45,13 @@ class FavoritesEpoxyController @Inject constructor(
             title(R2.string.movies_favored)
         }
 
-        if (moviesResult.isNotEmpty()) {
+        if (!moviesFavoredResult.isNullOrEmpty()) {
             logger.d("building model: movie")
             tmdbCarousel {
                 id("movies_favored_carousel")
                 hasFixedSize(true)
 
-                withModelsFrom(moviesResult) { item ->
+                withModelsFrom(moviesFavoredResult) { item ->
                     MovieItemBindingModel_().apply {
                         id(item.id)
 
@@ -68,7 +73,7 @@ class FavoritesEpoxyController @Inject constructor(
                     }
                 }
             }
-        } else if (state.isMoviesFavoredLoading) {
+        } else if (state.moviesFavored.loading) {
             infiniteLoading {
                 id("loading_carousel")
             }
@@ -90,13 +95,13 @@ class FavoritesEpoxyController @Inject constructor(
             title(R2.string.tvshows_favored)
         }
 
-        if (tvseriesResult.isNotEmpty()) {
+        if (!tvShowFavoredResult.isNullOrEmpty()) {
             logger.d("building model: movie")
             tmdbCarousel {
                 id("tvseries_favored_carousel")
                 hasFixedSize(true)
 
-                withModelsFrom(tvseriesResult) { item ->
+                withModelsFrom(tvShowFavoredResult) { item ->
                     TvseriesItemBindingModel_().apply {
                         id(item.id)
 
@@ -118,7 +123,7 @@ class FavoritesEpoxyController @Inject constructor(
                     }
                 }
             }
-        } else if (state.isTvSeriesFavoredLoading) {
+        } else if (state.tvSeriesFavored.loading) {
             infiniteLoading {
                 id("loading_carousel")
             }

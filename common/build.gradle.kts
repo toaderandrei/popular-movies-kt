@@ -19,7 +19,7 @@ dependencies {
     implementation(libs.fragment)
     implementation(libs.fragmentKtx)
     implementation(libs.navigation.ui)
-    implementation(libs.navigationFragment)
+    implementation(libs.navigation.fragment.ktx)
 
     implementation(libs.timber)
     implementation(libs.material)

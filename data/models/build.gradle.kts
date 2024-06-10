@@ -22,4 +22,8 @@ dependencies {
 
     implementation(libs.gsonConverter)
     testImplementation(libs.junit)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 }

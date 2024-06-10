@@ -2,7 +2,6 @@ package com.ant.common.exceptions
 
 import okhttp3.ResponseBody
 import retrofit2.Converter
-import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
 import java.io.IOException
@@ -11,7 +10,6 @@ import java.lang.RuntimeException
 @SuppressWarnings("unused")
 sealed class RetrofitException2(
     errorMessage: String?,
-    kind: Kind,
     exception: Throwable?,
 ) : RuntimeException(errorMessage, exception) {
 
@@ -21,19 +19,16 @@ sealed class RetrofitException2(
         val retrofit: Retrofit?
     ) : RetrofitException2(
         response?.code().toString() + " " + response?.message(),
-        kind = Kind.HTTP,
         null,
     )
 
     data class NetworkError(val throwable: IOException) : RetrofitException2(
         throwable.message,
-        kind = Kind.NETWORK,
         throwable,
     )
 
     data class UnexpectedError(val throwable: IOException) : RetrofitException2(
         throwable.message,
-        Kind.UNEXPECTED,
         throwable,
     )
 

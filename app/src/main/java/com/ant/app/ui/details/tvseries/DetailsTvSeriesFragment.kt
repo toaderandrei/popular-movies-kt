@@ -10,7 +10,6 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.ant.resources.R as R2
 import com.ant.app.databinding.FragmentDetailsTvshowBinding
 import com.ant.app.ui.adapters.MovieCastsAdapter
 import com.ant.app.ui.adapters.MovieVideosAdapter
@@ -22,11 +21,12 @@ import com.ant.common.listeners.RetryCallback
 import com.ant.common.logger.TmdbLogger
 import com.ant.common.utils.Constants.TMDB_KEY_ID
 import com.ant.models.entities.TvShowDetails
-import com.ant.models.model.TvSeriesDetailsState
+import com.ant.models.model.MoviesState
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.properties.Delegates
+import com.ant.resources.R as R2
 
 @AndroidEntryPoint
 class DetailsTvSeriesFragment :
@@ -98,14 +98,14 @@ class DetailsTvSeriesFragment :
         }
     }
 
-    private fun renderModels(tvSeriesState: TvSeriesDetailsState?) {
+    private fun renderModels(tvSeriesState: MoviesState<TvShowDetails>?) {
         tvSeriesState?.let {
             logger.d("state: $tvSeriesState")
             with(binding) {
                 loadingState.isError = tvSeriesState.error != null
                 loadingState.errorMsg.error = tvSeriesState.error?.message
                 loadingState.isLoading = tvSeriesState.loading
-                tvSeriesState.tvSeriesDetails?.let { tvSeriesData ->
+                tvSeriesState.data?.let { tvSeriesData ->
                     item = tvSeriesData
                     tvSeriesCastAdapter.submitList(tvSeriesData.tvSeriesCasts)
                     tvSeriesData.tvSeriesCasts?.let {

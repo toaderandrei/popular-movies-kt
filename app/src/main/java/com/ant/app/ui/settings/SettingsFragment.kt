@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.ant.app.databinding.FragmentSettingsBinding
 
-class SettingsFragment : Fragment() {
+class xSettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
 
     // This property is only valid between onCreateView and
-    // onDestroyView.
+    // onDestroyView.x
     private val binding get() = _binding!!
 
     override fun onCreateView(

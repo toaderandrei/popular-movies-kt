@@ -38,8 +38,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/movie_cast_image"
-            android:layout_width="@dimen/width_icon_4"
-            android:layout_height="@dimen/height_icon_4"
+            android:layout_width="@dimen/width_icon_48"
+            android:layout_height="@dimen/height_icon_48"
             app:defaultDrawable="@{@drawable/ic_person}"
             app:dimension="@{posterSize}"
             app:image="@{item.profileImagePath}"

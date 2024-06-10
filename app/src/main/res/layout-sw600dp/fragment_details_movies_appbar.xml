@@ -130,8 +130,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/details_movie_rating_image"
-            android:layout_width="@dimen/width_icon_2"
-            android:layout_height="@dimen/height_icon_2"
+            android:layout_width="@dimen/width_icon_24"
+            android:layout_height="@dimen/height_icon_24"
             android:layout_margin="@dimen/margin_8"
             app:layout_constraintBottom_toBottomOf="@+id/details_movie_rating_text"
             app:layout_constraintStart_toEndOf="@+id/details_movie_rating_text"

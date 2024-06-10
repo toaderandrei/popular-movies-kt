@@ -17,8 +17,8 @@
         android:title="@string/favourites" />
 
     <item
-        android:id="@id/navigation_graph_settings"
-        android:icon="@drawable/ic_settings"
-        android:title="@string/movie_search" />
+        android:id="@id/navigation_graph_account"
+        android:icon="@drawable/ic_account"
+        android:title="@string/account" />
 
 </menu>

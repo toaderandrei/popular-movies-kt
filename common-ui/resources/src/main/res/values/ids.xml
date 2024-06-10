@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Movies -->'
+    <!-- Account -->
+    <id name="navigation_graph_account" />
+    <id name="navigation_account" />
+    <id name="navigation_login" />
+
+    <!-- Movies -->
     <id name="navigation_graph_movies" />
     <id name="navigation_movies" />
     <id name="navigation_movies_popular" />

@@ -16,7 +16,7 @@ import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
 import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.MovieData
-import com.ant.models.model.MoviesListState
+import com.ant.models.model.MoviesState
 import javax.inject.Inject
 
 abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
@@ -67,7 +67,6 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
             }
         }
 
-
         with(viewModel) {
             refresh()
             stateAsLiveData.observe(viewLifecycleOwner, ::showData)
@@ -88,17 +87,17 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
         return FragmentListMoviesBinding.inflate(inflater, container, false)
     }
 
-    private fun showData(movieListState: MoviesListState) {
+    private fun showData(movieListState: MoviesState<List<MovieData>?>) {
         with(movieListState) {
-            logger.d("isLoading: $loading")
+            logger.d("showData call: movieListState: $loading")
 
             binding.moviesGridSwipeRefresh.isRefreshing = loading
             recyclerViewScrollListener.isLoading.value = loading
             binding.moviesLoadingStateId.isError = error != null
             binding.moviesLoadingStateId.errorMsg.error = error?.message
 
-            movieListState.items?.let {
-                logger.d("items: $it")
+            movieListState.data?.let {
+                logger.d("showData items: $it")
                 val newList = ArrayList(movieListAdapter.currentList)
                 newList.addAll(it)
                 submitList(newList)

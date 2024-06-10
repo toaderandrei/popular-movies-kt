@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), ToolbarWithNavigation {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() ?: false
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
     // =========================== private stuff =========================================================//
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity(), ToolbarWithNavigation {
             R2.id.navigation_movies,
             R2.id.navigation_tvshow,
             R2.id.navigation_favorites,
-            R2.id.navigation_settings,
+            R2.id.navigation_account,
         )
     }
 }

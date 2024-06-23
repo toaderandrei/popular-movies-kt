@@ -23,11 +23,10 @@
         android:background="@color/md_grey_200">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/tvseries_item_image"
+            android:id="@+id/tvshow_item_image"
             style="?attr/textAppearanceHeadline5"
             android:layout_width="@dimen/poster_image_width"
             android:layout_height="@dimen/poster_image_height"
-            android:layout_marginEnd="@dimen/margin_8"
             android:adjustViewBounds="true"
             android:contentDescription="@string/movie_image_desc"
             android:src="@drawable/error_poster_image"
@@ -39,19 +38,19 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/movie_item_title"
-            style="@style/TextAppearance.PopularMovies.Headline6"
+            style="@style/TextAppearance.PopularMovies.Headline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
-            android:maxLines="3"
-            android:maxWidth="@dimen/text_max_normal"
+            android:maxLines="@integer/max_lines"
+            android:layout_marginStart="@dimen/margin_8"
+
             android:text="@{item.tvSeriesName}"
-            android:textColor="@color/md_grey_700"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/tvseries_item_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/barrier_image"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="The Shawshank Redemption" />
+            tools:text="@string/movie_shawshank_redemption" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvseries_item_genres"
@@ -60,15 +59,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_16"
             android:maxWidth="@dimen/text_max_normal"
-            android:scrollHorizontally="true"
-            android:text="@{item.genres}"
             android:singleLine="false"
+            android:text="@{item.genres}"
             android:textSize="@dimen/text_6"
             app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toEndOf="@+id/tvseries_item_image"
+            app:layout_constraintStart_toEndOf="@+id/barrier_image"
             app:layout_constraintStart_toStartOf="@+id/movie_item_title"
             app:layout_constraintTop_toBottomOf="@+id/movie_item_title"
-            tools:text="Genre" />
+            tools:text="@string/genre_types" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvseries_rating_text"
@@ -79,10 +77,17 @@
             android:textAppearance="?attr/textAppearanceSubtitle1"
             app:drawableEndCompat="@drawable/ic_rating_stars"
             app:errorId="@{@string/no_rating_available}"
-            app:layout_constraintTop_toBottomOf="@+id/tvseries_item_genres"
             app:layout_constraintStart_toStartOf="@+id/movie_item_title"
+            app:layout_constraintTop_toBottomOf="@+id/tvseries_item_genres"
             app:rating="@{item.voteAverageRounded}"
-            tools:text="7/10" />
+            tools:text="@string/rating" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="tvshow_item_image" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

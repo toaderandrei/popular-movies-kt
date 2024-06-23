@@ -67,7 +67,7 @@
     <fragment
         android:id="@id/navigation_tvshow_details"
         android:name="com.ant.app.ui.details.tvseries.DetailsTvSeriesFragment"
-        android:label="@string/details_tvshow">
+        android:label="@string/tvshow_details">
         <argument
             android:name="tmdb_id"
             app:argType="long" />

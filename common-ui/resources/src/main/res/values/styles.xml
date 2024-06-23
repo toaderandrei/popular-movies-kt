@@ -28,12 +28,16 @@
         <item name="fontFamily">@font/robotomono</item>
         <item name="android:fontFamily">@font/robotomono</item>
         <item name="android:letterSpacing">-0.002</item>
+        <item name="android:textColor">@color/md_grey_700</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.PopularMovies.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/robotomono</item>
         <item name="android:fontFamily">@font/robotomono</item>
         <item name="android:letterSpacing">-0.002</item>
+        <item name="android:textColor">@color/md_grey_700</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.PopularMovies.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
@@ -145,11 +149,11 @@
 
     <!--End region Font-->
 
-<!--    <style name="ChipTextAppearance" parent="TextAppearance.MaterialComponents.Chip">-->
-<!--        <item name="android:textSize">8sp</item>-->
-<!--        <item name="android:fontFamily">monospace</item>-->
-<!--        <item name="android:textStyle">italic|bold</item>-->
-<!--    </style>-->
+    <!--    <style name="ChipTextAppearance" parent="TextAppearance.MaterialComponents.Chip">-->
+    <!--        <item name="android:textSize">8sp</item>-->
+    <!--        <item name="android:fontFamily">monospace</item>-->
+    <!--        <item name="android:textStyle">italic|bold</item>-->
+    <!--    </style>-->
 
     <style name="ThemeOverlay.PopularMovies.Light" parent="ThemeOverlay.MaterialComponents.Light">
         <item name="colorPrimary">@color/material_blue500</item>

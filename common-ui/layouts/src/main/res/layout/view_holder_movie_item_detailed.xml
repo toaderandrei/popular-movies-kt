@@ -14,12 +14,11 @@
             type="String" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ll_footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_4"
+        android:layout_margin="@dimen/margin_8"
         android:background="@color/md_grey_200">
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -37,21 +36,19 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/movie_item_title"
-            style="?attr/textAppearanceHeadline6"
+            style="?attr/textAppearanceHeadline5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_8"
             android:ellipsize="marquee"
-            android:paddingEnd="@dimen/padding_2"
             android:marqueeRepeatLimit="marquee_forever"
-            android:layout_marginStart="@dimen/margin_4"
-            android:maxWidth="@dimen/text_max_normal"
-            android:maxLines="4"
+            android:maxLines="@integer/max_lines"
+            android:padding="@dimen/padding_2"
             android:text="@{item.title}"
-            android:textColor="@color/md_grey_700"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/movie_item_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/barrier_image"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="The Shawshank Redemption" />
+            tools:text="@string/movie_shawshank_redemption" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/movie_item_genres"
@@ -59,14 +56,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_8"
-            android:maxWidth="@dimen/text_max_normal"
-            android:scrollHorizontally="true"
+            android:maxLines="@integer/max_lines"
             android:text="@{item.genres}"
             app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toEndOf="@+id/movie_item_image"
+            app:layout_constraintStart_toEndOf="@+id/barrier_image"
             app:layout_constraintStart_toStartOf="@+id/movie_item_title"
             app:layout_constraintTop_toBottomOf="@+id/movie_item_title"
-            tools:text="Genre" />
+            tools:text="@string/genre_types" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/moview_rating_text"
@@ -80,7 +76,13 @@
             app:layout_constraintStart_toStartOf="@+id/movie_item_title"
             app:layout_constraintTop_toBottomOf="@+id/movie_item_genres"
             app:rating="@{item.voteAverageRounded}"
-            tools:text="7/10" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            tools:text="@string/rating" />
 
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier_image"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="end"
+            app:constraint_referenced_ids="movie_item_image" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_4"
-            android:text="@string/seasons_title"
+            android:text="@string/tvshow_seasons_title"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
             app:layout_constraintStart_toEndOf="@+id/left_margin_guideline"
             app:layout_constraintTop_toBottomOf="@+id/top_margin_guideline" />
@@ -59,8 +59,7 @@
             app:layout_constraintStart_toStartOf="@+id/details_tvseries_seasons_title"
             app:layout_constraintTop_toBottomOf="@+id/details_tvseries_seasons_title"
             app:text="@{item.tvSeriesData.numberOfSeasons}"
-
-            tools:text="@string/tvseries_number_seasons" />
+            tools:text="@string/tvshow_number_of_seasons" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/details_tvseries_language_image"

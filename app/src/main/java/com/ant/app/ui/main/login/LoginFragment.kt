@@ -33,22 +33,21 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            callback = object : ClickCallback {
+            loginContent.callback = object : ClickCallback {
                 override fun click() {
                     logger.d("Show firebase login screen.")
                 }
-
             }
-            toolbarTitleEnabled = true
-            login = context?.getString(R2.string.login)
-            loginCallback = object : LoginCallback {
+
+            loginContent.loginCallback = object : LoginCallback {
                 override fun login() {
                     logger.d("Account login.")
-                    val username = username
-                    val password = password
+                    val username = loginContent.username
+                    val password = loginContent.password
                     if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
                         logger.d("Username or password is empty.")
-                        loginContent.loadingState.errorMsg.error = "Username or password is empty."
+                        loginContent.loadingErrorMessage =
+                            context?.getString(R2.string.unknown_error)
                         return
                     }
 
@@ -67,47 +66,42 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
             }
         }
 
-        val appCompatActivity = activity as AppCompatActivity
-        appCompatActivity.setSupportActionBar(binding.loginToolbar)
-        appCompatActivity.supportActionBar?.setDisplayShowTitleEnabled(false);
-        appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         with(viewModel) {
             stateAsLiveData.observe(viewLifecycleOwner, ::updateUi)
         }
     }
 
     private fun updateUi(loginState: MoviesState<LoginSession>) {
-        when {
-            loginState.isLoading -> {
-                logger.d("Loading...")
-                with(binding) {
+        with(binding) {
+            when {
+                loginState.isLoading -> {
+                    logger.d("Loading...")
                     isLoading = true
-                }
-            }
 
-            loginState.isSuccess -> {
-                logger.d("Success loading profile: $loginState.")
-                with(binding) {
+                }
+
+                loginState.isSuccess -> {
+                    logger.d("Success loading profile: $loginState.")
                     loginState.data?.let {
                         logger.d("User: ${it.sessionId}")
                         isTmdbApiLoggedIn = true
-                        val formattedString = getString(R2.string.username_tmdb_logged_in, username)
+                        val formattedString =
+                            getString(R2.string.username_tmdb_logged_in, loginContent.username)
                         loginContent.tvUsernameLoggedInTmdb.text = formattedString
                     }
                 }
-            }
 
-            else -> {
-                logger.d("Error logging in: ${loginState.errorMessage}")
-                with(binding) {
+                else -> {
+                    logger.d("Error logging in: ${loginState.errorMessage}")
                     isLoading = false
                     loginState.errorMessage?.let {
-                        loginContent.loadingState.errorMsg.error = it
+                        loginContent.loadingErrorMessage = it
                     }
                     isTmdbApiLoggedIn = false
                 }
             }
         }
+
     }
 
     override fun getThisFragment(): Fragment {

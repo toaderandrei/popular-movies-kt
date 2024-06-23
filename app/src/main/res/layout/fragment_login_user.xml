@@ -24,11 +24,9 @@
         <variable
             name="password"
             type="String" />
-
         <variable
             name="loginCallback"
             type="LoginCallback" />
-
         <variable
             name="callback"
             type="ClickCallback" />
@@ -44,9 +42,6 @@
         <variable
             name="toolbarTitleEnabled"
             type="Boolean" />
-
-
-
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

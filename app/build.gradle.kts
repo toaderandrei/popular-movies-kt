@@ -17,7 +17,7 @@ android {
         buildConfigField(
             "String",
             "TMDB_API_KEY",
-            "\"" + getLocalProperty("AUTH_TMDB_API_KEY", "") + "\""
+            "\"" + getLocalProperty("API_KEY", "") + "\""
         )
 
         javaCompileOptions {

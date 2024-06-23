@@ -14,16 +14,11 @@ import com.ant.common.extensions.doOnSizeChange
 import com.ant.common.listeners.OnScrollCallback
 import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
-import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.MovieData
 import com.ant.models.model.MoviesState
-import javax.inject.Inject
 
 abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
     NavigationFragment<VIEW_MODEL, FragmentListMoviesBinding>(), OnScrollCallback {
-
-    @Inject
-    lateinit var logger: TmdbLogger
 
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener

@@ -1,4 +1,4 @@
-package com.ant.app.ui.profile
+package com.ant.app.ui.main.profile
 
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel

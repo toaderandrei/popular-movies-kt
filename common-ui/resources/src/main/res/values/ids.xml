@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <!-- Account -->
     <id name="navigation_graph_account" />
     <id name="navigation_account" />
@@ -14,8 +13,6 @@
     <id name="navigation_movies_upcoming" />
     <id name="navigation_movies_nowplaying" />
     <id name="navigation_movies_details" />
-    <id name="navigation_movies_details2" />
-
 
     <!-- TV Series -->
     <id name="navigation_graph_tvseries" />
@@ -23,25 +20,20 @@
     <id name="navigation_tvshow_watched" />
     <id name="navigation_tvshow_popular" />
     <id name="navigation_tvshow_toprated" />
-    <id name="navigation_tvshow_details" />
-    <id name="navigation_tvshow_details2" />
-
-
     <id name="navigation_tvshow_airingtoday" />
     <id name="navigation_tvshow_ontv" />
+    <id name="navigation_tvshow_details" />
 
     <!-- Favourites -->
     <id name="navigation_graph_favorites" />
     <id name="navigation_favorites" />
 
+    <!-- Other -->
     <id name="navigation_search" />
-
     <id name="navigation_discover" />
     <id name="navigation_movies_search" />
 
     <!-- Settings -->
     <id name="navigation_graph_settings" />
     <id name="navigation_settings" />
-
-    <item name="navigation_tvseries_search" type="id" />
 </resources>

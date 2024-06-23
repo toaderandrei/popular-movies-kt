@@ -36,10 +36,4 @@ object StorageModule {
     ): SessionManager {
         return SessionManagerImpl(dataStore = dataStore, firebaseAuthentication = firebaseAuthentication)
     }
-
-    @Singleton
-    @Provides
-    fun provideSessionManagerDelegate(sessionManager: SessionManager): SessionManagerDelegate {
-        return SessionManagerDelegate(sessionManager)
-    }
 }

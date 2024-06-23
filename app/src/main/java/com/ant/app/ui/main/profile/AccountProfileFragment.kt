@@ -1,4 +1,4 @@
-package com.ant.app.ui.profile
+package com.ant.app.ui.main.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ant.app.databinding.FragmentAccountProfileBinding
 import com.ant.app.ui.base.BaseFragment
+import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.listeners.AccountLoginCallback
 import com.ant.common.logger.TmdbLogger
 import com.ant.models.model.MoviesState
@@ -19,11 +20,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AccountProfileFragment(
-) : BaseFragment<AccountProfileViewModel, FragmentAccountProfileBinding>() {
+) : NavigationFragment<AccountProfileViewModel, FragmentAccountProfileBinding>() {
     override val viewModel: AccountProfileViewModel by viewModels()
-
-    @Inject
-    lateinit var logger: TmdbLogger
 
     override fun createViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
@@ -38,6 +36,9 @@ class AccountProfileFragment(
         }
 
         with(binding) {
+            toolbar.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
             loginCallback = object : AccountLoginCallback {
                 override fun login() {
                     logger.d("Account login.")

@@ -8,24 +8,20 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.ant.resources.R as R2
 import com.ant.app.databinding.FragmentMoviesBinding
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.extensions.doOnSizeChange
-import com.ant.common.logger.TmdbLogger
 import com.ant.epoxy.extensions.init
 import com.ant.models.entities.MovieData
 import com.ant.models.model.MoviesListState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.ant.resources.R as R2
 
 @AndroidEntryPoint
 class MoviesFragment : NavigationFragment<MoviesViewModel, FragmentMoviesBinding>() {
 
     override val viewModel: MoviesViewModel by viewModels()
-
-    @Inject
-    lateinit var logger: TmdbLogger
 
     @Inject
     internal lateinit var controller: MoviesEpoxyController
@@ -82,10 +78,12 @@ class MoviesFragment : NavigationFragment<MoviesViewModel, FragmentMoviesBinding
                             logger.d("open search")
                             true
                         }
+
                         R2.id.user_login, R2.id.user_avatar -> {
                             logger.d("open account")
                             true
                         }
+
                         else -> {
                             false
                         }

@@ -1,32 +1,28 @@
-package com.ant.app.ui.login
+package com.ant.app.ui.main.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ant.app.databinding.FragmentLoginUserBinding
-import com.ant.app.ui.base.BaseFragment
+import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.listeners.ClickCallback
 import com.ant.common.listeners.LoginCallback
-import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.LoginSession
-import com.ant.resources.R as R2
 import com.ant.models.model.MoviesState
 import com.ant.models.model.errorMessage
 import com.ant.models.model.isLoading
 import com.ant.models.model.isSuccess
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import com.ant.resources.R as R2
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
+class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBinding>() {
 
     override val viewModel: LoginViewModel by viewModels()
-
-    @Inject
-    lateinit var logger: TmdbLogger
 
     override fun createViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
@@ -39,10 +35,12 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
         with(binding) {
             callback = object : ClickCallback {
                 override fun click() {
-                    logger.d("Show firebase login scree.")
+                    logger.d("Show firebase login screen.")
                 }
 
             }
+            toolbarTitleEnabled = true
+            login = context?.getString(R2.string.login)
             loginCallback = object : LoginCallback {
                 override fun login() {
                     logger.d("Account login.")
@@ -50,7 +48,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
                     val password = password
                     if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
                         logger.d("Username or password is empty.")
-                        loadingState.errorMsg.error = "Username or password is empty."
+                        loginContent.loadingState.errorMsg.error = "Username or password is empty."
                         return
                     }
 
@@ -68,6 +66,11 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
                 }
             }
         }
+
+        val appCompatActivity = activity as AppCompatActivity
+        appCompatActivity.setSupportActionBar(binding.loginToolbar)
+        appCompatActivity.supportActionBar?.setDisplayShowTitleEnabled(false);
+        appCompatActivity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         with(viewModel) {
             stateAsLiveData.observe(viewLifecycleOwner, ::updateUi)
         }
@@ -87,9 +90,9 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
                 with(binding) {
                     loginState.data?.let {
                         logger.d("User: ${it.sessionId}")
-                        isTmdbApiLogggedIn = true
+                        isTmdbApiLoggedIn = true
                         val formattedString = getString(R2.string.username_tmdb_logged_in, username)
-                        tvUsernameLoggedInTmdb.text = formattedString
+                        loginContent.tvUsernameLoggedInTmdb.text = formattedString
                     }
                 }
             }
@@ -99,9 +102,9 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginUserBinding>() {
                 with(binding) {
                     isLoading = false
                     loginState.errorMessage?.let {
-                        loadingState.errorMsg.error = it
+                        loginContent.loadingState.errorMsg.error = it
                     }
-                    isTmdbApiLogggedIn = false
+                    isTmdbApiLoggedIn = false
                 }
             }
         }

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@id/navigation_account"
-        android:name="com.ant.app.ui.profile.AccountProfileFragment"
+        android:name="com.ant.app.ui.main.profile.AccountProfileFragment"
         android:label="@string/account">
         <action
             android:id="@+id/to_login"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@id/navigation_login"
-        android:name="com.ant.app.ui.login.LoginFragment"
-        android:label="@string/account" />
+        android:name="com.ant.app.ui.main.login.LoginFragment"
+        android:label="@string/login" />
 
 </navigation>

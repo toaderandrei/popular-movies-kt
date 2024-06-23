@@ -23,8 +23,6 @@
     <string name="favourites">Favourites</string>
     <string name="app_settings">App Settings</string>
     <string name="login_title">Login to save your preferences!</string>
-    <string name="login">Login</string>
-    <string name="logout">Logout</string>
     <string name="retry">Retry</string>
     <string name="click_for_more">Click for more</string>
     <string name="movie_item_save_favorites">Mark as Favorite</string>
@@ -34,21 +32,15 @@
     <string name="poster_image">Poster image</string>
     <string name="account">Account</string>
     <string name="tmdb_account">TMDb Account</string>
-    <string name="firebase_account">Firebase Account(optional)</string>
-
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
     <string name="username_tmdb">Username</string>
     <string name="username_tmdb_logged_in">Username: %s</string>
-
     <string name="tmdb_account_logged_in">User logged in Tmdb API</string>
-
     <string name="email">Email</string>
-
     <string name="password_tmdb">Password</string>
-    <string name="password_firebase">Password</string>
-
     <string name="signup">Signup</string>
     <string name="no_account">No account</string>
-    <string name="no_firebase_account">No firebase account</string>
 
     <!--Movies-->
     <string name="movies">Movies</string>

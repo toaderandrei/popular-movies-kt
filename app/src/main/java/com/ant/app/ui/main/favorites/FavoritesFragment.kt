@@ -25,9 +25,6 @@ class FavoritesFragment : NavigationFragment<FavoritesViewModel, FragmentFavorit
     override val viewModel: FavoritesViewModel by viewModels()
 
     @Inject
-    lateinit var logger: TmdbLogger
-
-    @Inject
     internal lateinit var controller: FavoritesEpoxyController
 
 

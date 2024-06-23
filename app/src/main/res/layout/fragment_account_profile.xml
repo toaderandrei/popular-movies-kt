@@ -35,6 +35,26 @@
             android:paddingHorizontal="@dimen/margin_8"
             android:paddingBottom="@dimen/margin_12">
 
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/movies_grid_app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fitsSystemWindows="true"
+                android:theme="@style/AppTheme.AppBarOverlay"
+
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:menu="@menu/movies_menu"
+                    app:title="@string/account" />
+
+            </com.google.android.material.appbar.AppBarLayout>
+
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_login_poster"
                 android:layout_width="0dp"

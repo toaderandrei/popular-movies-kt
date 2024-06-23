@@ -1,4 +1,4 @@
-package com.ant.app.ui.login
+package com.ant.app.ui.main.login
 
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
@@ -18,10 +18,9 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val authenticateUserUseCase: AuthenticateUserToTmDbAndSaveSessionUseCase,
-    sessionManagerDelegate: SessionManagerDelegate,
+    private val sessionManager: SessionManager,
     private val logger: TmdbLogger,
 ) : BaseViewModel<MoviesState<LoginSession>>(MoviesState()) {
-    private val sessionManager: SessionManager by sessionManagerDelegate
 
     init {
         logger.d("LoginViewModel created.")

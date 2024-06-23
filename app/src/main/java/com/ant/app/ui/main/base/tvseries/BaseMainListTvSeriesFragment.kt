@@ -22,9 +22,6 @@ import javax.inject.Inject
 abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelTvShowList> :
     NavigationFragment<VIEW_MODEL, FragmentListTvshowBinding>(), OnScrollCallback {
 
-    @Inject
-    lateinit var logger: TmdbLogger
-
     private lateinit var rvAdapter: TvSeriesListAdapter
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
 

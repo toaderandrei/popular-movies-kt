@@ -1,5 +1,7 @@
 package com.ant.models.request
 
+import com.ant.models.session.SessionManager
+
 sealed interface RequestType {
     data class MovieRequest(val movieType: MovieType) : RequestType
 
@@ -15,10 +17,14 @@ sealed interface RequestType {
         val appendToResponseItems: List<TvSeriesAppendToResponseItem> = mutableListOf()
     ) : RequestType
 
-    data class LoginSessionRequest(
-        val username: String? = null,
-        val password: String
-    ) : RequestType
+    sealed interface LoginSessionRequest : RequestType {
+        data class WithCredentials(
+            val username: String,
+            val password: String,
+        ): LoginSessionRequest
+
+        data class WithSessionId(val sessionId: String) : LoginSessionRequest
+    }
 
     sealed interface FirebaseRequest : RequestType {
         data class SignIn(val email: String?, val password: String?) : FirebaseRequest

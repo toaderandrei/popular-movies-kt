@@ -83,7 +83,6 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
                 loginState.isSuccess -> {
                     logger.d("Success loading profile: $loginState.")
                     loginState.data?.let {
-                        logger.d("User: ${it.sessionId}")
                         isTmdbApiLoggedIn = true
                         val formattedString =
                             getString(R2.string.username_tmdb_logged_in, loginContent.username)

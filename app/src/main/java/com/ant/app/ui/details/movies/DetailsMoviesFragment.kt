@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.ant.app.databinding.FragmentDetailsMoviesBinding
 import com.ant.app.ui.adapters.MovieCastsAdapter
@@ -25,6 +26,7 @@ import com.ant.common.utils.Constants.TMDB_KEY_ID
 import com.ant.models.model.MoviesState
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -78,10 +80,12 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
         }
 
         with(viewModel) {
-            stateAsLiveData.observe(viewLifecycleOwner) {
-                renderModels(it)
-            }
             loadMovieDetails(movieId = tmdbMovieId)
+            lifecycleScope.launch {
+                stateAsFlow.collect {
+                    renderModels(it)
+                }
+            }
         }
 
         setToolbarTitle()

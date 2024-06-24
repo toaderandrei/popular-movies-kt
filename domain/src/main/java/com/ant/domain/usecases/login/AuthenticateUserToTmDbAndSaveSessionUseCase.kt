@@ -18,8 +18,8 @@ class AuthenticateUserToTmDbAndSaveSessionUseCase @Inject constructor(
     private val loginUserToTmDbUseCase: LoginUserToTmDbUseCase,
     private val sessionManager: SessionManager,
     @IoDispatcher dispatcher: CoroutineDispatcher,
-) : UseCase<Repository.Params<RequestType.LoginSessionRequest>, LoginSession>(dispatcher) {
-    override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest>): LoginSession {
+) : UseCase<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, LoginSession>(dispatcher) {
+    override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): LoginSession {
         val tmDbSession = loginUserToTmDbUseCase.invoke(parameters).firstOrNull {
             it is Result.Success || it is Result.Error
         }

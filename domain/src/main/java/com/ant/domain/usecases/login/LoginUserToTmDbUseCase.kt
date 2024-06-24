@@ -14,8 +14,8 @@ import javax.inject.Singleton
 class LoginUserToTmDbUseCase @Inject constructor(
     private val repository: AuthenticateTmDbRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher,
-) : UseCase<Repository.Params<RequestType.LoginSessionRequest>, LoginSession>(dispatcher) {
-    override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest>): LoginSession {
+) : UseCase<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, LoginSession>(dispatcher) {
+    override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): LoginSession {
         return repository.fetchData(parameters)
     }
 }

@@ -14,8 +14,8 @@ import javax.inject.Singleton
 class AuthenticateTmDbRepository @Inject constructor(
     private val tmDbApi: Tmdb,
     private val loginSessionMapper: LoginSessionMapper,
-) : Repository<Repository.Params<RequestType.LoginSessionRequest>, LoginSession> {
-    override suspend fun fetchData(params: Repository.Params<RequestType.LoginSessionRequest>): LoginSession {
+) : Repository<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, LoginSession> {
+    override suspend fun fetchData(params: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): LoginSession {
         val authenticationService = tmDbApi.authenticationService()
 
         // First we need to request a token.

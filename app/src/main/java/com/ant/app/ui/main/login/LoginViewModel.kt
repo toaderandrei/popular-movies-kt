@@ -47,7 +47,7 @@ class LoginViewModel @Inject constructor(
 
             authenticateUserUseCase.invoke(
                 Repository.Params(
-                    RequestType.LoginSessionRequest(
+                    RequestType.LoginSessionRequest.WithCredentials(
                         username = username, password = password
                     )
                 )

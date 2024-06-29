@@ -1,6 +1,6 @@
 package com.ant.models.source.repositories.login
 
-import com.ant.models.entities.LoginSession
+import com.ant.models.model.UserData
 import com.ant.models.request.RequestType
 import com.ant.models.source.extensions.bodyOrThrow
 import com.ant.models.source.mappers.login.LoginSessionMapper
@@ -11,11 +11,11 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AuthenticateTmDbRepository @Inject constructor(
+class LoginUserTmDbRepository @Inject constructor(
     private val tmDbApi: Tmdb,
     private val loginSessionMapper: LoginSessionMapper,
-) : Repository<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, LoginSession> {
-    override suspend fun fetchData(params: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): LoginSession {
+) : Repository<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, UserData> {
+    override suspend fun performRequest(params: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): UserData {
         val authenticationService = tmDbApi.authenticationService()
 
         // First we need to request a token.

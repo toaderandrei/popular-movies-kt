@@ -10,7 +10,7 @@ import javax.inject.Singleton
 open class LoadFavoredTvSeriesListRepository @Inject constructor(
     private val moviesDb: MoviesDb,
 ) : Repository<Boolean, List<TvShow>> {
-    override suspend fun fetchData(params: Boolean): List<TvShow> {
+    override suspend fun performRequest(params: Boolean): List<TvShow> {
         return moviesDb.tvSeriesDao().loadFavoredTvSeriesData(params)
     }
 }

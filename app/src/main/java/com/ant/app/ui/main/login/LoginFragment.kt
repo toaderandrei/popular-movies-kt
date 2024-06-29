@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
 import com.ant.app.databinding.FragmentLoginUserBinding
 import com.ant.app.ui.main.base.NavigationFragment
-import com.ant.common.listeners.ClickCallback
 import com.ant.common.listeners.LoginCallback
-import com.ant.models.entities.LoginSession
+import com.ant.models.model.UserData
 import com.ant.models.model.MoviesState
 import com.ant.models.model.errorMessage
 import com.ant.models.model.isLoading
@@ -23,6 +22,7 @@ import com.ant.resources.R as R2
 class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBinding>() {
 
     override val viewModel: LoginViewModel by viewModels()
+    private val args by navArgs<LoginFragmentArgs>()
 
     override fun createViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
@@ -32,13 +32,11 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            loginContent.callback = object : ClickCallback {
-                override fun click() {
-                    logger.d("Show firebase login screen.")
-                }
-            }
+        if (args.logout) {
+            viewModel.logout()
+        }
 
+        with(binding) {
             loginContent.loginCallback = object : LoginCallback {
                 override fun login() {
                     logger.d("Account login.")
@@ -71,7 +69,7 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
         }
     }
 
-    private fun updateUi(loginState: MoviesState<LoginSession>) {
+    private fun updateUi(loginState: MoviesState<UserData>) {
         with(binding) {
             when {
                 loginState.isLoading -> {
@@ -85,7 +83,7 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
                     loginState.data?.let {
                         isTmdbApiLoggedIn = true
                         val formattedString =
-                            getString(R2.string.username_tmdb_logged_in, loginContent.username)
+                            getString(R2.string.username_account, loginContent.username)
                         loginContent.tvUsernameLoggedInTmdb.text = formattedString
                     }
                 }

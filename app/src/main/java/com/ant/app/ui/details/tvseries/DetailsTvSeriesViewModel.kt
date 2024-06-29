@@ -25,8 +25,8 @@ class DetailsTvSeriesViewModel @Inject constructor(
 ) : BaseViewModel<MoviesState<TvShowDetails>>(MoviesState()) {
 
     fun loadMovieDetails(movieId: Long) {
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch {
+        job?.cancel()
+        job = viewModelScope.launch {
             try {
                 tvSeriesDetailsUseCase.invoke(
                     getTvSeriesRequestDetailsParams(movieId)

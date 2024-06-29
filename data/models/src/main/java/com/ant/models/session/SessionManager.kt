@@ -24,14 +24,13 @@ interface SessionManager {
      */
     suspend fun isUserLoggedInToTmdbApi(): Boolean
 
-
-    fun isUserLoggedInToFirebase(): Boolean
-
-
     /**
      * Retrieves the current session id.
      */
     suspend fun getSessionId(): String?
 
+    /**
+     * Retrieves the current user.
+     */
     suspend fun getUsername(): String?
 }

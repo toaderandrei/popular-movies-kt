@@ -18,7 +18,7 @@ open class LoadMovieDetailsSummaryRepository @Inject constructor(
     private val moviesDb: MoviesDb,
     private val movieDetailsMapper: MovieDetailsMapper,
 ) : Repository<Repository.Params<RequestType.MovieRequestDetails>, MovieDetails> {
-    override suspend fun fetchData(params: Repository.Params<RequestType.MovieRequestDetails>): MovieDetails {
+    override suspend fun performRequest(params: Repository.Params<RequestType.MovieRequestDetails>): MovieDetails {
         val movieData = moviesDb.moviesDao().findMovieById(params.request.toMovieId())
         return if (movieData != null) {
             MovieDetailsLocalDbDataSource(movieData, moviesDb).invoke()

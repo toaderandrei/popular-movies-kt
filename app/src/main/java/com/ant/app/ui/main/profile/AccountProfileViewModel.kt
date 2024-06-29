@@ -4,8 +4,9 @@ import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
-import com.ant.domain.usecases.login.IsUserLoggedInUseCase
+import com.ant.domain.usecases.login.LoadAccountProfileUseCase
 import com.ant.models.model.MoviesState
+import com.ant.models.model.UserData
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,23 +15,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AccountProfileViewModel @Inject constructor(
-    private val isUserLoggedInUseCase: IsUserLoggedInUseCase,
+    private val loadUserAccountUseCase: LoadAccountProfileUseCase,
     private val logger: TmdbLogger,
-) : BaseViewModel<MoviesState<Boolean>>(MoviesState()) {
-    init {
-        verifyIfUserIsLoggedIn()
-    }
+) : BaseViewModel<MoviesState<UserData>>(MoviesState()) {
 
-    private fun verifyIfUserIsLoggedIn() {
+
+    fun verifyIfUserIsLoggedIn() {
         viewModelScope.launch {
-            isUserLoggedInUseCase.invoke(Repository.Params(RequestType.FirebaseRequest.GetUser))
+            loadUserAccountUseCase.invoke(Repository.Params(RequestType.LoginSessionRequest.GetUser))
                 .collectAndSetState {
-                    parseResponse(
-                        response = it,
-                        onError = { throwable ->
-                            logger.e(throwable, "Error: ${throwable.message}")
-                        },
-                    )
+                    parseResponse(it)
                 }
         }
     }

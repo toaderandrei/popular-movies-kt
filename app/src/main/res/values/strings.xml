@@ -5,4 +5,5 @@
         item
     </string>
     <string name="forgot_password">Forgot password?\n\n</string>
+    <string name="current_user_name">Current user name\n</string>
 </resources>

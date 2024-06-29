@@ -12,6 +12,6 @@ class SaveTvSeriesDetailsUseCase @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher
 ) : UseCase<TvShowDetails, Unit>(dispatcher) {
     override suspend fun execute(parameters: TvShowDetails): Unit {
-        return repository.fetchData(parameters)
+        return repository.performRequest(parameters)
     }
 }

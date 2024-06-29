@@ -34,11 +34,11 @@
     <string name="tmdb_account">TMDb Account</string>
     <string name="login">Login</string>
     <string name="logout">Logout</string>
-    <string name="username_tmdb">Username</string>
-    <string name="username_tmdb_logged_in">Username: %s</string>
-    <string name="tmdb_account_logged_in">User logged in Tmdb API</string>
+    <string name="username_account_title">Username: </string>
+    <string name="username_account">Username: %s</string>
+    <string name="account_is_logged_in_title">User logged in Tmdb API</string>
     <string name="email">Email</string>
-    <string name="password_tmdb">Password</string>
+    <string name="password">Password:</string>
     <string name="signup">Signup</string>
     <string name="no_account">No account</string>
 

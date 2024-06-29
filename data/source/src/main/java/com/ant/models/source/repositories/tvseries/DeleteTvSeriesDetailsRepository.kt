@@ -10,7 +10,7 @@ import javax.inject.Singleton
 open class DeleteTvSeriesDetailsRepository @Inject constructor(
     private val moviesDb: MoviesDb,
 ) : Repository<TvShowDetails, Unit> {
-    override suspend fun fetchData(params: TvShowDetails) {
+    override suspend fun performRequest(params: TvShowDetails) {
         moviesDb.tvSeriesDao().deleteTvSeriesById(params.tvSeriesData.id)
             .also {
                 params.tvSeriesCasts?.let {

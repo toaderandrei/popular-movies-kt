@@ -7,7 +7,7 @@ interface Repository<in P, out R> {
     /**
      * Load movies.
      */
-    suspend fun fetchData(params: P): R
+    suspend fun performRequest(params: P): R
 
     data class Params<out T: RequestType>(
         val request: T,

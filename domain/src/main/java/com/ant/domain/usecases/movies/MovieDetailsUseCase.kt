@@ -15,6 +15,6 @@ class MovieDetailsUseCase @Inject constructor(
 ) : UseCase<Repository.Params<RequestType.MovieRequestDetails>, MovieDetails>(dispatcher) {
 
     override suspend fun execute(parameters: Repository.Params<RequestType.MovieRequestDetails>): MovieDetails {
-        return repository.fetchData(parameters)
+        return repository.performRequest(parameters)
     }
 }

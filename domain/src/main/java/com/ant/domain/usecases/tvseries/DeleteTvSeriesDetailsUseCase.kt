@@ -12,6 +12,6 @@ class DeleteTvSeriesDetailsUseCase @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher
 ) : UseCase<TvShowDetails, Unit>(dispatcher) {
     override suspend fun execute(parameters: TvShowDetails) {
-        return repository.fetchData(parameters)
+        return repository.performRequest(parameters)
     }
 }

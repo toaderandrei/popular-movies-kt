@@ -4,8 +4,6 @@ import android.content.Context
 import android.text.format.DateFormat
 import com.ant.app.BuildConfig
 import com.ant.app.application.PopularMoviesApp
-import com.ant.models.authentication.FirebaseAuthentication
-import com.ant.models.source.authentication.FirebaseAuthenticationImpl
 import com.ant.tmdb.old.TmdbModule
 import dagger.Module
 import dagger.Provides

@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
@@ -16,7 +17,7 @@ abstract class BaseViewModel<S>(
 ) : ViewModel() {
     val state = MutableStateFlow(initialState)
     private val lock = Mutex()
-    protected var searchJob: Job? = null
+    protected var job: Job? = null
 
     /**
      * Returns a snapshot of the current state.
@@ -30,7 +31,7 @@ abstract class BaseViewModel<S>(
         get() = state.asStateFlow()
 
     protected suspend fun <T> Flow<T>.collectAndSetState(reducer: S.(T) -> S) {
-        return collect { item ->
+        return collectLatest { item ->
             lock.withLock {
                 state.value = reducer(state.value, item)
             }
@@ -39,6 +40,6 @@ abstract class BaseViewModel<S>(
 
     override fun onCleared() {
         super.onCleared()
-        searchJob?.cancel()
+        job?.cancel()
     }
 }

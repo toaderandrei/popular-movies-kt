@@ -3,8 +3,8 @@ package com.ant.domain.usecases.login
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.qualifiers.IoDispatcher
 import com.ant.domain.usecases.UseCase
-import com.ant.models.entities.LoginSession
 import com.ant.models.model.Result
+import com.ant.models.model.UserData
 import com.ant.models.request.RequestType
 import com.ant.models.session.SessionManager
 import com.ant.models.source.repositories.Repository
@@ -13,18 +13,18 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.firstOrNull
 import javax.inject.Inject
 
-class AuthenticateUserToTmDbAndSaveSessionUseCase @Inject constructor(
+class LoginUserAndSaveSessionUseCase @Inject constructor(
     private val logger: TmdbLogger,
     private val loginUserToTmDbUseCase: LoginUserToTmDbUseCase,
     private val sessionManager: SessionManager,
     @IoDispatcher dispatcher: CoroutineDispatcher,
-) : UseCase<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, LoginSession>(dispatcher) {
-    override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): LoginSession {
+) : UseCase<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, UserData>(dispatcher) {
+    override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): UserData {
         val tmDbSession = loginUserToTmDbUseCase.invoke(parameters).firstOrNull {
             it is Result.Success || it is Result.Error
         }
 
-        logger.d("Login to TmDb APi successful: $tmDbSession")
+        logger.d("Create Session successful: $tmDbSession")
 
         if (tmDbSession is Result.Error || tmDbSession == null || tmDbSession.get() == null) {
             throw TmdbException("Error: ${tmDbSession?.get()}")

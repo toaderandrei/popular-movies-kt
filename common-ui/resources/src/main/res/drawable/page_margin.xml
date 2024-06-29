@@ -1,10 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?>
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:inset="@dimen/margin_8">
-    <shape android:shape="rectangle">
-        <solid android:color="?attr/controlLight" />
-        <size
-            android:width="1dp"
-            android:height="1dp" />
-    </shape>
-</inset>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Background circle for the film reel -->
+    <path
+        android:fillColor="#CCCCCC"
+        android:pathData="M100,10
+            a90,90 0 1,0 0.1,0Z" />
+    <!-- Inner circles for the film reel -->
+    <path
+        android:fillColor="#999999"
+        android:pathData="M100,40
+            a60,60 0 1,0 0.1,0Z" />
+    <path
+        android:fillColor="#666666"
+        android:pathData="M100,70
+            a30,30 0 1,0 0.1,0Z" />
+
+    <!-- Film strip path -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M50,20
+            l100,0 l10,20 l-120,0 Z" />
+    <!-- Film strip segments -->
+    <path
+        android:fillColor="#FF0000"
+        android:pathData="M60,20 l0,20 l10,0 l0,-20 Z" />
+    <path
+        android:fillColor="#00FF00"
+        android:pathData="M80,20 l0,20 l10,0 l0,-20 Z" />
+    <path
+        android:fillColor="#0000FF"
+        android:pathData="M100,20 l0,20 l10,0 l0,-20 Z" />
+    <path
+        android:fillColor="#FFFF00"
+        android:pathData="M120,20 l0,20 l10,0 l0,-20 Z" />
+
+    <!-- Popcorn bucket -->
+    <path
+        android:fillColor="#FFCC00"
+        android:pathData="M80,100
+            l40,0 l10,30 l-60,0 Z" />
+    <!-- Popcorn -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M90,80
+            a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M100,80
+            a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0 Z" />
+
+    <!-- Sign -->
+    <path
+        android:fillColor="#FF0000"
+        android:pathData="M70,130
+            l60,0 l0,20 l-60,0 Z" />
+    <!-- Sign text -->
+    <group
+        android:translateX="80"
+        android:translateY="145">
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M0,-5 l20,0 l0,10 l-20,0 Z" />
+    </group>
+</vector>

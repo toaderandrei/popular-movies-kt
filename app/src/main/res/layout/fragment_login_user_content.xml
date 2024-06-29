@@ -29,10 +29,6 @@
             type="LoginCallback" />
 
         <variable
-            name="callback"
-            type="ClickCallback" />
-
-        <variable
             name="isTmdbApiLoggedIn"
             type="Boolean" />
 
@@ -77,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_16"
-                android:text="@string/tmdb_account_logged_in"
+                android:text="@string/account_is_logged_in_title"
                 android:textColor="@color/md_black_1000"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -91,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_16"
-                android:text="@string/username_tmdb_logged_in"
+                android:text="@string/username_account"
                 android:textColor="@color/md_black_1000"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@id/tv_account_logged_in_tmdb"
@@ -113,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16"
-                android:text="@string/username_tmdb"
+                android:text="@string/username_account_title"
                 android:textColor="@color/md_black_1000"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_account_tmdb" />
@@ -144,7 +140,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_16"
-                android:text="@string/password_tmdb"
+                android:text="@string/password"
                 android:textColor="@color/md_black_1000"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/edt_username" />

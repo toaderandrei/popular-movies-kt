@@ -10,7 +10,7 @@ import javax.inject.Singleton
 open class SaveTvSeriesDetailsRepository @Inject constructor(
     private val moviesDb: MoviesDb,
 ) : Repository<TvShowDetails, Unit> {
-    override suspend fun  fetchData(params: TvShowDetails) {
+    override suspend fun  performRequest(params: TvShowDetails) {
         moviesDb.tvSeriesDao().insert(params.tvSeriesData.copy(favored = true))
 //            .also {
 //                params.movieCasts?.let {

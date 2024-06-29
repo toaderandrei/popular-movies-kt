@@ -15,6 +15,6 @@ class TvShowListUseCase @Inject constructor(
 ) : UseCase<Repository.Params<RequestType.TvShowRequest>, List<TvShow>>(dispatcher) {
 
     override suspend fun execute(parameters: Repository.Params<RequestType.TvShowRequest>): List<TvShow> {
-        return repository.fetchData(parameters)
+        return repository.performRequest(parameters)
     }
 }

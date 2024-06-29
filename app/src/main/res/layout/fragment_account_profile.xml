@@ -8,16 +8,8 @@
         <import type="com.ant.common.listeners.AccountLoginCallback" />
 
         <variable
-            name="avatarUrl"
-            type="String" />
-
-        <variable
             name="userLoggedIn"
             type="Boolean" />
-
-        <variable
-            name="username"
-            type="String" />
 
         <variable
             name="loginCallback"
@@ -83,18 +75,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_login_poster" />
 
-            <com.google.android.material.imageview.ShapeableImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_profile"
-                android:layout_width="@dimen/width_icon_120"
-                android:layout_height="@dimen/width_icon_120"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_24"
                 android:scaleType="centerCrop"
-                app:image="@{avatarUrl}"
+                android:src="@drawable/user_login_avatar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_login_title"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Medium"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/backgrounds/scenic" />
+            />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_username"
@@ -103,12 +95,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8"
                 android:gravity="center"
-                android:text="@{username}"
+                android:text="@string/username_account"
                 android:textColor="@color/md_black_1000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_profile"
-                tools:text="Current User name" />
+                tools:text="@string/current_user_name" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_logout"
@@ -145,7 +137,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_logout" />
+                app:layout_constraintTop_toBottomOf="@+id/iv_login_poster" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/group_user_not_logged_in"

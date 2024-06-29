@@ -5,9 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.ant.models.authentication.FirebaseAuthentication
 import com.ant.models.session.SessionManager
-import com.ant.models.source.delegates.SessionManagerDelegate
 import com.ant.models.source.session.SessionManagerImpl
 import dagger.Module
 import dagger.Provides
@@ -32,8 +30,7 @@ object StorageModule {
     @Singleton
     fun provideSessionManager(
         dataStore: DataStore<Preferences>,
-        firebaseAuthentication: FirebaseAuthentication,
     ): SessionManager {
-        return SessionManagerImpl(dataStore = dataStore, firebaseAuthentication = firebaseAuthentication)
+        return SessionManagerImpl(dataStore = dataStore)
     }
 }

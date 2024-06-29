@@ -45,14 +45,4 @@ interface TmdbDatabase {
      * @return [MovieVideosDao] instance
      */
     fun movieVideosDao(): MovieVideosDao
-
-    /**
-     * @return [LoginDao] instance
-     */
-    fun loginDao(): LoginDao
-
-    /**
-     * @return [LoginSessionDao] instance
-     */
-    fun loginSessionDao(): LoginSessionDao
 }

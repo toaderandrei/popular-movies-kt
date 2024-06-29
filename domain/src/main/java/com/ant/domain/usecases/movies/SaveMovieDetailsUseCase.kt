@@ -12,6 +12,6 @@ class SaveMovieDetailsUseCase @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher
 ) : UseCase<MovieDetails, Unit>(dispatcher) {
     override suspend fun execute(parameters: MovieDetails): Unit {
-        return repository.fetchData(parameters)
+        return repository.performRequest(parameters)
     }
 }

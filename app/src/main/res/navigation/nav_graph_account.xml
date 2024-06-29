@@ -9,12 +9,18 @@
         android:name="com.ant.app.ui.main.profile.AccountProfileFragment"
         android:label="@string/account">
         <action
-            android:id="@+id/to_login"
-            app:destination="@id/navigation_login" />
+            android:id="@+id/to_login_screen"
+            app:destination="@id/navigation_login">
+        </action>
     </fragment>
     <fragment
         android:id="@id/navigation_login"
         android:name="com.ant.app.ui.main.login.LoginFragment"
-        android:label="@string/login" />
+        android:label="@string/login" >
+        <argument
+            android:name="logout"
+            android:defaultValue="false"
+            app:argType="boolean" />
+    </fragment>
 
 </navigation>

@@ -14,7 +14,7 @@ open class LoadTvSeriesListRepository @Inject constructor(
     private val tmdbService: Tmdb,
     private val tvSeriesMapper: TvSeriesMapper,
 ) : Repository<Repository.Params<RequestType.TvShowRequest>, List<TvShow>> {
-    override suspend fun fetchData(params: Repository.Params<RequestType.TvShowRequest>): List<TvShow> {
+    override suspend fun performRequest(params: Repository.Params<RequestType.TvShowRequest>): List<TvShow> {
         return TvSeriesListDataSource(params, tmdbService, tvSeriesMapper).invoke()
     }
 }

@@ -15,6 +15,6 @@ class TvSeriesDetailsUseCase @Inject constructor(
 ) : UseCase<Repository.Params<RequestType.TvSeriesRequestDetails>, TvShowDetails>(dispatcher) {
 
     override suspend fun execute(parameters: Repository.Params<RequestType.TvSeriesRequestDetails>): TvShowDetails {
-        return repository.fetchData(parameters)
+        return repository.performRequest(parameters)
     }
 }

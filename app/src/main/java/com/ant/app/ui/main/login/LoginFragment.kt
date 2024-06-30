@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -13,17 +14,17 @@ import com.ant.common.listeners.LoginCallback
 import com.ant.models.model.UserData
 import com.ant.models.model.MoviesState
 import com.ant.models.model.errorMessage
+import com.ant.models.model.isError
 import com.ant.models.model.isLoading
 import com.ant.models.model.isSuccess
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.log
 import com.ant.resources.R as R2
 
 @AndroidEntryPoint
 class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBinding>() {
 
     override val viewModel: LoginViewModel by viewModels()
-    private val args by navArgs<LoginFragmentArgs>()
-
     override fun createViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
     ): FragmentLoginUserBinding {
@@ -32,9 +33,6 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (args.logout) {
-            viewModel.logout()
-        }
 
         with(binding) {
             loginContent.loginCallback = object : LoginCallback {
@@ -44,12 +42,11 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
                     val password = loginContent.password
                     if (username.isNullOrEmpty() || password.isNullOrEmpty()) {
                         logger.d("Username or password is empty.")
-                        loginContent.loadingErrorMessage =
-                            context?.getString(R2.string.unknown_error)
+                        updateUiElementsError()
                         return
                     }
 
-                    viewModel.authenticateUser(username, password)
+                    viewModel.login(username, password)
                 }
 
                 override fun logout() {
@@ -67,6 +64,15 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
         with(viewModel) {
             stateAsLiveData.observe(viewLifecycleOwner, ::updateUi)
         }
+
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                with(binding) {
+                    loginContent.tvError.text = null
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
     private fun updateUi(loginState: MoviesState<UserData>) {
@@ -74,31 +80,48 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
             when {
                 loginState.isLoading -> {
                     logger.d("Loading...")
-                    isLoading = true
-
+                    updateUiElements(loading = true)
                 }
 
                 loginState.isSuccess -> {
                     logger.d("Success loading profile: $loginState.")
-                    loginState.data?.let {
-                        isTmdbApiLoggedIn = true
+                    val data = loginState.data
+                    if (!data?.sessionId.isNullOrBlank()) {
+                        updateUiElements(loggedIn = true)
                         val formattedString =
-                            getString(R2.string.username_account, loginContent.username)
+                            getString(R2.string.username_account, data?.username)
                         loginContent.tvUsernameLoggedInTmdb.text = formattedString
+                    } else {
+                        updateUiElements()
                     }
                 }
 
-                else -> {
+                loginState.isError -> {
                     logger.d("Error logging in: ${loginState.errorMessage}")
-                    isLoading = false
-                    loginState.errorMessage?.let {
-                        loginContent.loadingErrorMessage = it
-                    }
-                    isTmdbApiLoggedIn = false
+                    updateUiElements()
+                    updateUiElementsError(
+                        loginState.errorMessage ?: getString(R2.string.unknown_error)
+                    )
                 }
             }
         }
 
+    }
+
+    private fun FragmentLoginUserBinding.updateUiElementsError(errorMessage: String = getString(R2.string.unknown_error)) {
+        logger.d("updateUiElementsError: $errorMessage")
+        val formattedString =
+            getString(R2.string.error_login, errorMessage)
+        loginContent.loadingIsError = true
+        loginContent.tvError.text = formattedString
+    }
+
+    private fun FragmentLoginUserBinding.updateUiElements(
+        loading: Boolean = false,
+        loggedIn: Boolean = false
+    ) {
+        isLoading = loading
+        isTmdbApiLoggedIn = loggedIn
     }
 
     override fun getThisFragment(): Fragment {

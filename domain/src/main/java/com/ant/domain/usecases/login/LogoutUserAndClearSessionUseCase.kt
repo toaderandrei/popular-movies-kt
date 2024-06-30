@@ -11,7 +11,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LogoutUserToTmDbUseCase @Inject constructor(
+class LogoutUserAndClearSessionUseCase @Inject constructor(
     private val logoutRepository: LogoutUserAndClearSessionsRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher,
 ) : UseCase<Repository.Params<RequestType.LoginSessionRequest.Logout>, UserData>(dispatcher) {

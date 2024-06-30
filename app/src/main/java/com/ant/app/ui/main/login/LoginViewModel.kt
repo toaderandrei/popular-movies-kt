@@ -5,7 +5,7 @@ import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.login.LoginUserAndSaveSessionUseCase
-import com.ant.domain.usecases.login.LogoutUserToTmDbUseCase
+import com.ant.domain.usecases.login.LogoutUserAndClearSessionUseCase
 import com.ant.models.model.MoviesState
 import com.ant.models.model.UserData
 import com.ant.models.request.RequestType
@@ -18,7 +18,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val loginUserUseCase: LoginUserAndSaveSessionUseCase,
-    private val logoutUserToTmDbUseCase: LogoutUserToTmDbUseCase,
+    private val logoutUserUseCase: LogoutUserAndClearSessionUseCase,
     private val sessionManager: SessionManager,
     private val logger: TmdbLogger,
 ) : BaseViewModel<MoviesState<UserData>>(MoviesState()) {
@@ -26,7 +26,6 @@ class LoginViewModel @Inject constructor(
     init {
         logger.d("LoginViewModel created.")
         viewModelScope.launch {
-            val username = sessionManager.getUsername()
             sessionManager.getSessionId()?.let {
                 logger.d("Session id: $it")
                 state.value = MoviesState(
@@ -37,10 +36,9 @@ class LoginViewModel @Inject constructor(
                 )
             }
         }
-
     }
 
-    fun authenticateUser(
+    fun login(
         username: String,
         password: String,
     ) {
@@ -69,7 +67,11 @@ class LoginViewModel @Inject constructor(
         job?.cancel()
         job = viewModelScope.launch {
             logger.d("Logout user.")
-            logoutUserToTmDbUseCase.invoke(
+            if (!sessionManager.isUserLoggedInToTmdbApi()) {
+                logger.d("User is already logged out.")
+                return@launch
+            }
+            logoutUserUseCase.invoke(
                 Repository.Params(
                     RequestType.LoginSessionRequest.Logout(
                         username = sessionManager.getUsername(),

@@ -5,12 +5,17 @@ import com.ant.domain.qualifiers.IoDispatcher
 import com.ant.domain.usecases.UseCase
 import com.ant.models.model.Result
 import com.ant.models.model.UserData
+import com.ant.models.model.getErrorOrNull
 import com.ant.models.request.RequestType
 import com.ant.models.session.SessionManager
 import com.ant.models.source.repositories.Repository
 import com.uwetrottmann.tmdb2.exceptions.TmdbException
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LoginUserAndSaveSessionUseCase @Inject constructor(
@@ -20,23 +25,20 @@ class LoginUserAndSaveSessionUseCase @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher,
 ) : UseCase<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, UserData>(dispatcher) {
     override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): UserData {
-        val tmDbSession = loginUserToTmDbUseCase.invoke(parameters).firstOrNull {
-            it is Result.Success || it is Result.Error
-        }
-
-        logger.d("Create Session successful: $tmDbSession")
-
-        if (tmDbSession is Result.Error || tmDbSession == null || tmDbSession.get() == null) {
-            throw TmdbException("Error: ${tmDbSession?.get()}")
-        }
-
-        logger.d("Login to TmDb APi successful. SessionId: ${tmDbSession.get()?.sessionId}")
-
-        tmDbSession.get()?.sessionId.let {
-            // We retrieved session from tmdb api. Next authenticate user with firebase.
-            sessionManager.saveSessionId(it)
-            sessionManager.saveUsername(username = parameters.request.username)
-        }
-        return tmDbSession.get()!!
+        return loginUserToTmDbUseCase.invoke(parameters)
+            .filterNot { it is Result.Loading }
+            .map { result ->
+                if (result is Result.Success) {
+                    val userData = result.data
+                    logger.d("Login to TmDb APi successful. SessionId: ${result.data.sessionId}")
+                    userData.sessionId.let { sessionId ->
+                        sessionManager.saveSessionId(sessionId = sessionId)
+                        sessionManager.saveUsername(username = userData.username)
+                    }
+                    userData
+                } else {
+                    throw (result as Result.Error).throwable
+                }
+            }.first()
     }
 }

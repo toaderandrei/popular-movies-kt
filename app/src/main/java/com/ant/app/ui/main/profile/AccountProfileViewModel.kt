@@ -5,6 +5,7 @@ import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.login.LoadAccountProfileUseCase
+import com.ant.domain.usecases.login.LogoutUserAndClearSessionUseCase
 import com.ant.models.model.MoviesState
 import com.ant.models.model.UserData
 import com.ant.models.request.RequestType
@@ -16,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class AccountProfileViewModel @Inject constructor(
     private val loadUserAccountUseCase: LoadAccountProfileUseCase,
+    private val logoutUserAndClearSessionUseCase: LogoutUserAndClearSessionUseCase,
     private val logger: TmdbLogger,
 ) : BaseViewModel<MoviesState<UserData>>(MoviesState()) {
 
@@ -26,6 +28,20 @@ class AccountProfileViewModel @Inject constructor(
                 .collectAndSetState {
                     parseResponse(it)
                 }
+        }
+    }
+
+    fun logout(username: String?) {
+        viewModelScope.launch {
+            logoutUserAndClearSessionUseCase.invoke(
+                Repository.Params(
+                    RequestType.LoginSessionRequest.Logout(
+                        username = username
+                    )
+                )
+            ).collectAndSetState {
+                parseResponse(it)
+            }
         }
     }
 }

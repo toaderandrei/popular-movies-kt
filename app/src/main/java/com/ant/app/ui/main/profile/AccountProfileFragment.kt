@@ -12,6 +12,7 @@ import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.listeners.AccountLoginCallback
 import com.ant.models.model.MoviesState
 import com.ant.models.model.UserData
+import com.ant.models.model.isError
 import com.ant.models.model.isLoading
 import com.ant.models.model.isSuccess
 import com.ant.resources.R
@@ -48,9 +49,7 @@ class AccountProfileFragment(
 
                 override fun logout() {
                     logger.d("Account logout.")
-                    // TODO: consider making it lifecycle aware
-                    val directions = getLoginDirections(true)
-                    findNavController().navigate(directions)
+                    viewModel.logout(binding.tvUsername.text.toString())
                 }
             }
         }
@@ -63,22 +62,32 @@ class AccountProfileFragment(
     }
 
     private fun updateUi(loginState: MoviesState<UserData>) {
-        if (loginState.isLoading) {
-            logger.d("Loading...")
-        } else if (loginState.isSuccess) {
-            logger.d("Success loading profile: $loginState.")
-            with(binding) {
-                loginState.data?.sessionId?.let { sessionId ->
-                    userLoggedIn = sessionId.isNotBlank()
-                }
-                loginState.data?.username?.let { name ->
-                    val formattedString =
-                        getString(R.string.username_account, name)
-                    tvUsername.text = formattedString
+
+        when {
+            loginState.isLoading -> {
+                logger.d("Loading...")
+            }
+
+            loginState.isSuccess -> {
+                logger.d("Success loading profile: $loginState.")
+                val data = loginState.data
+                if (data?.sessionId.isNullOrBlank()) {
+                    binding.userLoggedIn = false
+                } else {
+                    data?.sessionId?.let { sessionId ->
+                        binding.userLoggedIn = sessionId.isNotBlank()
+                    }
+                    data?.username?.let { name ->
+                        val formattedString =
+                            getString(R.string.username_account, name)
+                        binding.tvUsername.text = formattedString
+                    }
                 }
             }
-        } else {
-            logger.d("Error.")
+
+            loginState.isError -> {
+                logger.d("Error.")
+            }
         }
     }
 

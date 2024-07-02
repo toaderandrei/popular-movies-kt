@@ -45,8 +45,9 @@
             type="BackdropSizes" />
 
         <variable
-            name="loadingIsError"
+            name="isLoadingError"
             type="Boolean" />
+
     </data>
 
     <ScrollView
@@ -158,7 +159,6 @@
                     android:textColor="@color/md_black_1000" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/button_login"
                 style="@style/TextStyle.Small"
@@ -187,8 +187,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_8"
-                android:visibility="gone"
                 android:text="@string/error_login"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/button_login" />
@@ -219,7 +219,6 @@
                 app:layout_constraintStart_toEndOf="@id/tv_no_tmdb_account"
                 app:layout_constraintTop_toTopOf="@id/tv_no_tmdb_account" />
 
-
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/group_tmdb_api_not_logged_in"
                 android:layout_width="wrap_content"
@@ -228,13 +227,12 @@
                 edt_password, tv_no_tmdb_account, tv_no_account_tmdb_signup, button_login"
                 app:visibleGone="@{!isTmdbApiLoggedIn}" />
 
-
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/group_tmdb_api_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:constraint_referenced_ids="tv_error"
-                app:visibleGone="@{loadingIsError}" />
+                app:visibleGone="@{isLoadingError}" />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/group_tmdb_api_logged_in"

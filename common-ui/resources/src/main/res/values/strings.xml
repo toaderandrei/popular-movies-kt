@@ -115,5 +115,6 @@
     <string name="search_hint">hint</string>
     <string name="search_no_results">No Results</string>
     <string name="header_more">More</string>
+    <string name="username_or_password_empty">Username or password is empty.</string>
 
 </resources>

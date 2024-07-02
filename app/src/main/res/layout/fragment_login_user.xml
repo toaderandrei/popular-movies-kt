@@ -12,6 +12,14 @@
             name="isLoading"
             type="Boolean" />
 
+        <variable
+            name="isLoadingError"
+            type="Boolean" />
+
+        <variable
+            name="errorMessage"
+            type="String" />
+
     </data>
 
 
@@ -49,6 +57,7 @@
                 android:id="@+id/login_content"
                 layout="@layout/fragment_login_user_content"
                 app:isLoading="@{isLoading}"
+                app:isLoadingError="@{isLoadingError}"
                 app:isTmdbApiLoggedIn="@{isTmdbApiLoggedIn}" />
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

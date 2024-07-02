@@ -46,7 +46,7 @@ class DetailsMovieViewModel @Inject constructor(
         loadMovieDetails(movieId)
     }
 
-    fun saveToDatabase(item: MovieDetails) {
+    fun saveAsFavorite(item: MovieDetails) {
         viewModelScope.launch {
             movieSaveDetailsUseCase(item).collect {
                 logger.d("Saved movie details to db.")
@@ -54,7 +54,7 @@ class DetailsMovieViewModel @Inject constructor(
         }
     }
 
-    fun deleteFromDatabase(item: MovieDetails) {
+    fun deleteFavorite(item: MovieDetails) {
         viewModelScope.launch {
             movieDeleteDetailsUseCase(item).collect {
                 logger.d("Delete movie details from db.")

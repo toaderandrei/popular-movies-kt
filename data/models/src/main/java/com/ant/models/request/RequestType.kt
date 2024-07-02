@@ -3,6 +3,9 @@ package com.ant.models.request
 sealed interface RequestType {
     data class MovieRequest(val movieType: MovieType) : RequestType
 
+    data class SaveMovieRequest(val sessionId: String, val favorite: Boolean, val favoriteId: Int) :
+        RequestType
+
     data class MovieRequestDetails(
         val tmdbMovieId: Long,
         val appendToResponseItems: List<MovieAppendToResponseItem> = mutableListOf()

@@ -135,12 +135,12 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
             detailsMovieInfo.favCallback = object : FavoriteCallback<MovieDetails> {
                 override fun onSave(item: MovieDetails) {
                     logger.d("Save item to db: $item")
-                    viewModel.saveToDatabase(item)
+                    viewModel.saveAsFavorite(item)
                 }
 
                 override fun delete(item: MovieDetails) {
                     logger.d("delete item from db:$item")
-                    viewModel.deleteFromDatabase(item)
+                    viewModel.deleteFavorite(item)
                 }
             }
         }

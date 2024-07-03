@@ -2,13 +2,18 @@ package com.ant.models.extensions
 
 import android.annotation.SuppressLint
 import android.os.Build
+import androidx.annotation.RequiresApi
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Singleton
 
 private const val REGEX_DATE_FORMAT = "EEE MMM dd HH:mm:ss zzz yyyy"
 private const val REGEX_DATE_FORMAT_OUTPUT = "dd-MM-yyyy"
+
 
 @SuppressLint("SimpleDateFormat")
 fun Date.toDateString(useDifferentFormat: Boolean = false): String? {

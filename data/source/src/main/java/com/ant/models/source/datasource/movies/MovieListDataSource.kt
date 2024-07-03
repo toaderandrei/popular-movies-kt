@@ -13,13 +13,17 @@ import com.uwetrottmann.tmdb2.entities.MovieResultsPage
 import com.uwetrottmann.tmdb2.services.MoviesService
 import retrofit2.Call
 import retrofit2.awaitResponse
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MovieListDataSource(
-    private val params: Repository.Params<RequestType.MovieRequest>,
+@Singleton
+class MovieListDataSource @Inject constructor(
     private val tmdb: Tmdb,
     private val moviesListMapper: MoviesListMapper
 ) {
-    suspend operator fun invoke(): List<MovieData> {
+    suspend operator fun invoke(
+        params: Repository.Params<RequestType.MovieRequest>,
+    ): List<MovieData> {
         val movieService = tmdb.moviesService()
 
         val movieResultsPageResponse = when (params.request.movieType) {

@@ -6,13 +6,16 @@ import com.ant.models.source.repositories.Repository
 import com.uwetrottmann.tmdb2.Tmdb
 import com.uwetrottmann.tmdb2.entities.FavoriteMedia
 import retrofit2.awaitResponse
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UpdateMovieAsFavoriteDataSource(
-    private val params: Repository.Params<RequestType.SaveMovieRequest>,
+@Singleton
+class SaveAsFavoriteDataSource @Inject constructor(
     private val tmdb: Tmdb,
 ) {
-
-    suspend fun invoke(): Boolean {
+    suspend fun invoke(
+        params: Repository.Params<RequestType.FavoriteRequest>,
+    ): Boolean {
         val accountService = tmdb.accountService()
         tmdb.sessionId = params.request.sessionId
         val accountResponse = accountService.summary()

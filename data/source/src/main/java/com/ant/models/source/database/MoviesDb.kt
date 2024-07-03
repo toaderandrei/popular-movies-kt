@@ -21,7 +21,7 @@ import com.ant.models.entities.TvShow
         MovieCrew::class,
         MovieVideo::class,
    ],
-    version = 36,
+    version = 40,
     exportSchema = false
 )
 @TypeConverters(

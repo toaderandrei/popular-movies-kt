@@ -1,10 +1,9 @@
-
-
 package com.ant.popular.movies
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -25,10 +24,15 @@ internal fun Project.configureKotlinAndroid(
         compileOptions {
             sourceCompatibility = JavaVersion.VERSION_17
             targetCompatibility = JavaVersion.VERSION_17
+            // added for compatibility code, like adding support for LocalDate.
+            isCoreLibraryDesugaringEnabled = true
         }
     }
 
     configureKotlin()
+    dependencies {
+        add("coreLibraryDesugaring", libs.findLibrary("android.desugarJdkLibs").get())
+    }
 }
 
 /**

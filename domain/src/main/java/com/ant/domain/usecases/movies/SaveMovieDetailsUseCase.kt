@@ -7,13 +7,13 @@ import com.ant.domain.usecases.UseCase
 import com.ant.models.request.RequestType
 import com.ant.models.session.SessionManager
 import com.ant.models.source.repositories.Repository
-import com.ant.models.source.repositories.movies.UpdateMovieDetailsToRemoteRepository
+import com.ant.models.source.repositories.favorites.FavoriteDetailsToRemoteRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
 class SaveMovieDetailsUseCase @Inject constructor(
     private val repository: SaveMovieDetailsToLocalRepository,
-    private val updateFavoriteToRemoteRepository: UpdateMovieDetailsToRemoteRepository,
+    private val updateFavoriteToRemoteRepository: FavoriteDetailsToRemoteRepository,
     private val sessionManager: SessionManager,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ) : UseCase<MovieDetails, Boolean>(dispatcher) {
@@ -23,7 +23,7 @@ class SaveMovieDetailsUseCase @Inject constructor(
                 sessionManager.getSessionId()?.let { sessionId ->
                     updateFavoriteToRemoteRepository.performRequest(
                         Repository.Params(
-                            RequestType.SaveMovieRequest(
+                            RequestType.FavoriteRequest(
                                 sessionId = sessionId,
                                 favorite = true,
                                 favoriteId = parameters.movieData.id.toInt()

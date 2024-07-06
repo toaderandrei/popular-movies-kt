@@ -8,7 +8,6 @@ import com.ant.models.source.extensions.withRetry
 import com.ant.models.source.mappers.movies.MoviesListMapper
 import com.ant.models.source.repositories.Repository
 import com.uwetrottmann.tmdb2.Tmdb
-import com.uwetrottmann.tmdb2.entities.Genre
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage
 import com.uwetrottmann.tmdb2.services.MoviesService
 import retrofit2.Call
@@ -36,23 +35,12 @@ class MovieListDataSource @Inject constructor(
         val genreResponse = tmdb.genreService().movie(null)
             .awaitResponse()
 
-        val genresList = genreResponse.bodyOrThrow().genres
+        val genresResponse = genreResponse.bodyOrThrow()
         val movieResultsPage = movieResultsPageResponse.bodyOrThrow()
-
-        movieResultsPage.results?.map { movie ->
-            val genres = mutableListOf<Genre>()
-            movie.genre_ids?.forEach { genreId ->
-                val filteredList = genresList?.first { it.id == genreId }
-                filteredList?.let { genre ->
-                    genres.add(genre)
-                }
-            }
-            movie.genres = genres
-        }
 
         return movieResultsPageResponse.let {
             moviesListMapper.map(
-                movieResultsPage
+                Pair(movieResultsPage, genresResponse)
             )
         }
     }

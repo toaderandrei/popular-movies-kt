@@ -15,6 +15,7 @@ import com.ant.app.ui.adapters.MovieCastsAdapter
 import com.ant.app.ui.adapters.MovieVideosAdapter
 import com.ant.app.ui.base.BaseFragment
 import com.ant.common.decorator.MarginItemDecoration
+import com.ant.common.extensions.observe
 import com.ant.common.listeners.AppBarStateChangeListener
 import com.ant.common.listeners.FavoriteCallback
 import com.ant.common.listeners.RetryCallback
@@ -79,9 +80,7 @@ class DetailsTvSeriesFragment :
         }
 
         with(viewModel) {
-            stateAsLiveData.observe(viewLifecycleOwner) {
-                renderModels(it)
-            }
+            stateAsFlow.observe(viewLifecycleOwner, ::renderModels)
             loadMovieDetails(movieId = tmdbMovieId)
         }
 

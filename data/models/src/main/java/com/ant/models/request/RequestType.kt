@@ -14,7 +14,7 @@ sealed interface RequestType {
     sealed interface LoginSessionRequest : RequestType {
         data class WithCredentials(
             val username: String,
-            val password: String,
+            val password: String? = null,
         ) : LoginSessionRequest
 
         data class Logout(

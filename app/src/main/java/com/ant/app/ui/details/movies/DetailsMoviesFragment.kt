@@ -4,31 +4,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ant.resources.R as R2
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.ant.app.databinding.FragmentDetailsMoviesBinding
 import com.ant.app.ui.adapters.MovieCastsAdapter
 import com.ant.app.ui.adapters.MovieVideosAdapter
 import com.ant.app.ui.base.BaseFragment
 import com.ant.common.decorator.MarginItemDecoration
+import com.ant.common.extensions.observe
 import com.ant.common.listeners.AppBarStateChangeListener
 import com.ant.common.listeners.FavoriteCallback
 import com.ant.common.listeners.RetryCallback
 import com.ant.common.logger.TmdbLogger
-import com.ant.models.entities.MovieDetails
 import com.ant.common.utils.Constants.TMDB_KEY_ID
+import com.ant.models.entities.MovieDetails
 import com.ant.models.model.MoviesState
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.properties.Delegates
+import com.ant.resources.R as R2
 
 @AndroidEntryPoint
 class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetailsMoviesBinding>() {
@@ -81,11 +80,7 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
 
         with(viewModel) {
             loadMovieDetails(movieId = tmdbMovieId)
-            lifecycleScope.launch {
-                stateAsFlow.collect {
-                    renderModels(it)
-                }
-            }
+            stateAsFlow.observe(viewLifecycleOwner, ::renderModels)
         }
 
         setToolbarTitle()

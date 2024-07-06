@@ -11,6 +11,7 @@ import com.ant.app.ui.adapters.MovieListAdapter
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.decorator.MarginItemDecoration
 import com.ant.common.extensions.doOnSizeChange
+import com.ant.common.extensions.observe
 import com.ant.common.listeners.OnScrollCallback
 import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
@@ -63,13 +64,9 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
         }
 
         with(viewModel) {
-            refresh()
-            stateAsLiveData.observe(viewLifecycleOwner, ::showData)
+            stateAsFlow.observe(viewLifecycleOwner, ::showData)
             currentPage.observe(viewLifecycleOwner) {
-                logger.d("loading page:$it")
-                if (it == 1) {
-                    submitList(emptyList())
-                }
+                logger.d("loading page: $it")
             }
         }
     }
@@ -84,7 +81,7 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
 
     private fun showData(movieListState: MoviesState<List<MovieData>?>) {
         with(movieListState) {
-            logger.d("showData call: movieListState: $loading")
+            logger.d("showData: movieListState: $loading")
 
             binding.moviesGridSwipeRefresh.isRefreshing = loading
             recyclerViewScrollListener.isLoading.value = loading
@@ -92,7 +89,7 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
             binding.moviesLoadingStateId.errorMsg.error = error?.message
 
             movieListState.data?.let {
-                logger.d("showData items: $it")
+                logger.d("showData items: ${it.size}")
                 val newList = ArrayList(movieListAdapter.currentList)
                 newList.addAll(it)
                 submitList(newList)

@@ -23,7 +23,12 @@ class LoginUserAndSaveSessionUseCase @Inject constructor(
     dispatcher
 ) {
     override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): UserData? {
-        return loginUserToTmDbUseCase.invoke(parameters)
+
+        return if (!sessionManager.getSessionId().isNullOrEmpty()) {
+            UserData(
+                username = parameters.request.username,
+            )
+        } else loginUserToTmDbUseCase.invoke(parameters)
             .filterNot { it is Result.Loading }
             .map { result ->
                 if (result is Result.Success) {

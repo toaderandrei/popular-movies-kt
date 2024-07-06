@@ -11,6 +11,7 @@ import com.ant.app.ui.adapters.TvSeriesListAdapter
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.decorator.MarginItemDecoration
 import com.ant.common.extensions.doOnSizeChange
+import com.ant.common.extensions.observe
 import com.ant.common.listeners.OnScrollCallback
 import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
@@ -64,12 +65,9 @@ abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelTvShowList
         }
 
         with(viewModel) {
-            stateAsLiveData.observe(viewLifecycleOwner, ::showData)
+            stateAsFlow.observe(viewLifecycleOwner, ::showData)
             currentPage.observe(viewLifecycleOwner) {
                 logger.d("loading page:$it")
-                if (it == 1) {
-                    submitList(emptyList())
-                }
             }
         }
     }
@@ -89,7 +87,7 @@ abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelTvShowList
             binding.moviesLoadingStateId.errorMsg.error = error?.message
 
             tvSeriesData.data?.let {
-                logger.d("items: $it")
+                logger.d("items to load: ${it.size}")
                 val newList = ArrayList(rvAdapter.currentList)
                 newList.addAll(it)
                 submitList(newList)

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ant.app.databinding.FragmentLoginUserBinding
 import com.ant.app.ui.main.base.NavigationFragment
+import com.ant.common.extensions.observe
 import com.ant.common.listeners.LoginCallback
 import com.ant.models.model.MoviesState
 import com.ant.models.model.UserData
@@ -64,7 +65,7 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
         }
 
         with(viewModel) {
-            stateAsLiveData.observe(viewLifecycleOwner, ::updateUi)
+            stateAsFlow.observe(viewLifecycleOwner, ::updateUi)
         }
 
         val callback = object : OnBackPressedCallback(true) {

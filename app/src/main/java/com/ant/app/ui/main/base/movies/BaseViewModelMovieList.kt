@@ -1,17 +1,22 @@
 package com.ant.app.ui.main.base.movies
 
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
+import com.ant.app.ui.main.base.tvseries.BaseViewModelTvShowList
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.movies.MovieListUseCase
 import com.ant.models.entities.MovieData
 import com.ant.models.model.MoviesState
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.stateIn
 
 abstract class BaseViewModelMovieList(
     val logger: TmdbLogger,
@@ -19,19 +24,17 @@ abstract class BaseViewModelMovieList(
 ) : BaseViewModel<MoviesState<List<MovieData>?>>(
     MoviesState()
 ) {
-    private val _currentPage = MutableLiveData<Int>().apply { value = 0 }
-    val currentPage = MediatorLiveData<Int>()
+    private val _currentPage = MutableStateFlow(FIRST_PAGE)
+    val currentPage: StateFlow<Int> = _currentPage
 
     init {
-        currentPage.addSource(_currentPage) { result ->
-            logger.d("loading page: $result")
-            loadPage(result)
-            currentPage.value = result
-        }
+        _currentPage.onEach {
+            loadPage(it)
+        }.launchIn(viewModelScope)
     }
 
     fun loadNextPage() {
-        _currentPage.value = _currentPage.value?.let { it + FIRST_PAGE } ?: FIRST_PAGE
+        _currentPage.value += 1
     }
 
     fun refresh() {
@@ -39,20 +42,19 @@ abstract class BaseViewModelMovieList(
         _currentPage.value = FIRST_PAGE
     }
 
-    private fun loadPage(page: Int = FIRST_PAGE) {
-        viewModelScope.launch {
-            useCase(
-                parameters = getMovieParams(page)
-            ).collectAndSetState {
-                logger.d("state: $this")
-                parseResponse(response = it,
-                    onError = { throwable ->
-                        logger.e(throwable, "Error loading movie list: ${throwable.message}")
-                    }
-                )
-            }
+    private suspend fun loadPage(page: Int = FIRST_PAGE) {
+        useCase(
+            parameters = getMovieParams(page)
+        ).collectAndSetState {
+            logger.d("state: $this")
+            parseResponse(response = it,
+                onError = { throwable ->
+                    logger.e(throwable, "Error loading movie list: ${throwable.message}")
+                }
+            )
         }
     }
+
 
     private fun getMovieParams(page: Int): Repository.Params<RequestType.MovieRequest> {
         return Repository.Params(

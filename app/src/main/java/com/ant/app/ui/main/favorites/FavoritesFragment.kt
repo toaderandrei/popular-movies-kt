@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.ant.app.databinding.FragmentFavoritesBinding
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.extensions.doOnSizeChange
-import com.ant.common.logger.TmdbLogger
+import com.ant.common.extensions.observe
 import com.ant.epoxy.extensions.init
 import com.ant.models.entities.MovieData
 import com.ant.models.entities.TvShow
@@ -47,7 +47,7 @@ class FavoritesFragment : NavigationFragment<FavoritesViewModel, FragmentFavorit
 
         with(viewModel) {
             viewModel.refresh()
-            stateAsLiveData.observe(viewLifecycleOwner, ::renderModels)
+            stateAsFlow.observe(viewLifecycleOwner, ::renderModels)
         }
     }
 

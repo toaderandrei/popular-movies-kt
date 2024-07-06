@@ -10,7 +10,7 @@ import com.ant.layouts.databinding.ViewHolderTvseriesItemDetailedBinding
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-open class TvSeriesListAdapter constructor(
+open class TvSeriesListAdapter(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val callback: ((TvShow) -> Unit)?
 ) : BaseListAdapter<TvShow, ViewHolderTvseriesItemDetailedBinding>(

@@ -26,14 +26,18 @@ class LoginViewModel @Inject constructor(
     init {
         logger.d("LoginViewModel created.")
         viewModelScope.launch {
-            sessionManager.getSessionId()?.let {
-                logger.d("Session id: $it")
-                state.value = MoviesState(
-                    data = UserData(
-                        username = sessionManager.getUsername(),
-                        sessionId = it,
+            sessionManager.getUsername()?.let { username ->
+                logger.d("Username: $username")
+                loginUserUseCase.invoke(
+                    Repository.Params(
+                        RequestType.LoginSessionRequest.WithCredentials(
+                            username,
+                            null
+                        )
                     )
-                )
+                ).collectAndSetState { response ->
+                    parseResponse(response)
+                }
             }
         }
     }

@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ant.app.databinding.FragmentAccountProfileBinding
 import com.ant.app.ui.main.base.NavigationFragment
+import com.ant.common.extensions.observe
 import com.ant.common.listeners.AccountLoginCallback
 import com.ant.models.model.MoviesState
 import com.ant.models.model.UserData
@@ -33,7 +34,7 @@ class AccountProfileFragment(
         super.onViewCreated(view, savedInstanceState)
         with(viewModel) {
             verifyIfUserIsLoggedIn()
-            stateAsLiveData.observe(viewLifecycleOwner, ::updateUi)
+            stateAsFlow.observe(viewLifecycleOwner, ::updateUi)
         }
 
         with(binding) {

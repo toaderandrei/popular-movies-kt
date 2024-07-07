@@ -3,8 +3,8 @@
     <dimen name="collapsing_toolbar_height">600dp</dimen>
 
     <!--Poster -->
-    <dimen name="poster_image_width">160dp</dimen>
-    <dimen name="poster_image_height">240dp</dimen>
+    <dimen name="poster_image_width">200dp</dimen>
+    <dimen name="poster_image_height">300dp</dimen>
 
     <dimen name="width_icon_12">16dp</dimen>
     <dimen name="height_icon_12">16dp</dimen>
@@ -25,11 +25,4 @@
     <dimen name="text_max_normal">240dp</dimen>
     <dimen name="text_max_big">320dp</dimen>
     <dimen name="text_max_large">480dp</dimen>
-
-    <!-- Text sizes -->
-    <dimen name="text_6">15sp</dimen>
-    <dimen name="text_8">20sp</dimen>
-    <dimen name="text_10">25sp</dimen>
-    <dimen name="text_12">28sp</dimen>
->
 </resources>

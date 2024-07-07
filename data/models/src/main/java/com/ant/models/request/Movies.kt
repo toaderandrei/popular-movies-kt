@@ -13,11 +13,3 @@ enum class MovieAppendToResponseItem {
     VIDEOS,
     MOVIE_CREDITS,
 }
-
-//enum class FirebaseType {
-//    SIGN_UP,
-//    SIGN_IN,
-//    SIGN_OUT,
-//    GET_USER,
-//    SEND_PASSWORD_RESET,
-//}

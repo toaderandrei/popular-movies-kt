@@ -8,11 +8,6 @@
 
         <import type="com.ant.models.model.MoviesState" />
         <import type="java.util.List" />
-        <import type="com.ant.models.entities.MovieData" />
-
-        <variable
-            name="state"
-            type="MoviesState&lt;List&lt;MovieData>>" />
 
         <variable
             name="callback"
@@ -68,7 +63,7 @@
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <ProgressBar
-            android:id="@+id/movies_load_more_bar"
+            android:id="@+id/load_more_bar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

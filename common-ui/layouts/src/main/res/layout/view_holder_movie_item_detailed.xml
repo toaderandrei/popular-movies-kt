@@ -44,7 +44,7 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:maxLines="@integer/max_lines"
             android:padding="@dimen/padding_2"
-            android:text="@{item.title}"
+            android:text="@{item.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/barrier_image"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +52,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/movie_item_genres"
-            style="?attr/textAppearanceSubtitle1"
+            style="?attr/textAppearanceSubtitle2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_8"
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_4"
             android:drawablePadding="@dimen/padding_2"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textAppearance="?attr/textAppearanceSubtitle2"
             app:drawableEndCompat="@drawable/ic_rating_stars"
             app:errorId="@{@string/no_rating_available}"
             app:layout_constraintStart_toStartOf="@+id/movie_item_title"

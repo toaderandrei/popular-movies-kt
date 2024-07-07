@@ -17,11 +17,11 @@ open class TvSeriesListAdapter(
     dispatcher,
     diffCallback = object : DiffUtil.ItemCallback<TvShow>() {
         override fun areItemsTheSame(oldItem: TvShow, newItem: TvShow): Boolean {
-            return oldItem.id == newItem.id && oldItem.tvSeriesName == newItem.tvSeriesName && oldItem.movieOriginalName == newItem.movieOriginalName
+            return oldItem.id == newItem.id && oldItem.name == newItem.name && oldItem.originalTitle == newItem.originalTitle
         }
 
         override fun areContentsTheSame(oldItem: TvShow, newItem: TvShow): Boolean {
-            return oldItem.tvSeriesName == newItem.tvSeriesName && oldItem.movieOriginalName == newItem.movieOriginalName
+            return oldItem.name == newItem.name && oldItem.originalTitle == newItem.originalTitle
         }
     }) {
 

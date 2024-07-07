@@ -19,13 +19,13 @@ open class MovieCastsAdapter constructor(
         diffCallback = object : DiffUtil.ItemCallback<MovieCast>() {
             override fun areItemsTheSame(oldItem: MovieCast, newItem: MovieCast): Boolean {
                 return oldItem.id == newItem.id
-                        && oldItem.characterName == newItem.characterName
+                        && oldItem.name == newItem.name
                         && oldItem.cast_id == newItem.cast_id
             }
 
             override fun areContentsTheSame(oldItem: MovieCast, newItem: MovieCast): Boolean {
                 return oldItem.id == newItem.id &&
-                        oldItem.characterName == newItem.characterName
+                        oldItem.name == newItem.name
                         && oldItem.movieId == newItem.movieId
             }
         }) {

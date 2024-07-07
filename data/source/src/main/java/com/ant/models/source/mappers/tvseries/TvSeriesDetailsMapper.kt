@@ -32,7 +32,7 @@ class TvSeriesDetailsMapper @Inject constructor(
                 movieId = tvSeries.id,
                 creditId = from.credits?.id,
                 cast_id = it.cast_id,
-                characterName = it.character,
+                name = it.character,
                 order = it.order,
                 profileImagePath = it.profile_path
             )
@@ -44,7 +44,7 @@ class TvSeriesDetailsMapper @Inject constructor(
             val movieCrew = MovieCrew(
                 movieId = tvSeries.id,
                 creditsId = from.credits?.id,
-                department = it.department,
+                name = it.department,
                 job = it.job,
                 profilePath = it.profile_path
             )

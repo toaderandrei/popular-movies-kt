@@ -11,19 +11,21 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 abstract class BaseViewModel<S>(
-    initialState: S,
+    initialValue: S
 ) : ViewModel() {
-    private val state = MutableStateFlow(initialState)
+    private val _state = MutableStateFlow<S>(initialValue)
     private val lock = Mutex()
     protected var job: Job? = null
 
     val stateAsFlow: StateFlow<S>
-        get() = state.asStateFlow()
+        get() = _state.asStateFlow()
 
     protected suspend fun <T> Flow<T>.collectAndSetState(reducer: S.(T) -> S) {
         return collectLatest { item ->
             lock.withLock {
-                state.value = reducer(state.value, item)
+                _state.value?.let {
+                    _state.value = reducer(it, item)
+                }
             }
         }
     }

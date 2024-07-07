@@ -4,7 +4,7 @@ import com.ant.models.model.MoviesState
 import com.ant.models.model.Result
 
 fun <T> MoviesState<T>.parseResponse(
-    response: Result<T?>,
+    response: Result<T>,
     onLoading: () -> Unit = {},
     onSuccess: (data: T?) -> Unit = {},
     onError: (error: Throwable) -> Unit = {}

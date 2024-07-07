@@ -10,6 +10,7 @@ import com.ant.models.session.SessionManager
 import com.ant.models.source.repositories.Repository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -19,10 +20,10 @@ class LoginUserAndSaveSessionUseCase @Inject constructor(
     private val loginUserToTmDbUseCase: LoginUserToTmDbUseCase,
     private val sessionManager: SessionManager,
     @IoDispatcher dispatcher: CoroutineDispatcher,
-) : UseCase<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, UserData?>(
+) : UseCase<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, UserData>(
     dispatcher
 ) {
-    override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): UserData? {
+    override suspend fun execute(parameters: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): UserData {
 
         return if (!sessionManager.getSessionId().isNullOrEmpty()) {
             UserData(
@@ -43,6 +44,6 @@ class LoginUserAndSaveSessionUseCase @Inject constructor(
                 } else {
                     throw (result as Result.Error).throwable
                 }
-            }.firstOrNull()
+            }.first()
     }
 }

@@ -8,6 +8,7 @@ import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
 import com.ant.app.databinding.FragmentListTvshowBinding
 import com.ant.app.ui.adapters.TvSeriesListAdapter
+import com.ant.app.ui.main.base.BaseViewModelMoviesList
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.decorator.MarginItemDecoration
 import com.ant.common.extensions.doOnSizeChange
@@ -15,12 +16,13 @@ import com.ant.common.extensions.observe
 import com.ant.common.listeners.OnScrollCallback
 import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
-import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.TvShow
 import com.ant.models.model.MoviesState
-import javax.inject.Inject
+import com.ant.models.model.isError
+import com.ant.models.model.isLoading
+import com.ant.models.request.RequestType
 
-abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelTvShowList> :
+abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelMoviesList<*, List<TvShow>>> :
     NavigationFragment<VIEW_MODEL, FragmentListTvshowBinding>(), OnScrollCallback {
 
     private lateinit var rvAdapter: TvSeriesListAdapter
@@ -30,7 +32,7 @@ abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelTvShowList
         super.onViewCreated(view, savedInstanceState)
 
         rvAdapter = TvSeriesListAdapter(callback = {
-            logger.d("clicked on movie: ${it.tvSeriesName}")
+            logger.d("clicked on movie: ${it.name}")
             showDetailsScreen(it)
         })
 
@@ -78,15 +80,15 @@ abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelTvShowList
         return FragmentListTvshowBinding.inflate(inflater, container, false)
     }
 
-    private fun showData(tvSeriesData: MoviesState<List<TvShow>?>) {
-        with(tvSeriesData) {
-            logger.d("showData: ${tvSeriesData.data}")
-            binding.tvseriesGridSwipeRefresh.isRefreshing = loading
-            recyclerViewScrollListener.isLoading.value = loading
-            binding.moviesLoadingStateId.isError = error != null
-            binding.moviesLoadingStateId.errorMsg.error = error?.message
+    private fun showData(tvSeriesData: MoviesState<List<TvShow>>?) {
+        tvSeriesData?.let { it ->
+            logger.d("showData: ${it.data}")
+            binding.tvseriesGridSwipeRefresh.isRefreshing = it.isLoading
+            recyclerViewScrollListener.isLoading.value = it.isLoading
+            binding.moviesLoadingStateId.isError = it.isError
+            binding.moviesLoadingStateId.errorMsg.error = it.error?.message
 
-            tvSeriesData.data?.let {
+            it.data?.let {
                 logger.d("items to load: ${it.size}")
                 val newList = ArrayList(rvAdapter.currentList)
                 newList.addAll(it)

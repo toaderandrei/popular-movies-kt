@@ -1,27 +1,18 @@
 <resources>
     <!-- Begin reviewed -->
-    <style name="TextAppearance.PopularMovies.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
-        <item name="fontFamily">@font/robotomono</item>
-        <item name="android:fontFamily">@font/robotomono</item>
-        <item name="android:letterSpacing">-0.002</item>
-    </style>
-
-    <style name="TextAppearance.PopularMovies.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
-        <item name="fontFamily">@font/robotomono</item>
-        <item name="android:fontFamily">@font/robotomono</item>
-        <item name="android:letterSpacing">-0.002</item>
-    </style>
-
     <style name="TextAppearance.PopularMovies.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
         <item name="fontFamily">@font/robotomono</item>
         <item name="android:fontFamily">@font/robotomono</item>
         <item name="android:letterSpacing">-0.002</item>
+        <item name="android:textSize">@dimen/text_6</item>
     </style>
 
     <style name="TextAppearance.PopularMovies.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
         <item name="fontFamily">@font/robotomono</item>
         <item name="android:fontFamily">@font/robotomono</item>
         <item name="android:letterSpacing">-0.002</item>
+        <item name="android:textSize">@dimen/text_8</item>
+
     </style>
 
     <style name="TextAppearance.PopularMovies.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
@@ -30,6 +21,7 @@
         <item name="android:letterSpacing">-0.002</item>
         <item name="android:textColor">@color/md_grey_700</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_10</item>
     </style>
 
     <style name="TextAppearance.PopularMovies.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
@@ -38,18 +30,24 @@
         <item name="android:letterSpacing">-0.002</item>
         <item name="android:textColor">@color/md_grey_700</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_12</item>
+
     </style>
 
     <style name="TextAppearance.PopularMovies.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
         <item name="fontFamily">@font/robotomono</item>
         <item name="android:fontFamily">@font/robotomono</item>
         <item name="android:letterSpacing">-0.002</item>
+        <item name="android:textSize">@dimen/text_4</item>
+
     </style>
 
     <style name="TextAppearance.PopularMovies.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="fontFamily">@font/robotomono</item>
         <item name="android:fontFamily">@font/robotomono</item>
         <item name="android:letterSpacing">-0.002</item>
+        <item name="android:textSize">@dimen/text_6</item>
+
     </style>
 
     <style name="Widget.PopularMovies.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">

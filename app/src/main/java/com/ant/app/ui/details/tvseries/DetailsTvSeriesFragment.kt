@@ -61,7 +61,7 @@ class DetailsTvSeriesFragment :
         updateCallbacks()
 
         tvSeriesCastAdapter = MovieCastsAdapter(callback = {
-            logger.d("clicked on character: ${it.characterName}")
+            logger.d("clicked on character: ${it.name}")
         })
 
         movieVideosAdapter = MovieVideosAdapter(callback = {

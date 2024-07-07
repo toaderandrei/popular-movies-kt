@@ -35,7 +35,7 @@
             android:layout_height="0dp"
             android:ellipsize="end"
             android:padding="@dimen/margin_4"
-            android:text="@{movie.title}"
+            android:text="@{movie.name}"
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

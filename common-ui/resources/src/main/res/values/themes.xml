@@ -24,8 +24,7 @@
         <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
 
         <!-- Text appearance -->
-        <item name="textAppearanceHeadline1">@style/TextAppearance.PopularMovies.Headline1</item>
-        <item name="textAppearanceHeadline2">@style/TextAppearance.PopularMovies.Headline2</item>
+
         <item name="textAppearanceHeadline3">@style/TextAppearance.PopularMovies.Headline3</item>
         <item name="textAppearanceHeadline4">@style/TextAppearance.PopularMovies.Headline4</item>
         <item name="textAppearanceHeadline5">@style/TextAppearance.PopularMovies.Headline5</item>

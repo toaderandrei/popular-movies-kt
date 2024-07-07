@@ -61,8 +61,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="@integer/grid_span_count"
-                tools:listitem="@layout/view_holder_movie_item_detailed" />
+                app:spanCount="@integer/grid_span_count" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -60,7 +60,7 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
         updateCallbacks()
 
         movieCastAdapter = MovieCastsAdapter(callback = {
-            logger.d("clicked on character: ${it.characterName}")
+            logger.d("clicked on character: ${it.name}")
         })
 
         movieVideosAdapter = MovieVideosAdapter(callback = {

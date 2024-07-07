@@ -22,7 +22,8 @@ data class MovieCrew(
 
     @ColumnInfo(name = "movie_id") var movieId: Long? = null,
 
-    @ColumnInfo(name = "department") val department: String? = null,
+    @ColumnInfo(name = "department")
+    override val name: String? = null,
 
     @ColumnInfo(name = "job") val job: String? = null,
 

@@ -29,7 +29,7 @@
             android:layout_marginTop="@dimen/margin_8"
             android:maxWidth="@dimen/text_max_small"
             android:maxLines="3"
-            android:text="@{item.characterName}"
+            android:text="@{item.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_cast_image"

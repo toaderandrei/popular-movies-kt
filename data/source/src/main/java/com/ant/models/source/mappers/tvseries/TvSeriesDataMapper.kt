@@ -13,8 +13,8 @@ class TvSeriesDataMapper @Inject constructor() :
         // todo fix date. it is now stored as a string.
         return TvShow(
             id = from.id!!.toLong(),
-            tvSeriesName = from.name,
-            movieOriginalName = from.original_name,
+            name = from.name,
+            originalTitle = from.original_name,
             voteCount = from.vote_count,
             overview = from.overview,
             backDropPath = from.backdrop_path,

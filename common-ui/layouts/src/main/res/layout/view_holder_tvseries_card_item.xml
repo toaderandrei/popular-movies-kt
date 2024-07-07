@@ -35,7 +35,7 @@
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:padding="@dimen/padding_8"
-            android:text="@{tvseries.tvSeriesName}"
+            android:text="@{tvseries.name}"
             android:textAppearance="?attr/textAppearanceBody2"
             tools:text="@string/movies" />
 

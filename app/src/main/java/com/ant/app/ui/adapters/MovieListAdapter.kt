@@ -2,6 +2,7 @@ package com.ant.app.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import com.ant.adapters.BaseListAdapter
 import com.ant.adapters.CustomViewHolder
@@ -11,21 +12,20 @@ import com.ant.tmdb.old.PosterSizes
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
-open class MovieListAdapter constructor(
+open class MovieListAdapter(
     dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val callback: ((MovieData) -> Unit)?
-) :
-    BaseListAdapter<MovieData, ViewHolderMovieItemDetailedBinding>(dispatcher,
+) : BaseListAdapter<MovieData, ViewHolderMovieItemDetailedBinding>(dispatcher,
         diffCallback = object : DiffUtil.ItemCallback<MovieData>() {
             override fun areItemsTheSame(oldItem: MovieData, newItem: MovieData): Boolean {
                 return oldItem.id == newItem.id
-                        && oldItem.title == newItem.title
+                        && oldItem.name == newItem.name
                         && oldItem.originalTitle == newItem.originalTitle
             }
 
             override fun areContentsTheSame(oldItem: MovieData, newItem: MovieData): Boolean {
                 return oldItem.id == newItem.id &&
-                        oldItem.title == newItem.title
+                        oldItem.name == newItem.name
                         && oldItem.originalTitle == newItem.originalTitle
                         && oldItem.genres == newItem.genres
             }

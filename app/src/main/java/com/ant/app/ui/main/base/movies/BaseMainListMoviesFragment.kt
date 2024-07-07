@@ -8,6 +8,7 @@ import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
 import com.ant.app.databinding.FragmentListMoviesBinding
 import com.ant.app.ui.adapters.MovieListAdapter
+import com.ant.app.ui.main.base.BaseViewModelMoviesList
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.decorator.MarginItemDecoration
 import com.ant.common.extensions.doOnSizeChange
@@ -17,8 +18,11 @@ import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
 import com.ant.models.entities.MovieData
 import com.ant.models.model.MoviesState
+import com.ant.models.model.isError
+import com.ant.models.model.isLoading
+import com.ant.models.request.RequestType
 
-abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
+abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMoviesList<*, List<MovieData>>> :
     NavigationFragment<VIEW_MODEL, FragmentListMoviesBinding>(), OnScrollCallback {
 
     private lateinit var movieListAdapter: MovieListAdapter
@@ -28,7 +32,7 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
         super.onViewCreated(view, savedInstanceState)
 
         movieListAdapter = MovieListAdapter(callback = {
-            logger.d("clicked on movie: ${it.title}")
+            logger.d("clicked on movie: ${it.name}")
             showDetailsScreen(it)
         })
 
@@ -79,16 +83,16 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
         return FragmentListMoviesBinding.inflate(inflater, container, false)
     }
 
-    private fun showData(movieListState: MoviesState<List<MovieData>?>) {
-        with(movieListState) {
-            logger.d("showData: movieListState: $loading")
+    private fun showData(movieListState: MoviesState<List<MovieData>>?) {
+        movieListState?.let {
+            logger.d("showData: movieListState: $it")
 
-            binding.moviesGridSwipeRefresh.isRefreshing = loading
-            recyclerViewScrollListener.isLoading.value = loading
-            binding.moviesLoadingStateId.isError = error != null
-            binding.moviesLoadingStateId.errorMsg.error = error?.message
+            binding.moviesGridSwipeRefresh.isRefreshing = it.isLoading
+            recyclerViewScrollListener.isLoading.value = it.isLoading
+            binding.moviesLoadingStateId.isError = it.isError
+            binding.moviesLoadingStateId.errorMsg.error = it.error?.message
 
-            movieListState.data?.let {
+            it.data?.let {
                 logger.d("showData items: ${it.size}")
                 val newList = ArrayList(movieListAdapter.currentList)
                 newList.addAll(it)

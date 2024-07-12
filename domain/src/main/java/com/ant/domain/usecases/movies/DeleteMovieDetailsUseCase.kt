@@ -4,6 +4,7 @@ import com.ant.models.entities.MovieDetails
 import com.ant.models.source.repositories.movies.DeleteMovieDetailsRepository
 import com.ant.domain.qualifiers.IoDispatcher
 import com.ant.domain.usecases.UseCase
+import com.ant.models.request.FavoriteType
 import com.ant.models.request.RequestType
 import com.ant.models.session.SessionManager
 import com.ant.models.source.repositories.Repository
@@ -25,8 +26,9 @@ class DeleteMovieDetailsUseCase @Inject constructor(
                         Repository.Params(
                             RequestType.FavoriteRequest(
                                 sessionId = sessionId,
-                                favorite = false,
-                                favoriteId = parameters.movieData.id.toInt()
+                                favorite = false, // TODO use movie data and use one UseCase instead of two.
+                                favoriteId = parameters.movieData.id.toInt(),
+                                mediaType = FavoriteType.MOVIE
                             )
                         )
                     )

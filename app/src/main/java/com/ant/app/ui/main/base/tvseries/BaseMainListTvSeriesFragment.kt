@@ -20,9 +20,8 @@ import com.ant.models.entities.TvShow
 import com.ant.models.model.MoviesState
 import com.ant.models.model.isError
 import com.ant.models.model.isLoading
-import com.ant.models.request.RequestType
 
-abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelMoviesList<*, List<TvShow>>> :
+abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelMoviesList<*, TvShow>> :
     NavigationFragment<VIEW_MODEL, FragmentListTvshowBinding>(), OnScrollCallback {
 
     private lateinit var rvAdapter: TvSeriesListAdapter
@@ -98,13 +97,17 @@ abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelMoviesList
     }
 
     private fun submitList(newList: List<TvShow>) {
-        rvAdapter.submitList(newList)
+        rvAdapter.loadResults(
+            newList,
+            pageSize = viewModel.pageSize.getValue() ?: 1,
+            viewModel.currentPage.getValue() == 1
+        )
     }
 
     abstract fun showDetailsScreen(tvShow: TvShow)
 
     override fun onScrollUpdate() {
-        logger.d("Scroll update triggered.")
+        logger.d("Scroll update ended.")
         viewModel.loadNextPage()
     }
 }

@@ -1,5 +1,7 @@
 package com.ant.models.source.datasource.movies
 
+import com.ant.common.logger.Logger
+import com.ant.models.extensions.toMediaType
 import com.ant.models.request.RequestType
 import com.ant.models.source.extensions.bodyOrThrow
 import com.ant.models.source.repositories.Repository
@@ -12,6 +14,7 @@ import javax.inject.Singleton
 @Singleton
 class SaveAsFavoriteDataSource @Inject constructor(
     private val tmdb: Tmdb,
+    private val logger: Logger,
 ) {
     suspend fun invoke(
         params: Repository.Params<RequestType.FavoriteRequest>,
@@ -26,11 +29,17 @@ class SaveAsFavoriteDataSource @Inject constructor(
         val favoriteMedia = FavoriteMedia()
         favoriteMedia.favorite = params.request.favorite
         favoriteMedia.media_id = params.request.favoriteId
+        favoriteMedia.media_type = params.request.mediaType.toMediaType()
         val favoriteUpdaterResponse =
             accountService
                 .favorite(id, favoriteMedia)
                 .awaitResponse()
                 .bodyOrThrow()
-        return favoriteUpdaterResponse.status_code == 200
+        val result = favoriteUpdaterResponse.status_code
+        logger.d("Favorite update: ${favoriteUpdaterResponse.status_message} and status code: $result")
+        if (result != null) {
+            return result > 0
+        }
+        return false
     }
 }

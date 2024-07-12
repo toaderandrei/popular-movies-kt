@@ -4,6 +4,7 @@ import com.ant.domain.qualifiers.IoDispatcher
 import com.ant.models.entities.MovieDetails
 import com.ant.models.source.repositories.movies.SaveMovieDetailsToLocalRepository
 import com.ant.domain.usecases.UseCase
+import com.ant.models.request.FavoriteType
 import com.ant.models.request.RequestType
 import com.ant.models.session.SessionManager
 import com.ant.models.source.repositories.Repository
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class SaveMovieDetailsUseCase @Inject constructor(
     private val repository: SaveMovieDetailsToLocalRepository,
-    private val updateFavoriteToRemoteRepository: FavoriteDetailsToRemoteRepository,
+    private val favoriteToRemoteRepository: FavoriteDetailsToRemoteRepository,
     private val sessionManager: SessionManager,
     @IoDispatcher dispatcher: CoroutineDispatcher
 ) : UseCase<MovieDetails, Boolean>(dispatcher) {
@@ -21,12 +22,13 @@ class SaveMovieDetailsUseCase @Inject constructor(
         return repository.performRequest(parameters)
             .also {
                 sessionManager.getSessionId()?.let { sessionId ->
-                    updateFavoriteToRemoteRepository.performRequest(
+                    favoriteToRemoteRepository.performRequest(
                         Repository.Params(
                             RequestType.FavoriteRequest(
                                 sessionId = sessionId,
                                 favorite = true,
-                                favoriteId = parameters.movieData.id.toInt()
+                                favoriteId = parameters.movieData.id.toInt(),
+                                mediaType = FavoriteType.MOVIE
                             )
                         )
                     )

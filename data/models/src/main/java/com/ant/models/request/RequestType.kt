@@ -1,5 +1,7 @@
 package com.ant.models.request
 
+import okhttp3.MediaType
+
 sealed interface RequestType {
 
     // Movies
@@ -33,6 +35,10 @@ sealed interface RequestType {
     ) : RequestType
 
     // Favorite
-    data class FavoriteRequest(val sessionId: String, val favorite: Boolean, val favoriteId: Int) :
-        RequestType
+    data class FavoriteRequest(
+        val sessionId: String,
+        val favorite: Boolean,
+        val favoriteId: Int,
+        val mediaType: FavoriteType,
+    ) : RequestType
 }

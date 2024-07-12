@@ -1,5 +1,6 @@
 package com.ant.app.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,7 @@ import com.ant.adapters.BaseListAdapter
 import com.ant.adapters.CustomViewHolder
 import com.ant.models.entities.MovieCast
 import com.ant.layouts.databinding.ViewHolderMovieCastItemBinding
+import com.ant.models.entities.MovieData
 import com.ant.tmdb.old.PosterSizes
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

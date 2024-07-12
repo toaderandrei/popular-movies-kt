@@ -8,9 +8,9 @@ import javax.inject.Singleton
 
 @Singleton
 class FavoriteDetailsToRemoteRepository @Inject constructor(
-    private val updateMovieAsFavoriteDataSource: SaveAsFavoriteDataSource,
+    private val saveMovieAsFavoriteDataSource: SaveAsFavoriteDataSource,
 ) : Repository<Repository.Params<RequestType.FavoriteRequest>, Boolean> {
     override suspend fun performRequest(params: Repository.Params<RequestType.FavoriteRequest>): Boolean {
-        return updateMovieAsFavoriteDataSource.invoke(params)
+        return saveMovieAsFavoriteDataSource.invoke(params)
     }
 }

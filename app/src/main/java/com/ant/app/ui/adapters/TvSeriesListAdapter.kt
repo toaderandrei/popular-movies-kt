@@ -1,5 +1,6 @@
 package com.ant.app.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,7 @@ import com.ant.adapters.BaseListAdapter
 import com.ant.adapters.CustomViewHolder
 import com.ant.models.entities.TvShow
 import com.ant.layouts.databinding.ViewHolderTvseriesItemDetailedBinding
+import com.ant.models.entities.MovieData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -34,6 +36,29 @@ open class TvSeriesListAdapter(
 
         initClickListener(binding)
         return binding
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun loadResults(
+        newList: List<TvShow>,
+        pageSize: Int,
+        isRefreshing: Boolean = false
+    ) {
+        val sizeBeforeUpdate = currentList.size
+        submitList(newList) {
+            attachedRecyclerView?.apply {
+                if (isRefreshing) {
+                    notifyDataSetChanged()
+                    layoutManager?.scrollToPosition(0)
+                } else {
+                    // We know is not restoring data.
+                    if (sizeBeforeUpdate > 0) {
+                        val pageIndex = (newList.size - pageSize).coerceAtLeast(0)
+                        layoutManager?.scrollToPosition(pageIndex)
+                    }
+                }
+            }
+        }
     }
 
     override fun processClick(binding: ViewHolderTvseriesItemDetailedBinding) {

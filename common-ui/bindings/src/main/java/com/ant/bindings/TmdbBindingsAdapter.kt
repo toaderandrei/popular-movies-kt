@@ -161,12 +161,10 @@ fun setSaveMoviesFavoriteCallback(
     favItem: TvShowDetails?
 ) {
     view.setOnCheckedChangeListener { _, isChecked ->
-        if (isChecked) {
-            favItem?.let {
+        favItem?.let {
+            if (isChecked) {
                 favoriteCallback?.onSave(it)
-            }
-        } else {
-            favItem?.let {
+            } else {
                 favoriteCallback?.delete(it)
             }
         }

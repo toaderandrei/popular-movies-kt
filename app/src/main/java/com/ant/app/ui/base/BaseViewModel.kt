@@ -20,7 +20,9 @@ abstract class BaseViewModel<S>(
     val stateAsFlow: StateFlow<S>
         get() = _state.asStateFlow()
 
-    protected suspend fun <T> Flow<T>.collectAndSetState(reducer: S.(T) -> S) {
+    protected suspend fun <T> Flow<T>.collectAndSetState(
+        reducer: S.(T) -> S
+    ) {
         return collectLatest { item ->
             lock.withLock {
                 _state.value?.let {

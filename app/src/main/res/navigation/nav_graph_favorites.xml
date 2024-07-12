@@ -20,7 +20,7 @@
     <fragment
         android:id="@id/navigation_movies_details"
         android:name="com.ant.app.ui.details.movies.DetailsMoviesFragment"
-        android:label="@string/details_movies">
+        android:label="@string/movies_details">
         <argument
             android:name="tmdb_id"
             app:argType="long" />
@@ -29,12 +29,12 @@
     <fragment
         android:id="@id/navigation_tvshow_details"
         android:name="com.ant.app.ui.details.movies.DetailsMoviesFragment"
-        android:label="@string/details_movies">
+        android:label="@string/movies_details">
         <argument
             android:name="tmdb_id"
             app:argType="long" />
     </fragment>
 
-    <include app:graph="@navigation/nav_graph_settings" />
+    <include app:graph="@navigation/nav_graph_account" />
 
 </navigation>

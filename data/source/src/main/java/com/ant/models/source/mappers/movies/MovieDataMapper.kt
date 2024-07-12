@@ -14,7 +14,7 @@ class MovieDataMapper @Inject constructor() : Mapper<BaseMovie, MovieData> {
         // todo fix date. it is now stored as a string.
         return MovieData(
             id = from.id!!.toLong(),
-            title = from.title,
+            name = from.title,
             originalTitle = from.original_title,
             voteCount = from.vote_count,
             overview = from.overview,

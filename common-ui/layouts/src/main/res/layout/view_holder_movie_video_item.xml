@@ -29,7 +29,6 @@
             android:id="@+id/movie_item_video_image"
             android:layout_width="@dimen/width_video_2"
             android:layout_height="@dimen/height_video_2"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

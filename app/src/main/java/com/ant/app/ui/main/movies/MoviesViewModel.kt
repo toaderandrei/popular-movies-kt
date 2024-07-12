@@ -2,10 +2,9 @@ package com.ant.app.ui.main.movies
 
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
+import com.ant.app.ui.extensions.parseResponse
 import com.ant.domain.usecases.movies.MovieListUseCase
-import com.ant.models.model.getErrorOrNull
-import com.ant.models.model.isLoading
-import com.ant.models.model.isSuccess
+import com.ant.models.model.MoviesListState
 import com.ant.models.request.MovieType
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
@@ -16,8 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MoviesViewModel @Inject constructor(
     private val loadMovieListUseCase: MovieListUseCase,
-) : BaseViewModel<MoviesState>(
-    MoviesState()
+) : BaseViewModel<MoviesListState>(
+    MoviesListState()
 ) {
     fun refresh() {
         loadAllMovies()
@@ -31,26 +30,7 @@ class MoviesViewModel @Inject constructor(
                     1,
                 )
             ).collectAndSetState {
-                when {
-                    it.isLoading -> {
-                        copy(
-                            isPopularMoviesLoading = true,
-                        )
-                    }
-                    it.isSuccess -> {
-                        copy(
-                            isPopularMoviesLoading = false,
-                            popularItems = it.get() ?: emptyList(),
-                        )
-                    }
-                    else -> {
-                        copy(
-                            isPopularMoviesLoading = false,
-                            isPopularMoviesError = true,
-                            popularMoviesError = it.getErrorOrNull()
-                        )
-                    }
-                }
+                parseResponse(it, MovieType.POPULAR)
             }
         }
         viewModelScope.launch {
@@ -60,22 +40,7 @@ class MoviesViewModel @Inject constructor(
                     1,
                 )
             ).collectAndSetState {
-                if (it.isLoading) {
-                    copy(
-                        isTopMoviesLoading = true,
-                    )
-                } else if (it.isSuccess) {
-                    copy(
-                        topMovieItems = it.get() ?: emptyList(),
-                        isTopMoviesLoading = false
-                    )
-                } else {
-                    copy(
-                        isTopMoviesLoading = false,
-                        isTopMoviesError = true,
-                        topMoviesError = it.getErrorOrNull()
-                    )
-                }
+                parseResponse(it, MovieType.TOP_RATED)
             }
         }
         viewModelScope.launch {
@@ -85,22 +50,7 @@ class MoviesViewModel @Inject constructor(
                     1,
                 )
             ).collectAndSetState {
-                if (it.isLoading) {
-                    copy(
-                        isNowPlayingMoviesLoading = true,
-                    )
-                } else if (it.isSuccess) {
-                    copy(
-                        nowPlayingItems = it.get() ?: emptyList(),
-                        isNowPlayingMoviesLoading = false
-                    )
-                } else {
-                    copy(
-                        isNowPlayingMoviesLoading = false,
-                        isNowPlayingMoviesError = true,
-                        nowPlayingMoviesError = it.getErrorOrNull()
-                    )
-                }
+                parseResponse(it, MovieType.NOW_PLAYING)
             }
         }
         viewModelScope.launch {
@@ -110,22 +60,7 @@ class MoviesViewModel @Inject constructor(
                     1,
                 )
             ).collectAndSetState {
-                if (it.isLoading) {
-                    copy(
-                        isUpcomingMoviesLoading = true,
-                    )
-                } else if (it.isSuccess) {
-                    copy(
-                        upcomingItems = it.get() ?: emptyList(),
-                        isUpcomingMoviesLoading = false
-                    )
-                } else {
-                    copy(
-                        isUpcomingMoviesError = true,
-                        isUpcomingMoviesLoading = false,
-                        upcomingMoviesError = it.getErrorOrNull()
-                    )
-                }
+                parseResponse(it, MovieType.UPCOMING)
             }
         }
     }

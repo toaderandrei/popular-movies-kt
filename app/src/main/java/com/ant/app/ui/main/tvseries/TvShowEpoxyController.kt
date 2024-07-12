@@ -1,9 +1,7 @@
 package com.ant.app.ui.main.tvseries
 
 import android.annotation.SuppressLint
-import android.content.Context
 import com.airbnb.epoxy.EpoxyController
-import com.ant.app.R
 import com.ant.resources.R as R2
 import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.ImageEntity
@@ -12,17 +10,17 @@ import com.ant.models.extensions.toReadableError
 import com.ant.epoxy.extensions.tmdbCarousel
 import com.ant.epoxy.extensions.withModelsFrom
 import com.ant.layouts.*
+import com.ant.models.model.TvShowListState
+import com.ant.models.model.isError
 import com.ant.models.source.extensions.observable
 import com.ant.tmdb.old.PosterSizes
-import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject
 
 class TvShowEpoxyController @Inject constructor(
-    @ActivityContext private val context: Context,
     private val logger: TmdbLogger,
 ) : EpoxyController() {
     var callbacks: Callbacks? by observable(null, ::requestModelBuild)
-    var state: TvShowState by observable(TvShowState(), ::requestModelBuild)
+    var state: TvShowListState by observable(TvShowListState(), ::requestModelBuild)
 
     interface Callbacks {
         fun onPopularTvSeriesClicked()
@@ -34,10 +32,10 @@ class TvShowEpoxyController @Inject constructor(
 
     @SuppressLint("StringFormatInvalid")
     override fun buildModels() {
-        val popular = state.popularTvSeriesItems
-        val top = state.topRatedTvSeriesItems
-        val nowOnTv = state.onTvNowTvSeriesItems
-        val onAiringToday = state.onAiringTodayTvSeriesItems
+        val popular = state.popularTvSeries.data
+        val top = state.topRated.data
+        val nowOnTv = state.onTvNow.data
+        val onAiringToday = state.airingToday.data
         logger.d("building tv series models")
 
         // todo use the strings value instead of hardcoded.
@@ -47,9 +45,9 @@ class TvShowEpoxyController @Inject constructor(
             movieTitle = R2.string.tvshows_popular,
             "popular_carousel",
             "popular_placeholder",
-            errorMessage = this@TvShowEpoxyController.state.popularTvSeriesError?.toReadableError(),
-            isLoading = this@TvShowEpoxyController.state.isPopularTvSeriesLoading,
-            isError = this@TvShowEpoxyController.state.isPopularTvSeriesError,
+            errorMessage = this@TvShowEpoxyController.state.popularTvSeries.error?.toReadableError(),
+            isLoading = this@TvShowEpoxyController.state.popularTvSeries.loading,
+            isError = this@TvShowEpoxyController.state.popularTvSeries.isError,
             callback = { callbacks?.onPopularTvSeriesClicked() }
         )
 
@@ -60,9 +58,9 @@ class TvShowEpoxyController @Inject constructor(
             movieTitle = R2.string.tvshows_toprated,
             "top_rated_carousel",
             "top_rated_placeholder",
-            errorMessage = this@TvShowEpoxyController.state.topRatedTvSeriesError?.toReadableError(),
-            isLoading = this@TvShowEpoxyController.state.isTopRatedTvSeriesLoading,
-            isError = this@TvShowEpoxyController.state.isTopRatedTvSeriesError,
+            errorMessage = this@TvShowEpoxyController.state.topRated.error?.toReadableError(),
+            isLoading = this@TvShowEpoxyController.state.topRated.loading,
+            isError = this@TvShowEpoxyController.state.topRated.isError,
             callback = { callbacks?.onTopRatedTvSeriesClicked() }
         )
 
@@ -73,9 +71,9 @@ class TvShowEpoxyController @Inject constructor(
             movieTitle = R2.string.tvshows_now_on_tv,
             "now_on_tv_carousel",
             "now_on_tv_placeholder",
-            errorMessage = this@TvShowEpoxyController.state.onTvNowTvSeriesError?.toReadableError(),
-            isLoading = this@TvShowEpoxyController.state.isOnTvNowTvSeriesItemsLoading,
-            isError = this@TvShowEpoxyController.state.isOnTvNowTvSeriesError,
+            errorMessage = this@TvShowEpoxyController.state.onTvNow.error?.toReadableError(),
+            isLoading = this@TvShowEpoxyController.state.onTvNow.loading,
+            isError = this@TvShowEpoxyController.state.onTvNow.isError,
             callback = { callbacks?.onTvNowTvSeriesClicked() }
         )
 
@@ -86,9 +84,9 @@ class TvShowEpoxyController @Inject constructor(
             movieTitle = R2.string.tvshows_airing_today,
             "airing_today_carousel",
             "airing_today_placeholder",
-            errorMessage = this@TvShowEpoxyController.state.airingtodayTvSeriesError?.toReadableError(),
-            isLoading = this@TvShowEpoxyController.state.isAiringTodayTvSeriesLoading,
-            isError = this@TvShowEpoxyController.state.isAiringTodayTvSeriesError,
+            errorMessage = this@TvShowEpoxyController.state.airingToday.error?.toReadableError(),
+            isLoading = this@TvShowEpoxyController.state.airingToday.loading,
+            isError = this@TvShowEpoxyController.state.airingToday.isError,
             callback = { callbacks?.onAiringTodayTvSeriesClicked() }
         )
     }

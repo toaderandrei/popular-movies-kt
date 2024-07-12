@@ -11,10 +11,9 @@ import javax.inject.Singleton
 
 @Singleton
 open class LoadMovieListRepository @Inject constructor(
-    private val tmdbService: Tmdb,
-    private val movieListMapper: MoviesListMapper,
+    private val movieListDataSource: MovieListDataSource,
 ) : Repository<Repository.Params<RequestType.MovieRequest>, List<MovieData>> {
-    override suspend fun fetchData(params: Repository.Params<RequestType.MovieRequest>): List<MovieData> {
-        return MovieListDataSource(params, tmdbService, movieListMapper).invoke()
+    override suspend fun performRequest(params: Repository.Params<RequestType.MovieRequest>): List<MovieData> {
+        return movieListDataSource.invoke(params)
     }
 }

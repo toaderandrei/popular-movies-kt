@@ -29,7 +29,7 @@
             android:layout_marginTop="@dimen/margin_8"
             android:maxWidth="@dimen/text_max_small"
             android:maxLines="3"
-            android:text="@{item.characterName}"
+            android:text="@{item.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/movie_cast_image"
@@ -38,8 +38,8 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/movie_cast_image"
-            android:layout_width="@dimen/width_icon_4"
-            android:layout_height="@dimen/height_icon_4"
+            android:layout_width="@dimen/width_icon_48"
+            android:layout_height="@dimen/height_icon_48"
             app:defaultDrawable="@{@drawable/ic_person}"
             app:dimension="@{posterSize}"
             app:image="@{item.profileImagePath}"

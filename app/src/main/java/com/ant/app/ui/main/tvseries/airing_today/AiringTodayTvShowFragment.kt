@@ -13,8 +13,8 @@ class AiringTodayTvShowFragment :
 
     override val viewModel: AiringTodayTvShowViewModel by viewModels()
 
-    override fun showDetailsScreen(movieData: TvShow) {
-        findNavController().navigate(AiringTodayTvShowFragmentDirections.toDetails(movieData.id))
+    override fun showDetailsScreen(tvShow: TvShow) {
+        findNavController().navigate(AiringTodayTvShowFragmentDirections.toDetails(tvShow.id))
     }
 
     override fun getThisFragment(): Fragment {

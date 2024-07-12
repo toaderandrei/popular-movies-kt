@@ -29,7 +29,7 @@ data class MovieCast(
     var movieId: Long? = 0,
 
     @ColumnInfo(name = "character")
-    var characterName: String? = null,
+    override val name: String? = null,
 
     @ColumnInfo(name = "order")
     var order: Int? = 0,

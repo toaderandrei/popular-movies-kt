@@ -11,10 +11,11 @@ import androidx.navigation.fragment.findNavController
 import com.ant.app.databinding.FragmentFavoritesBinding
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.extensions.doOnSizeChange
-import com.ant.common.logger.TmdbLogger
+import com.ant.common.extensions.observe
 import com.ant.epoxy.extensions.init
 import com.ant.models.entities.MovieData
 import com.ant.models.entities.TvShow
+import com.ant.models.model.FavoritesState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -22,9 +23,6 @@ import javax.inject.Inject
 class FavoritesFragment : NavigationFragment<FavoritesViewModel, FragmentFavoritesBinding>() {
 
     override val viewModel: FavoritesViewModel by viewModels()
-
-    @Inject
-    lateinit var logger: TmdbLogger
 
     @Inject
     internal lateinit var controller: FavoritesEpoxyController
@@ -49,7 +47,7 @@ class FavoritesFragment : NavigationFragment<FavoritesViewModel, FragmentFavorit
 
         with(viewModel) {
             viewModel.refresh()
-            stateAsLiveData.observe(viewLifecycleOwner, ::renderModels)
+            stateAsFlow.observe(viewLifecycleOwner, ::renderModels)
         }
     }
 

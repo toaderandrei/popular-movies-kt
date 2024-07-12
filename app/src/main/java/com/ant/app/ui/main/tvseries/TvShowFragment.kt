@@ -14,8 +14,10 @@ import com.ant.app.databinding.FragmentTvshowBinding
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.app.ui.main.movies.MoviesFragment
 import com.ant.common.extensions.doOnSizeChange
+import com.ant.common.extensions.observe
 import com.ant.epoxy.extensions.init
 import com.ant.models.entities.TvShow
+import com.ant.models.model.TvShowListState
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -56,7 +58,7 @@ class TvShowFragment : NavigationFragment<TvShowViewModel, FragmentTvshowBinding
             }
         }
 
-        viewModel.stateAsLiveData.observe(viewLifecycleOwner, ::renderModels)
+        viewModel.stateAsFlow.observe(viewLifecycleOwner, ::renderModels)
     }
 
     private fun initBindings() {
@@ -100,7 +102,7 @@ class TvShowFragment : NavigationFragment<TvShowViewModel, FragmentTvshowBinding
         }
     }
 
-    private fun renderModels(moviesState: TvShowState?) {
+    private fun renderModels(moviesState: TvShowListState?) {
         moviesState?.let {
             controller.state = it
             binding.state = it

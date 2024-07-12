@@ -14,10 +14,10 @@ data class TvShow(
     @ColumnInfo(name = "id") override val id: Long = 0,
 
     @ColumnInfo(name = "name")
-    val tvSeriesName: String?,
+    override val name: String?,
 
     @ColumnInfo(name = "original_title")
-    val movieOriginalName: String?,
+    val originalTitle: String?,
 
     @ColumnInfo(name = "vote")
     val voteCount: Int?,

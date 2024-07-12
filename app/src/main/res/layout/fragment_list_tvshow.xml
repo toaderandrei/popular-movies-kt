@@ -6,11 +6,15 @@
 
     <data>
 
-        <import type="com.ant.models.model.TvSeriesListState" />
+        <import type="com.ant.models.model.MoviesState" />
+
+        <import type="com.ant.models.entities.TvShow" />
+
+        <import type="java.util.List" />
 
         <variable
             name="state"
-            type="com.ant.models.model.TvSeriesListState" />
+            type="MoviesState&lt;List&lt;TvShow>>" />
 
         <variable
             name="callback"
@@ -29,7 +33,6 @@
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             android:theme="@style/AppTheme.AppBarOverlay"
-
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -58,8 +61,7 @@
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="@integer/grid_span_count"
-                tools:listitem="@layout/view_holder_movie_item_detailed" />
+                app:spanCount="@integer/grid_span_count" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

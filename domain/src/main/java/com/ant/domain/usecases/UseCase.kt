@@ -9,12 +9,15 @@ abstract class UseCase<in P, R>(private val coroutineDispatcher: CoroutineDispat
     suspend operator fun invoke(parameters: P): Flow<Result<R>> {
         return flow {
             emit(Result.Loading)
-            delay(500)
+            // magic delay. to be removed at some point in the future.
+            delay(100)
             val response = execute(parameters)
             emit(Result.Success(response))
-        }.catch { emit(Result.Error(it)) }.flowOn(coroutineDispatcher)
+        }.catch {
+            // Any error in fetching data will be caught here.
+            emit(Result.Error(it))
+        }.flowOn(coroutineDispatcher)
     }
 
-    @Throws(RuntimeException::class)
     protected abstract suspend fun execute(parameters: P): R
 }

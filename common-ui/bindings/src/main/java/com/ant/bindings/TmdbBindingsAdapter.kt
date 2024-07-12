@@ -72,7 +72,18 @@ fun setToolbarTitle(
     collapsingToolbarLayout: CollapsingToolbarLayout, isVisible: Boolean, title: String?
 ) {
     if (isVisible) {
-        collapsingToolbarLayout.title = title
+        collapsingToolbarLayout.title = title ?: ""
+    } else {
+        collapsingToolbarLayout.title = ""
+    }
+}
+
+@BindingAdapter(value = ["toolbarTitleEnabled", "toolbarTitle"], requireAll = false)
+fun setToolbarTitle(
+    collapsingToolbarLayout: CollapsingToolbarLayout, isVisible: Boolean, titleId: Int?
+) {
+    if (isVisible && titleId != null) {
+        collapsingToolbarLayout.title = collapsingToolbarLayout.context.getString(titleId)
     } else {
         collapsingToolbarLayout.title = ""
     }
@@ -150,12 +161,10 @@ fun setSaveMoviesFavoriteCallback(
     favItem: TvShowDetails?
 ) {
     view.setOnCheckedChangeListener { _, isChecked ->
-        if (isChecked) {
-            favItem?.let {
+        favItem?.let {
+            if (isChecked) {
                 favoriteCallback?.onSave(it)
-            }
-        } else {
-            favItem?.let {
+            } else {
                 favoriteCallback?.delete(it)
             }
         }

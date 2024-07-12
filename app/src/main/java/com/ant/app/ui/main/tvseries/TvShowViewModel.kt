@@ -2,10 +2,9 @@ package com.ant.app.ui.main.tvseries
 
 import androidx.lifecycle.viewModelScope
 import com.ant.app.ui.base.BaseViewModel
+import com.ant.app.ui.extensions.parseResponse
 import com.ant.domain.usecases.tvseries.TvShowListUseCase
-import com.ant.models.model.getErrorOrNull
-import com.ant.models.model.isLoading
-import com.ant.models.model.isSuccess
+import com.ant.models.model.TvShowListState
 import com.ant.models.request.RequestType
 import com.ant.models.request.TvShowType
 import com.ant.models.source.repositories.Repository
@@ -16,8 +15,8 @@ import javax.inject.Inject
 @HiltViewModel
 class TvShowViewModel @Inject constructor(
     private val loadTvSeriesListUseCase: TvShowListUseCase,
-) : BaseViewModel<TvShowState>(
-    TvShowState()
+) : BaseViewModel<TvShowListState>(
+    TvShowListState()
 ) {
     init {
         loadAllMovies()
@@ -35,25 +34,7 @@ class TvShowViewModel @Inject constructor(
                     1,
                 )
             ).collectAndSetState {
-                when {
-                    it.isLoading -> {
-                        copy(
-                            isTopRatedTvSeriesLoading = true,
-                        )
-                    }
-                    it.isSuccess -> {
-                        copy(
-                            topRatedTvSeriesItems = it.get() ?: emptyList(),
-                        )
-                    }
-                    else -> {
-                        copy(
-                            isTopRatedTvSeriesLoading = false,
-                            isTopRatedTvSeriesError = true,
-                            topRatedTvSeriesError = it.getErrorOrNull()
-                        )
-                    }
-                }
+                parseResponse(it, TvShowType.TOP_RATED)
             }
         }
 
@@ -64,25 +45,7 @@ class TvShowViewModel @Inject constructor(
                     1,
                 )
             ).collectAndSetState {
-                when {
-                    it.isLoading -> {
-                        copy(
-                            isOnTvNowTvSeriesItemsLoading = true,
-                        )
-                    }
-                    it.isSuccess -> {
-                        copy(
-                            onTvNowTvSeriesItems = it.get() ?: emptyList(),
-                        )
-                    }
-                    else -> {
-                        copy(
-                            isOnTvNowTvSeriesItemsLoading = false,
-                            isOnTvNowTvSeriesError = true,
-                            onTvNowTvSeriesError = it.getErrorOrNull()
-                        )
-                    }
-                }
+                parseResponse(it, TvShowType.ONTV_NOW)
             }
         }
 
@@ -93,25 +56,7 @@ class TvShowViewModel @Inject constructor(
                     1,
                 )
             ).collectAndSetState {
-                when {
-                    it.isLoading -> {
-                        copy(
-                            isAiringTodayTvSeriesLoading = true,
-                        )
-                    }
-                    it.isSuccess -> {
-                        copy(
-                            onAiringTodayTvSeriesItems = it.get() ?: emptyList(),
-                        )
-                    }
-                    else -> {
-                        copy(
-                            isAiringTodayTvSeriesLoading = false,
-                            isAiringTodayTvSeriesError = true,
-                            airingtodayTvSeriesError = it.getErrorOrNull()
-                        )
-                    }
-                }
+                parseResponse(it, TvShowType.AIRING_TODAY)
             }
         }
 
@@ -122,25 +67,7 @@ class TvShowViewModel @Inject constructor(
                     1,
                 )
             ).collectAndSetState {
-                when {
-                    it.isLoading -> {
-                        copy(
-                            isPopularTvSeriesLoading = true,
-                        )
-                    }
-                    it.isSuccess -> {
-                        copy(
-                            popularTvSeriesItems = it.get() ?: emptyList(),
-                        )
-                    }
-                    else -> {
-                        copy(
-                            isPopularTvSeriesLoading = false,
-                            isPopularTvSeriesError = true,
-                            popularTvSeriesError = it.getErrorOrNull()
-                        )
-                    }
-                }
+                parseResponse(it, TvShowType.POPULAR)
             }
         }
     }

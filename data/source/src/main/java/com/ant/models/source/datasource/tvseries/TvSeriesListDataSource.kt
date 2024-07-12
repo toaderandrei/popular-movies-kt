@@ -27,11 +27,15 @@ class TvSeriesListDataSource(
             TvShowType.AIRING_TODAY -> airingToday(tvService, params)
         }.awaitResponse()
 
-        val movieResultsPage = tvShowResultsPageResponse.bodyOrThrow()
+        val genreResponse = tmdb.genreService().tv(null)
+            .awaitResponse()
+
+        val genresList = genreResponse.bodyOrThrow()
+        val tvShowResultsPage = tvShowResultsPageResponse.bodyOrThrow()
 
         val tvShowList = tvShowResultsPageResponse.let {
             tvSeriesMapper.map(
-                movieResultsPage
+                Pair(tvShowResultsPage, genresList)
             )
         }
         return tvShowList

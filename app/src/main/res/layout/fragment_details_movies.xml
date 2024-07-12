@@ -38,9 +38,9 @@
                 app:expandedTitleMarginEnd="@dimen/margin_64"
                 app:expandedTitleMarginStart="@dimen/margin_48"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:toolbarId="@+id/toolbar"
+                app:toolbarId="@+id/details_movies_toolbar"
                 android:fitsSystemWindows="true"
-                app:toolbarTitle="@{item.movieData.title}"
+                app:toolbarTitle="@{item.movieData.name}"
                 app:toolbarTitleEnabled="@{titleVisible}">
 
                 <include

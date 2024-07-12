@@ -8,6 +8,7 @@ import com.ant.tmdb.old.TmdbModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import java.text.SimpleDateFormat
 import java.time.ZoneId
@@ -20,7 +21,12 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module(
     includes = [
-        CoroutinesModule::class, NetworksModule::class, AppModuleBinds::class, TmdbModule::class
+        CoroutinesModule::class,
+        NetworksModule::class,
+        AppModuleBinds::class,
+        StorageModule::class,
+        AuthenticationModule::class,
+        TmdbModule::class
     ]
 )
 object AppModule {
@@ -51,4 +57,6 @@ object AppModule {
     @Provides
     @Named("api_key")
     fun provideTmdbApiKey(): String = BuildConfig.TMDB_API_KEY
+
+    /**All of our application dependencies shall be provided here*/
 }

@@ -1,40 +1,45 @@
 package com.ant.app.ui.main.base.movies
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.updatePadding
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.ant.app.databinding.FragmentListMoviesBinding
 import com.ant.app.ui.adapters.MovieListAdapter
+import com.ant.app.ui.main.base.BaseViewModelMoviesList
+import com.ant.app.ui.main.base.BaseViewModelMoviesList.Companion.FIRST_PAGE
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.decorator.MarginItemDecoration
 import com.ant.common.extensions.doOnSizeChange
+import com.ant.common.extensions.observe
 import com.ant.common.listeners.OnScrollCallback
 import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
-import com.ant.common.logger.TmdbLogger
 import com.ant.models.entities.MovieData
-import com.ant.models.model.MoviesListState
-import javax.inject.Inject
+import com.ant.models.model.MoviesState
+import com.ant.models.model.isError
+import com.ant.models.model.isLoading
 
-abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
+abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMoviesList<*, MovieData>> :
     NavigationFragment<VIEW_MODEL, FragmentListMoviesBinding>(), OnScrollCallback {
-
-    @Inject
-    lateinit var logger: TmdbLogger
 
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
+    private var recyclerViewState: Parcelable? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         movieListAdapter = MovieListAdapter(callback = {
-            logger.d("clicked on movie: ${it.title}")
+            logger.d("clicked on movie: ${it.name}")
             showDetailsScreen(it)
         })
+        movieListAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         recyclerViewScrollListener = RecyclerViewScrollListener(this)
 
@@ -67,14 +72,12 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
             }
         }
 
-
         with(viewModel) {
-            refresh()
-            stateAsLiveData.observe(viewLifecycleOwner, ::showData)
+            stateAsFlow.observe(viewLifecycleOwner, ::showData)
             currentPage.observe(viewLifecycleOwner) {
-                logger.d("loading page:$it")
-                if (it == 1) {
-                    submitList(emptyList())
+                logger.d("loading page: $it")
+                if (it == FIRST_PAGE) {
+                    recyclerViewState = null
                 }
             }
         }
@@ -88,30 +91,32 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMovieList> :
         return FragmentListMoviesBinding.inflate(inflater, container, false)
     }
 
-    private fun showData(movieListState: MoviesListState) {
-        with(movieListState) {
-            logger.d("isLoading: $loading")
+    private fun showData(movieListState: MoviesState<List<MovieData>>?) {
+        movieListState?.let { moviesState ->
+            logger.d("showData: movieListState: $moviesState")
 
-            binding.moviesGridSwipeRefresh.isRefreshing = loading
-            recyclerViewScrollListener.isLoading.value = loading
-            binding.moviesLoadingStateId.isError = error != null
-            binding.moviesLoadingStateId.errorMsg.error = error?.message
+            binding.moviesGridSwipeRefresh.isRefreshing = moviesState.isLoading
+            recyclerViewScrollListener.isLoading.value = moviesState.isLoading
+            binding.moviesLoadingStateId.isError = moviesState.isError
+            binding.moviesLoadingStateId.errorMsg.error = moviesState.error?.message
 
-            movieListState.items?.let {
-                logger.d("items: $it")
-                val newList = ArrayList(movieListAdapter.currentList)
-                newList.addAll(it)
-                submitList(newList)
+            moviesState.data?.let {
+                logger.d("showData items: ${it.size}")
+                submitList(it)
             }
         }
     }
 
     private fun submitList(newList: List<MovieData>) {
-        movieListAdapter.submitList(newList)
+        movieListAdapter.loadResults(
+            newList,
+            pageSize = viewModel.pageSize.getValue() ?: 1,
+            viewModel.currentPage.getValue() == 1
+        )
     }
 
     override fun onScrollUpdate() {
-        logger.d("Scroll update triggered.")
+        logger.d("Scroll update ended.")
         viewModel.loadNextPage()
     }
 }

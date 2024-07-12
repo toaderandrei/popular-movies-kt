@@ -14,6 +14,7 @@ fun <T> Response<T>.bodyOrThrow(): T {
 
 suspend fun <T> withRetry(
     defaultDelay: Long = 50,
+    // magic number chosen wisely. 3 is the charm.
     maxAttempts: Int = 3,
     shouldRetry: (Throwable) -> Boolean = ::retryIfError,
     block: suspend () -> T

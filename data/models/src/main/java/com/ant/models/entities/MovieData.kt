@@ -16,7 +16,7 @@ data class MovieData(
     @ColumnInfo(name = "id") override val id: Long = 0,
 
     @ColumnInfo(name = "title")
-    val title: String? = null,
+    override val name: String? = null,
 
     @ColumnInfo(name = "original_title")
     val originalTitle: String? = null,

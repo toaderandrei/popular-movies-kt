@@ -12,6 +12,6 @@ class LoadFavoredMoviesUseCase @Inject constructor(
     @IoDispatcher dispatcher: CoroutineDispatcher,
 ) : UseCase<Boolean, List<MovieData>>(dispatcher) {
     override suspend fun execute(parameters: Boolean): List<MovieData> {
-        return loadFavoredMoviesRepository.fetchData(parameters)
+        return loadFavoredMoviesRepository.performRequest(parameters)
     }
 }

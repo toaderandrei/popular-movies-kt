@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.ant.resources.R as R2
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -16,17 +15,19 @@ import com.ant.app.ui.adapters.MovieCastsAdapter
 import com.ant.app.ui.adapters.MovieVideosAdapter
 import com.ant.app.ui.base.BaseFragment
 import com.ant.common.decorator.MarginItemDecoration
+import com.ant.common.extensions.observe
 import com.ant.common.listeners.AppBarStateChangeListener
 import com.ant.common.listeners.FavoriteCallback
 import com.ant.common.listeners.RetryCallback
 import com.ant.common.logger.TmdbLogger
-import com.ant.models.entities.MovieDetails
-import com.ant.models.model.MovieDetailsState
 import com.ant.common.utils.Constants.TMDB_KEY_ID
+import com.ant.models.entities.MovieDetails
+import com.ant.models.model.MoviesState
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.properties.Delegates
+import com.ant.resources.R as R2
 
 @AndroidEntryPoint
 class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetailsMoviesBinding>() {
@@ -59,7 +60,7 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
         updateCallbacks()
 
         movieCastAdapter = MovieCastsAdapter(callback = {
-            logger.d("clicked on character: ${it.characterName}")
+            logger.d("clicked on character: ${it.name}")
         })
 
         movieVideosAdapter = MovieVideosAdapter(callback = {
@@ -78,10 +79,8 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
         }
 
         with(viewModel) {
-            stateAsLiveData.observe(viewLifecycleOwner) {
-                renderModels(it)
-            }
             loadMovieDetails(movieId = tmdbMovieId)
+            stateAsFlow.observe(viewLifecycleOwner, ::renderModels)
         }
 
         setToolbarTitle()
@@ -97,14 +96,14 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
         }
     }
 
-    private fun renderModels(moviesState: MovieDetailsState?) {
+    private fun renderModels(moviesState: MoviesState<MovieDetails>?) {
         moviesState?.let {
             logger.d("state: $moviesState")
             with(binding) {
                 loadingState.isError = moviesState.error != null
                 loadingState.errorMsg.error = moviesState.error?.message
                 loadingState.isLoading = moviesState.loading
-                moviesState.movieDetails?.let { movieDetailsData ->
+                moviesState.data?.let { movieDetailsData ->
                     item = movieDetailsData
                     movieCastAdapter.submitList(movieDetailsData.movieCasts)
                     movieDetailsData.movieCasts?.let {
@@ -131,12 +130,12 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
             detailsMovieInfo.favCallback = object : FavoriteCallback<MovieDetails> {
                 override fun onSave(item: MovieDetails) {
                     logger.d("Save item to db: $item")
-                    viewModel.saveToDatabase(item)
+                    viewModel.saveAsFavorite(item)
                 }
 
                 override fun delete(item: MovieDetails) {
                     logger.d("delete item from db:$item")
-                    viewModel.deleteFromDatabase(item)
+                    viewModel.deleteFavorite(item)
                 }
             }
         }

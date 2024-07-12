@@ -21,12 +21,13 @@
             type="android.view.View.OnClickListener" />
     </data>
 
+    <!--todo make this layout customizable for different UI screens. -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="@dimen/width_140"
         android:layout_height="wrap_content"
+        android:onClick="@{clickListener}"
         android:paddingStart="@dimen/padding_8"
-        android:paddingEnd="@dimen/padding_8"
-        android:onClick="@{clickListener}">
+        android:paddingEnd="@dimen/padding_8">
 
         <TextView
             android:id="@+id/tvseries_title"
@@ -34,7 +35,7 @@
             android:layout_height="0dp"
             android:ellipsize="end"
             android:padding="@dimen/margin_4"
-            android:text="@{movie.tvSeriesName}"
+            android:text="@{movie.name}"
             android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

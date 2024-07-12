@@ -21,7 +21,8 @@ data class MovieVideo(
 
     @ColumnInfo(name = "key") val key: String?,
 
-    @ColumnInfo(name = "name") val name: String?,
+    @ColumnInfo(name = "name")
+    override val name: String?,
 
     @ColumnInfo(name = "iso_639_1") val iso_639_1: String?,
 

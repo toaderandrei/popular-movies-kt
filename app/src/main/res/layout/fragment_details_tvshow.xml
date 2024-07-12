@@ -38,8 +38,8 @@
                 app:expandedTitleMarginEnd="@dimen/margin_64"
                 app:expandedTitleMarginStart="@dimen/margin_48"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:toolbarId="@+id/toolbar"
-                app:toolbarTitle="@{item.tvSeriesData.tvSeriesName}"
+                app:toolbarId="@id/details_movies_toolbar"
+                app:toolbarTitle="@{item.tvSeriesData.name}"
                 app:toolbarTitleEnabled="@{titleVisible}">
 
                 <include

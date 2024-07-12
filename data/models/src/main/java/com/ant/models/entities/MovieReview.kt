@@ -19,7 +19,8 @@ data class MovieReview(
     @PrimaryKey
     @ColumnInfo(name = "id") override val id: Long = 0,
 
-    @ColumnInfo(name = "author") val author: String?,
+    @ColumnInfo(name = "author")
+    override val name: String?,
 
     @ColumnInfo(name = "content") val content: String?,
 

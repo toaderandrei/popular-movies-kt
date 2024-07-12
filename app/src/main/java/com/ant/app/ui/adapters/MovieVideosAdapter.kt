@@ -1,5 +1,6 @@
 package com.ant.app.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,7 @@ import com.ant.adapters.BaseListAdapter
 import com.ant.adapters.CustomViewHolder
 import com.ant.models.entities.MovieVideo
 import com.ant.layouts.databinding.ViewHolderMovieVideoItemBinding
+import com.ant.models.entities.MovieData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 
@@ -39,6 +41,7 @@ open class MovieVideosAdapter constructor(
         initClickListener(binding)
         return binding
     }
+
 
     override fun processClick(binding: ViewHolderMovieVideoItemBinding) {
         binding.item?.let { it ->

@@ -30,7 +30,7 @@ class MovieDetailsMapper @Inject constructor(
                 content = it.content,
                 url = it.url,
                 movieId = 0,
-                author = it.author
+                name = it.author
             )
             movieReviews.add(movieReview)
         }
@@ -41,7 +41,7 @@ class MovieDetailsMapper @Inject constructor(
                 movieId = movieData.id,
                 creditId = from.credits?.id,
                 cast_id = it.cast_id,
-                characterName = it.character,
+                name = it.character,
                 order = it.order,
                 profileImagePath = it.profile_path
             )
@@ -53,7 +53,7 @@ class MovieDetailsMapper @Inject constructor(
             val movieCrew = MovieCrew(
                 movieId = movieData.id,
                 creditsId = from.credits?.id,
-                department = it.department,
+                name = it.department,
                 job = it.job,
                 profilePath = it.profile_path
             )

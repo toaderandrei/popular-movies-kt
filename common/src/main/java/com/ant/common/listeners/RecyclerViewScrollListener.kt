@@ -3,6 +3,7 @@ package com.ant.common.listeners
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 
 class RecyclerViewScrollListener(private val mScrollCallback: OnScrollCallback) :
     RecyclerView.OnScrollListener() {
@@ -18,7 +19,7 @@ class RecyclerViewScrollListener(private val mScrollCallback: OnScrollCallback) 
         super.onScrollStateChanged(recyclerView, newState)
 
         val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
-        if (hasReachedTheEnd(linearLayoutManager) && isLoading.value == false) {
+        if (newState == SCROLL_STATE_IDLE && hasReachedTheEnd(linearLayoutManager) && isLoading.value == false) {
             mScrollCallback.onScrollUpdate()
         }
     }

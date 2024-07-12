@@ -3,6 +3,7 @@ package com.ant.models.source.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.ant.models.model.UserData
 import com.ant.models.source.converters.TmdbTypeConverters
 import com.ant.models.entities.MovieCast
 import com.ant.models.entities.MovieCrew
@@ -18,9 +19,9 @@ import com.ant.models.entities.TvShow
         MovieCast::class,
         MovieReview::class,
         MovieCrew::class,
-        MovieVideo::class
-    ],
-    version = 33,
+        MovieVideo::class,
+   ],
+    version = 40,
     exportSchema = false
 )
 @TypeConverters(

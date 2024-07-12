@@ -1,5 +1,6 @@
 package com.ant.app.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,6 +8,7 @@ import com.ant.adapters.BaseListAdapter
 import com.ant.adapters.CustomViewHolder
 import com.ant.models.entities.MovieCast
 import com.ant.layouts.databinding.ViewHolderMovieCastItemBinding
+import com.ant.models.entities.MovieData
 import com.ant.tmdb.old.PosterSizes
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +21,13 @@ open class MovieCastsAdapter constructor(
         diffCallback = object : DiffUtil.ItemCallback<MovieCast>() {
             override fun areItemsTheSame(oldItem: MovieCast, newItem: MovieCast): Boolean {
                 return oldItem.id == newItem.id
-                        && oldItem.characterName == newItem.characterName
+                        && oldItem.name == newItem.name
                         && oldItem.cast_id == newItem.cast_id
             }
 
             override fun areContentsTheSame(oldItem: MovieCast, newItem: MovieCast): Boolean {
                 return oldItem.id == newItem.id &&
-                        oldItem.characterName == newItem.characterName
+                        oldItem.name == newItem.name
                         && oldItem.movieId == newItem.movieId
             }
         }) {

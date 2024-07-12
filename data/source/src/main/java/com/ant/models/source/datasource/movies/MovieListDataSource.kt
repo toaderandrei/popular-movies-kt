@@ -8,18 +8,21 @@ import com.ant.models.source.extensions.withRetry
 import com.ant.models.source.mappers.movies.MoviesListMapper
 import com.ant.models.source.repositories.Repository
 import com.uwetrottmann.tmdb2.Tmdb
-import com.uwetrottmann.tmdb2.entities.Genre
 import com.uwetrottmann.tmdb2.entities.MovieResultsPage
 import com.uwetrottmann.tmdb2.services.MoviesService
 import retrofit2.Call
 import retrofit2.awaitResponse
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MovieListDataSource(
-    private val params: Repository.Params<RequestType.MovieRequest>,
+@Singleton
+class MovieListDataSource @Inject constructor(
     private val tmdb: Tmdb,
     private val moviesListMapper: MoviesListMapper
 ) {
-    suspend operator fun invoke(): List<MovieData> {
+    suspend operator fun invoke(
+        params: Repository.Params<RequestType.MovieRequest>,
+    ): List<MovieData> {
         val movieService = tmdb.moviesService()
 
         val movieResultsPageResponse = when (params.request.movieType) {
@@ -32,23 +35,12 @@ class MovieListDataSource(
         val genreResponse = tmdb.genreService().movie(null)
             .awaitResponse()
 
-        val genresList = genreResponse.bodyOrThrow().genres
+        val genresResponse = genreResponse.bodyOrThrow()
         val movieResultsPage = movieResultsPageResponse.bodyOrThrow()
-
-        movieResultsPage.results?.map { movie ->
-            val genres = mutableListOf<Genre>()
-            movie.genre_ids?.forEach { genreId ->
-                val filteredList = genresList?.first { it.id == genreId }
-                filteredList?.let { genre ->
-                    genres.add(genre)
-                }
-            }
-            movie.genres = genres
-        }
 
         return movieResultsPageResponse.let {
             moviesListMapper.map(
-                movieResultsPage
+                Pair(movieResultsPage, genresResponse)
             )
         }
     }

@@ -7,9 +7,6 @@ import android.view.ViewGroup
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.ant.app.databinding.FragmentMoviesBinding
 import com.ant.app.ui.main.base.NavigationFragment
@@ -19,7 +16,6 @@ import com.ant.epoxy.extensions.init
 import com.ant.models.entities.MovieData
 import com.ant.models.model.MoviesListState
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.ant.resources.R as R2
 

@@ -1,6 +1,9 @@
 package com.ant.app.ui.details.movies
 
 import androidx.lifecycle.viewModelScope
+import com.ant.analytics.AnalyticsEvent
+import com.ant.analytics.AnalyticsHelper
+import com.ant.analytics.CrashlyticsHelper
 import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
@@ -22,6 +25,8 @@ class DetailsMovieViewModel @Inject constructor(
     val movieDetailsUseCase: MovieDetailsUseCase,
     val movieSaveDetailsUseCase: SaveMovieDetailsUseCase,
     val movieDeleteDetailsUseCase: DeleteMovieDetailsUseCase,
+    private val analyticsHelper: AnalyticsHelper,
+    private val crashlyticsHelper: CrashlyticsHelper,
 ) : BaseViewModel<MoviesState<MovieDetails>>(MoviesState()) {
     fun loadMovieDetails(movieId: Long) {
         viewModelScope.launch {
@@ -37,7 +42,23 @@ class DetailsMovieViewModel @Inject constructor(
                 )
             ).collectAndSetState {
                 logger.d("state: $this")
-                parseResponse(response = it)
+                parseResponse(response = it,
+                    onSuccess = { sucess ->
+                        analyticsHelper.logEvent(
+                            AnalyticsEvent(
+                                type = AnalyticsEvent.Types.MOVIES_DETAILS_SCREEN,
+                                mutableListOf(
+                                    AnalyticsEvent.Param(
+                                        AnalyticsEvent.ParamKeys.MOVIES_NAME.name,
+                                        sucess?.movieData?.name
+                                    )
+                                )
+                            )
+                        )
+                    },
+                    onError = { error ->
+                        crashlyticsHelper.logError(error)
+                    })
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.ant.domain.qualifiers
+package com.ant.common.qualifiers
 
 import javax.inject.Qualifier
 

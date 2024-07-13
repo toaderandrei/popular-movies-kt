@@ -1,7 +1,7 @@
 package com.ant.domain.usecases.login
 
 import com.ant.common.logger.TmdbLogger
-import com.ant.domain.qualifiers.IoDispatcher
+import com.ant.common.qualifiers.IoDispatcher
 import com.ant.domain.usecases.UseCase
 import com.ant.models.model.Result
 import com.ant.models.model.UserData

@@ -1,6 +1,9 @@
 package com.ant.app.ui.main.base
 
 import androidx.lifecycle.viewModelScope
+import com.ant.analytics.AnalyticsEvent
+import com.ant.analytics.AnalyticsHelper
+import com.ant.analytics.CrashlyticsHelper
 import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.updateMoviesStatePages
 import com.ant.common.flow.CustomStateFlow
@@ -13,11 +16,19 @@ import com.ant.models.source.repositories.Repository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 abstract class BaseViewModelMoviesList<P : RequestType, R>(
     val logger: TmdbLogger,
-    val useCase: UseCase<Repository.Params<P>, List<R>>
-) : BaseViewModel<MoviesState<List<R>>>(MoviesState()) {
+    val useCase: UseCase<Repository.Params<P>, List<R>>,
+
+    ) : BaseViewModel<MoviesState<List<R>>>(MoviesState()) {
+
+    @Inject
+    lateinit var crashlyticsHelper: CrashlyticsHelper
+
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
 
     private val _currentPage = MutableCustomStateFlow<Int>()
     val currentPage: CustomStateFlow<Int> = _currentPage
@@ -58,19 +69,31 @@ abstract class BaseViewModelMoviesList<P : RequestType, R>(
             it.get()?.let { data ->
                 _pageSize.setValue(data.size)
             }
-            updateMoviesStatePages(
-                newResult = it,
+            updateMoviesStatePages(newResult = it,
                 oldData = stateAsFlow.value.data,
-                page = page
-            )
+                page = page,
+                onError = { error ->
+                    crashlyticsHelper.logError(error)
+                },
+                onSuccess = {
+                    analyticsHelper.logEvent(
+                        AnalyticsEvent(
+                            type = AnalyticsEvent.Types.MOVIE_LIST_SCREEN, mutableListOf(
+                                AnalyticsEvent.Param(
+                                    AnalyticsEvent.ParamKeys.MOVIE_LIST_TYPE.name,
+                                    getRequest().toString()
+                                )
+                            )
+                        )
+                    )
+                })
         }
     }
 
 
     private fun getParams(page: Int): Repository.Params<P> {
         return Repository.Params(
-            getRequest(),
-            page = page
+            getRequest(), page = page
         )
     }
 

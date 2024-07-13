@@ -32,3 +32,4 @@ include ':common'
 
 // domain
 include ':domain'
+include ':analytics'

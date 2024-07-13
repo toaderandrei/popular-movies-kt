@@ -2,18 +2,22 @@ package com.ant.app.di
 
 import android.content.Context
 import android.text.format.DateFormat
+import com.ant.analytics.di.AnalyticsModule
 import com.ant.app.BuildConfig
 import com.ant.app.application.PopularMoviesApp
 import com.ant.tmdb.old.TmdbModule
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import java.text.SimpleDateFormat
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.*
+import java.util.Locale
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -26,6 +30,7 @@ import javax.inject.Singleton
         AppModuleBinds::class,
         StorageModule::class,
         AuthenticationModule::class,
+        AnalyticsModule::class,
         TmdbModule::class
     ]
 )
@@ -33,6 +38,16 @@ object AppModule {
 
     @Provides
     fun provideContext(application: PopularMoviesApp): Context = application.applicationContext
+
+    @Provides
+    fun provideFirebaseAnalytics(): FirebaseAnalytics {
+        return Firebase.analytics
+    }
+
+    @Provides
+    fun provideFirebaseCrashlytics(): FirebaseCrashlytics {
+        return FirebaseCrashlytics.getInstance()
+    }
 
     // todo verify the date formatter.
     @Singleton

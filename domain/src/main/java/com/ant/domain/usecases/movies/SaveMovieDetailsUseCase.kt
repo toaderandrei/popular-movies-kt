@@ -1,6 +1,6 @@
 package com.ant.domain.usecases.movies
 
-import com.ant.domain.qualifiers.IoDispatcher
+import com.ant.common.qualifiers.IoDispatcher
 import com.ant.models.entities.MovieDetails
 import com.ant.models.source.repositories.movies.SaveMovieDetailsToLocalRepository
 import com.ant.domain.usecases.UseCase

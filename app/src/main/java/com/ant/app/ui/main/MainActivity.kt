@@ -8,14 +8,16 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import com.ant.analytics.AnalyticsEvent
+import com.ant.analytics.AnalyticsHelper
 import com.ant.app.R
-import com.ant.resources.R as R2
 import com.ant.app.databinding.ActivityMainBinding
 import com.ant.app.ui.extensions.setInsets
 import com.ant.app.ui.main.base.ToolbarWithNavigation
 import com.ant.common.logger.TmdbLogger
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import com.ant.resources.R as R2
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ToolbarWithNavigation {
@@ -26,6 +28,9 @@ class MainActivity : AppCompatActivity(), ToolbarWithNavigation {
 
     @Inject
     internal lateinit var logger: TmdbLogger
+
+    @Inject
+    internal lateinit var analyticsHelper: AnalyticsHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +52,33 @@ class MainActivity : AppCompatActivity(), ToolbarWithNavigation {
             val requestedNavId = intent.getIntExtra(EXTRA_NAVIGATION_ID, currentNavId)
             navigateTo(requestedNavId)
         }
+
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.MAIN_SCREEN,
+                mutableListOf(
+                    AnalyticsEvent.Param(
+                        AnalyticsEvent.ParamKeys.MAIN_SCREEN.name,
+                        "onCreate"
+                    )
+                )
+            )
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        analyticsHelper.logEvent(
+            AnalyticsEvent(
+                type = AnalyticsEvent.Types.MAIN_SCREEN,
+                mutableListOf(
+                    AnalyticsEvent.Param(
+                        AnalyticsEvent.ParamKeys.MAIN_SCREEN.name,
+                        "onDestroy"
+                    )
+                )
+            )
+        )
     }
 
     override fun registerToolbarWithNavigation(toolbar: Toolbar) {

@@ -1,9 +1,9 @@
 package com.ant.app.di
 
-import com.ant.domain.qualifiers.DefaultDispatcher
-import com.ant.domain.qualifiers.IoDispatcher
-import com.ant.domain.qualifiers.MainDispatcher
-import com.ant.domain.qualifiers.MainImmediateDispatcher
+import com.ant.common.qualifiers.DefaultDispatcher
+import com.ant.common.qualifiers.IoDispatcher
+import com.ant.common.qualifiers.MainDispatcher
+import com.ant.common.qualifiers.MainImmediateDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

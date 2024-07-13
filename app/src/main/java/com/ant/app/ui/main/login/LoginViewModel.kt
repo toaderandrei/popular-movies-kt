@@ -1,6 +1,9 @@
 package com.ant.app.ui.main.login
 
 import androidx.lifecycle.viewModelScope
+import com.ant.analytics.AnalyticsEvent
+import com.ant.analytics.AnalyticsHelper
+import com.ant.analytics.CrashlyticsHelper
 import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
@@ -20,6 +23,8 @@ class LoginViewModel @Inject constructor(
     private val loginUserUseCase: LoginUserAndSaveSessionUseCase,
     private val logoutUserUseCase: LogoutUserAndClearSessionUseCase,
     private val sessionManager: SessionManager,
+    private val analyticsHelper: AnalyticsHelper,
+    private val crashlyticsHelper: CrashlyticsHelper,
     private val logger: TmdbLogger,
 ) : BaseViewModel<MoviesState<UserData>>(MoviesState()) {
 
@@ -62,6 +67,23 @@ class LoginViewModel @Inject constructor(
             ).collectAndSetState {
                 parseResponse(
                     response = it,
+                    onSuccess = { success ->
+                        analyticsHelper.logEvent(
+                            AnalyticsEvent(
+                                type = AnalyticsEvent.Types.LOGIN_SCREEN,
+                                mutableListOf(
+                                    AnalyticsEvent.Param(
+                                        AnalyticsEvent.ParamKeys.LOGIN_NAME.name,
+                                        success?.username
+                                    )
+                                )
+                            )
+                        )
+                    },
+                    onError = { error ->
+                        logger.e(error, "Logging to crashlytics: $error")
+                        crashlyticsHelper.logError(throwable = error)
+                    }
                 )
             }
         }
@@ -83,7 +105,7 @@ class LoginViewModel @Inject constructor(
                 )
             ).collectAndSetState {
                 parseResponse(
-                    response = it
+                    response = it,
                 )
             }
         }

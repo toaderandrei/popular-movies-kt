@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":common-ui:epoxy"))
     implementation(project(":data:source"))
     implementation(project(":domain"))
+    implementation(project(":analytics"))
     implementation(libs.circle.image)
 
     // UI libs
@@ -119,6 +120,8 @@ dependencies {
 
     // firebase
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+
     // check if still needed after plugin
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)

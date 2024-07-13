@@ -1,6 +1,6 @@
 package com.ant.domain.usecases.login
 
-import com.ant.domain.qualifiers.IoDispatcher
+import com.ant.common.qualifiers.IoDispatcher
 import com.ant.domain.usecases.UseCase
 import com.ant.models.model.UserData
 import com.ant.models.request.RequestType

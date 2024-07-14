@@ -39,14 +39,12 @@ jobs:
           restore-keys: |
             gradle-cache-${{ runner.os }}-
 
-      - name: Download Dependencies
-        run: ./gradlew build --scan --continue
-
       - name: Run Lint
         run: ./gradlew lint
+
+      - name: Assemble Debug
+        run: ./gradlew assembleDebug --stacktrace
 
       - name: Run Tests
         run: ./gradlew test
 
-      - name: Assemble Debug
-        run: ./gradlew assembleDebug --stacktrace

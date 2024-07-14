@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!-- Disable a specific check -->
+    <issue id="IconMissingDensityFolder" severity="ignore" />
+
+    <!-- Change the severity of a specific check -->
+    <issue id="HardcodedText" severity="warning" />
+
+    <!-- Enable a specific check -->
+    <issue id="NewApi" severity="warning" />
+</lint>

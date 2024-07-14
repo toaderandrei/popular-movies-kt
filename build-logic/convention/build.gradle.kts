@@ -44,5 +44,13 @@ gradlePlugin {
             id = "popular.movies.android.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"
         }
+        register("androidLint") {
+            id = "popular.movies.android.lint"
+            implementationClass = "AndroidLintConventionPlugin"
+        }
+        register("androidConfig") {
+            id = "popular.movies.android.config"
+            implementationClass = "AndroidBuildConfigPlugin"
+        }
     }
 }

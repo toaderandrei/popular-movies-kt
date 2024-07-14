@@ -157,4 +157,5 @@ safe-args = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
 popular-movies-android-application = { id = "popular.movies.android.application", version = "unspecified" }
 popular-movies-android-library = { id = "popular.movies.android.library", version = "unspecified" }
 popular-movies-android-firebase = { id = "popular.movies.android.firebase", version = "unspecified" }
-
+popular-movies-android-lint = { id = "popular.movies.android.lint", version = "unspecified" }
+popular-movies-android-config = { id = "popular.movies.android.config", version = "unspecified" }

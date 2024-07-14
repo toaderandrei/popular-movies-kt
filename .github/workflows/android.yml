@@ -1,26 +1,84 @@
-name: Android CI
+name: Android CI/CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
+    env:
+      # Environment variables for signing the app
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+      SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+      TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Cache Gradle dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
+      - name: Download Dependencies
+        run: ./gradlew build --scan --continue
+
+      - name: Run Lint
+        run: ./gradlew lint
+
+      - name: Run Tests
+        run: ./gradlew test
+
+      - name: Assemble Release
+        run: ./gradlew assembleRelease
+
+      - name: Decode and Save Signing Key
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          echo "$SIGNING_KEY" | base64 --decode > release.keystore
+
+      - name: Sign APK
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
+            -keystore release.keystore \
+            -storepass $SIGNING_STORE_PASSWORD \
+            -keypass $SIGNING_KEY_PASSWORD \
+            app/build/outputs/apk/release/app-release-unsigned.apk $SIGNING_KEY_ALIAS
+
+      - name: Verify Signature
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          jarsigner -verify app/build/outputs/apk/release/app-release-unsigned.apk
+
+      - name: Zipalign APK
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          ${ANDROID_HOME}/build-tools/30.0.3/zipalign -v 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
+
+      - name: Upload Release APK
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-release.apk
+          path: app/build/outputs/apk/release/app-release.apk

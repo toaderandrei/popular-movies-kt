@@ -127,6 +127,10 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.data.store)
     implementation(libs.data.store.preferences)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }
 
 fun getLocalProperty(propertyName: String, defaultValue: String): String {

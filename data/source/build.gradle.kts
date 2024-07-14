@@ -32,4 +32,9 @@ dependencies {
 
     implementation(libs.firebase.auth)
     implementation(libs.data.store.preferences)
+
+    // tests
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

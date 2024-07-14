@@ -17,6 +17,7 @@ import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import logAnalytics
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,16 +45,10 @@ class DetailsMovieViewModel @Inject constructor(
                 logger.d("state: $this")
                 parseResponse(response = it,
                     onSuccess = { sucess ->
-                        analyticsHelper.logEvent(
-                            AnalyticsEvent(
-                                type = AnalyticsEvent.Types.MOVIES_DETAILS_SCREEN,
-                                mutableListOf(
-                                    AnalyticsEvent.Param(
-                                        AnalyticsEvent.ParamKeys.MOVIES_NAME.name,
-                                        sucess?.movieData?.name
-                                    )
-                                )
-                            )
+                        analyticsHelper.logAnalytics(
+                            type = AnalyticsEvent.Types.MOVIES_DETAILS_SCREEN,
+                            key = AnalyticsEvent.ParamKeys.MOVIES_NAME,
+                            value = sucess?.movieData?.name
                         )
                     },
                     onError = { error ->

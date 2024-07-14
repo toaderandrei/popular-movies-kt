@@ -1,20 +1,15 @@
 name: Release
 
 on:
-  # Triggers the workflow on every pull request to master branch
-  pull_request:
+  push:
     branches:
-      - master
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+      - main
 
 jobs:
-  build_and_publish:
+  release:
     runs-on: ubuntu-latest
 
     env:
-      # Environment variables for signing the app
       SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
       SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
       SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
@@ -51,14 +46,7 @@ jobs:
       - name: Download Dependencies
         run: ./gradlew build --scan --continue
 
-      - name: Run Lint
-        run: ./gradlew lint
-
-      - name: Run Tests
-        run: ./gradlew test
-
       - name: Decode and Save Signing Key
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           mkdir -p $HOME/.android
           echo "$SIGNING_KEY" > keystore-base64.txt
@@ -66,8 +54,13 @@ jobs:
           ls -la $HOME/.android
           ls -la $HOME/.android/release.keystore
 
+      - name: List Keystore Directory
+        run: ls -la $HOME/.android
+
+      - name: Check Keystore File
+        run: test -f $HOME/.android/release.keystore && echo "Keystore file exists" || echo "Keystore file does not exist"
+
       - name: Update Build Configuration for Signing
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
           echo "android {
             signingConfigs {
@@ -88,21 +81,25 @@ jobs:
       - name: Assemble Release
         run: ./gradlew assembleRelease --stacktrace
 
-      - name: Sign APK
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: ./gradlew assembleRelease --stacktrace
-
       - name: Verify Signature
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: jarsigner -verify app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Zipalign APK
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: ${ANDROID_SDK_ROOT}/build-tools/30.0.3/zipalign -v 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
 
       - name: Upload Release APK
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         uses: actions/upload-artifact@v2
         with:
           name: app-release.apk
           path: app/build/outputs/apk/release/app-release.apk
+
+      - name: Bump Version Code and Commit
+        run: |
+          versionCode=$(grep versionCode app/build.gradle | awk '{print $2}')
+          newVersionCode=$((versionCode + 1))
+          sed -i "s/versionCode $versionCode/versionCode $newVersionCode/" app/build.gradle
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add app/build.gradle
+          git commit -m "Bump version code to $newVersionCode"
+          git push

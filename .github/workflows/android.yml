@@ -19,6 +19,7 @@ jobs:
       SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
       SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
       TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+      ANDROID_SDK_ROOT: /opt/android-sdk
 
     steps:
       - name: Checkout code
@@ -30,15 +31,21 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v2
+        with:
+          api-level: 30
+          build-tools: 30.0.3
+
       - name: Cache Gradle dependencies
         uses: actions/cache@v2
         with:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: gradle-cache-${{ runner.os }}-${{ hashFiles('**/build.gradle', '**/settings.gradle', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            gradle-${{ runner.os }}-
+            gradle-cache-${{ runner.os }}-
 
       - name: Download Dependencies
         run: ./gradlew build --scan --continue
@@ -49,32 +56,48 @@ jobs:
       - name: Run Tests
         run: ./gradlew test
 
-      - name: Assemble Release
-        run: ./gradlew assembleRelease
-
       - name: Decode and Save Signing Key
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          echo "$SIGNING_KEY" | base64 --decode > release.keystore
+          mkdir -p $HOME/.android
+          echo "$SIGNING_KEY" > keystore-base64.txt
+          base64 --decode keystore-base64.txt > $HOME/.android/release.keystore
+          ls -la $HOME/.android
+          ls -la $HOME/.android/release.keystore
+
+      - name: Update Build Configuration for Signing
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: |
+          echo "android {
+            signingConfigs {
+              release {
+                keyAlias '${{ secrets.SIGNING_KEY_ALIAS }}'
+                keyPassword '${{ secrets.SIGNING_KEY_PASSWORD }}'
+                storeFile file('$HOME/.android/release.keystore')
+                storePassword '${{ secrets.SIGNING_STORE_PASSWORD }}'
+              }
+            }
+            buildTypes {
+              release {
+                signingConfig signingConfigs.release
+              }
+            }
+          }" >> app/build.gradle
+
+      - name: Assemble Release
+        run: ./gradlew assembleRelease --stacktrace
 
       - name: Sign APK
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
-            -keystore release.keystore \
-            -storepass $SIGNING_STORE_PASSWORD \
-            -keypass $SIGNING_KEY_PASSWORD \
-            app/build/outputs/apk/release/app-release-unsigned.apk $SIGNING_KEY_ALIAS
+        run: ./gradlew assembleRelease --stacktrace
 
       - name: Verify Signature
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          jarsigner -verify app/build/outputs/apk/release/app-release-unsigned.apk
+        run: jarsigner -verify app/build/outputs/apk/release/app-release-unsigned.apk
 
       - name: Zipalign APK
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: |
-          ${ANDROID_HOME}/build-tools/30.0.3/zipalign -v 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
+        run: ${ANDROID_SDK_ROOT}/build-tools/30.0.3/zipalign -v 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
 
       - name: Upload Release APK
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'

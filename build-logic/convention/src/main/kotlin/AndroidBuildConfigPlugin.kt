@@ -60,7 +60,7 @@ class AndroidBuildConfigPlugin : Plugin<Project> {
             val properties = Properties().apply {
                 load(localPropertiesFile.inputStream())
             }
-            return properties.getProperty("API_KEY", "")
+            return properties.getProperty("TMDB_API_KEY", "")
         } else {
             return System.getenv("TMDB_API_KEY")
                 ?: throw GradleException("TMDB_API_KEY environment variable is not set")

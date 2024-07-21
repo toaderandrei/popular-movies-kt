@@ -1,4 +1,4 @@
-name: Branches
+name: Branch
 
 on:
   pull_request:
@@ -10,8 +10,13 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+      SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
       TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
       ANDROID_SDK_ROOT: /opt/android-sdk
+      CI: true
 
     steps:
       - name: Checkout code
@@ -29,22 +34,45 @@ jobs:
           api-level: 30
           build-tools: 30.0.3
 
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v2
+      - name: Decode and Save Signing Key
+        run: |
+          mkdir -p $HOME/.android
+          echo "${{ secrets.SIGNING_KEY }}" | base64 --decode > $HOME/.android/release.keystore
+
+      - name: Download Dependencies
+        run: ./gradlew build --scan --continue
+
+      - name: Assemble Release
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Sign APK
+        run: |
+          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
+          -keystore $HOME/.android/release.keystore \
+          -storepass ${{ secrets.SIGNING_STORE_PASSWORD }} \
+          -keypass ${{ secrets.SIGNING_KEY_PASSWORD }} \
+          app/build/outputs/apk/release/app-release-unsigned.apk \
+          ${{ secrets.SIGNING_KEY_ALIAS }}
+
+      - name: Verify Signature
+        run: jarsigner -verify app/build/outputs/apk/release/app-release-unsigned.apk
+
+      - name: Zipalign APK
+        run: ${ANDROID_SDK_ROOT}/build-tools/30.0.3/zipalign -v 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
+
+      - name: Upload Release APK
+        uses: actions/upload-artifact@v2
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-cache-${{ runner.os }}-${{ hashFiles('**/build.gradle', '**/settings.gradle', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-cache-${{ runner.os }}-
+          name: app-release.apk
+          path: app/build/outputs/apk/release/app-release.apk
 
-      - name: Run Lint
-        run: ./gradlew lint
-
-      - name: Assemble Debug
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: Run Tests
-        run: ./gradlew test
-
+      - name: Bump Version Code and Commit
+        run: |
+          versionCode=$(grep versionCode app/build.gradle.kts | awk '{print $2}')
+          newVersionCode=$((versionCode + 1))
+          sed -i "s/versionCode $versionCode/versionCode $newVersionCode/" app/build.gradle.kts
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add app/build.gradle.kts
+          git commit -m "Bump version code to $newVersionCode"
+          git push

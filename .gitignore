@@ -28,7 +28,9 @@ local.properties
 **/.build
 **/build
 build-logic/convention/build
-
+.secrets
+*.env
+.bak
 **/build-logic/build/**/build
 **/build-logic/.gradle/**
 

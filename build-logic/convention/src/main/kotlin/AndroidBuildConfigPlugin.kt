@@ -19,7 +19,8 @@ class AndroidBuildConfigPlugin : Plugin<Project> {
             create("release") {
                 keyAlias = System.getenv("SIGNING_KEY_ALIAS")
                 keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
-                storeFile = project.file("release.keystore")
+                storeFile = project.file("${System.getenv("HOME")}/.android/release.keystore")
+                println("Configured release keystore path: ${storeFile?.absolutePath}")
                 storePassword = System.getenv("SIGNING_STORE_PASSWORD")
             }
         }
@@ -54,7 +55,6 @@ class AndroidBuildConfigPlugin : Plugin<Project> {
     }
 
     private fun getApiKey(project: Project): String {
-
         val localPropertiesFile = project.rootProject.file("local.properties")
         if (localPropertiesFile.exists()) {
             val properties = Properties().apply {

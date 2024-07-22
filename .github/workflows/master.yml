@@ -1,4 +1,4 @@
-name: Master
+name: Release
 
 on:
   push:
@@ -6,11 +6,11 @@ on:
       - main
 
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
 
     env:
-      SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+      SIGNING_KEY: ${{ secrets.SIGNING_KEY_BASE64 }}
       SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
       SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
       SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
@@ -33,56 +33,38 @@ jobs:
           api-level: 30
           build-tools: 30.0.3
 
-      - name: Cache Gradle dependencies
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: gradle-cache-${{ runner.os }}-${{ hashFiles('**/build.gradle', '**/settings.gradle', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            gradle-cache-${{ runner.os }}-
-
-      - name: Download Dependencies
-        run: ./gradlew build --scan --continue
-
-      - name: Decode and Save Signing Key
+      - name: Decode Keystore
         run: |
           mkdir -p $HOME/.android
-          echo "$SIGNING_KEY" > keystore-base64.txt
-          base64 --decode keystore-base64.txt > $HOME/.android/release.keystore
+          echo ${{secrets.SIGNING_KEY_BASE64}} > keystore-base64.txt
+          base64 -d keystore-base64.txt > $HOME/.android/release.keystore
           ls -la $HOME/.android
           ls -la $HOME/.android/release.keystore
 
-      - name: List Keystore Directory
-        run: ls -la $HOME/.android
-
-      - name: Check Keystore File
-        run: test -f $HOME/.android/release.keystore && echo "Keystore file exists" || echo "Keystore file does not exist"
-
-      - name: Update Build Configuration for Signing
+      - name: Verify Signing Key
         run: |
-          echo "android {
-            signingConfigs {
-              release {
-                keyAlias '${{ secrets.SIGNING_KEY_ALIAS }}'
-                keyPassword '${{ secrets.SIGNING_KEY_PASSWORD }}'
-                storeFile file('$HOME/.android/release.keystore')
-                storePassword '${{ secrets.SIGNING_STORE_PASSWORD }}'
-              }
-            }
-            buildTypes {
-              release {
-                signingConfig signingConfigs.release
-              }
-            }
-          }" >> app/build.gradle
+          keytool -list -v -keystore $HOME/.android/release.keystore -storepass $SIGNING_STORE_PASSWORD
+
+      - name: Download Dependencies
+        run: ./gradlew dependencies --stacktrace
 
       - name: Run Lint
-        run: ./gradlew lint
+        run: ./gradlew lint --stacktrace
+
+      - name: Run Tests
+        run: ./gradlew test --stacktrace
 
       - name: Assemble Release
         run: ./gradlew assembleRelease --stacktrace
+
+      - name: Sign APK
+        run: |
+          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
+          -keystore $HOME/.android/release.keystore \
+          -storepass $SIGNING_STORE_PASSWORD \
+          -keypass $SIGNING_KEY_PASSWORD \
+          app/build/outputs/apk/release/app-release-unsigned.apk \
+          $SIGNING_KEY_ALIAS
 
       - name: Verify Signature
         run: jarsigner -verify app/build/outputs/apk/release/app-release-unsigned.apk
@@ -97,12 +79,13 @@ jobs:
           path: app/build/outputs/apk/release/app-release.apk
 
       - name: Bump Version Code and Commit
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: |
-          versionCode=$(grep versionCode app/build.gradle | awk '{print $2}')
+          versionCode=$(grep versionCode app/build.gradle.kts | awk '{print $2}')
           newVersionCode=$((versionCode + 1))
-          sed -i "s/versionCode $versionCode/versionCode $newVersionCode/" app/build.gradle
+          sed -i "s/versionCode $versionCode/versionCode $newVersionCode/" app/build.gradle.kts
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add app/build.gradle
+          git add app/build.gradle.kts
           git commit -m "Bump version code to $newVersionCode"
           git push

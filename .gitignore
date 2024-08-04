@@ -22,7 +22,7 @@
 # local
 /local.properties
 local.properties
-
+gradle.properties
 
 # build
 **/.build

@@ -19,8 +19,26 @@ class AndroidBuildConfigPlugin : Plugin<Project> {
             create("release") {
                 keyAlias = System.getenv("SIGNING_KEY_ALIAS")
                 keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
-                storeFile = project.file("${System.getenv("HOME")}/.android/release.keystore")
-                println("Configured release keystore path: ${storeFile?.absolutePath}")
+                val homePath = System.getenv("HOME")
+                val keystorePath = "$homePath/.android/release.keystore"
+                println("Home path: $homePath")
+                println("Configured release keystore path: $keystorePath")
+
+                storeFile = project.file(keystorePath)
+                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+            }
+        }
+    }
+
+    private fun ApplicationExtension.configureSigningConfigs2(project: Project) {
+        signingConfigs {
+            create("release") {
+                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+                val keystorePath = project.rootProject.file("release.keystore").absolutePath
+                println("Configured release keystore path: $keystorePath")
+
+                storeFile = project.file(keystorePath)
                 storePassword = System.getenv("SIGNING_STORE_PASSWORD")
             }
         }

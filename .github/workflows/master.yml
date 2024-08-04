@@ -1,13 +1,10 @@
-name: Branches
+name: Master
 
 on:
-  pull_request:
-    branches:
-      - '**'
   push:
     branches:
-      - '**'
-  workflow_dispatch:
+      - main
+      - master
 
 jobs:
   build:
@@ -21,16 +18,16 @@ jobs:
 
     steps:
       - name: Checking out branch
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Java
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: 17
 
       - name: Setup Android SDK
-        uses: android-actions/setup-android@v2.0.10
+        uses: android-actions/setup-android@v3
 
       - name: Decode Keystore
         env:
@@ -62,7 +59,7 @@ jobs:
           dest: ${{ env.apkfile }}.zip
 
       - name: Upload Release Build to Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
           path: ${{ env.apkfile }}

@@ -18,4 +18,9 @@ dependencies {
 
     // tmdb Api
     api(libs.tmdb)
+
+    // tests
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

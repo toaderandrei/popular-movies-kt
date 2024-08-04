@@ -33,4 +33,10 @@ interface SessionManager {
      * Retrieves the current user.
      */
     suspend fun getUsername(): String?
+
+    companion object {
+        const val SESSION_ID = "SESSION_ID"
+        const val USERNAME = "USERNAME"
+        const  val AVATAR = "AVATAR"
+    }
 }

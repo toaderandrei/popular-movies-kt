@@ -34,4 +34,8 @@ dependencies {
     api(libs.room.runtime)
     implementation(libs.roomRxjava)
     kapt(libs.room.compiler)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

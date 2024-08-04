@@ -32,9 +32,17 @@ fun <T> MoviesState<T>.parseResponse(
 fun <T> MoviesState<List<T>>.updateMoviesStatePages(
     newResult: Result<List<T>>,
     oldData: List<T>?,
-    page: Int
+    page: Int,
+    onLoading: () -> Unit = {},
+    onSuccess: (data: List<T>?) -> Unit = {},
+    onError: (error: Throwable) -> Unit = {}
 ): MoviesState<List<T>> {
-    val result = parseResponse(newResult)
+    val result = parseResponse(
+        newResult,
+        onLoading = onLoading,
+        onSuccess = onSuccess,
+        onError = onError,
+    )
     if (page != FIRST_PAGE) {
         val previousResultList = oldData?.toMutableList() ?: emptyList()
         var newResultList = result.data?.toMutableList() ?: emptyList()

@@ -4,7 +4,7 @@ import com.ant.models.entities.TvShowDetails
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
 import com.ant.models.source.repositories.tvseries.LoadTvSeriesDetailsSummaryRepository
-import com.ant.domain.qualifiers.IoDispatcher
+import com.ant.common.qualifiers.IoDispatcher
 import com.ant.domain.usecases.UseCase
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject

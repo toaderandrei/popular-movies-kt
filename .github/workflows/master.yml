@@ -1,0 +1,65 @@
+name: Master
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+      SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+      SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+      TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
+      ANDROID_SDK_ROOT: /opt/android-sdk
+
+    steps:
+      - name: Checking out branch
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Decode Keystore
+        env:
+          SIGNING_KEY_BASE64: ${{ secrets.SIGNING_KEY_BASE64 }}
+        run: |
+          mkdir -p $HOME/.android
+          chmod +x $HOME/.android
+          echo "$SIGNING_KEY_BASE64" | base64 -d > $HOME/.android/release.keystore
+          ls -la $HOME/.android
+
+      - name: Build Release apk
+        run: ./gradlew assembleRelease --stacktrace
+
+      - name: Build Release bundle
+        run: ./gradlew bundleRelease --stacktrace
+
+      - name: Get release file aab path
+        id: releaseAab
+        run: echo "aabfile=$(find app/build/outputs/bundle/release/*.aab)" >> $GITHUB_ENV
+
+      - name: Get release file apk path
+        id: releaseApk
+        run: echo "apkfile=$(find app/build/outputs/apk/release/*.apk)" >> $GITHUB_ENV
+
+      - name: Zip Files
+        uses: papeloto/action-zip@v1
+        with:
+          files: ${{ env.aabfile }} ${{ env.apkfile }}
+          dest: ${{ env.apkfile }}.zip
+
+      - name: Upload Release Build to Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: ${{ env.apkfile }}

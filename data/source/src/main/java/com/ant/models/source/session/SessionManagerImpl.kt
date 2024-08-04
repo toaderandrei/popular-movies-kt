@@ -53,8 +53,8 @@ class SessionManagerImpl(
     }
 
     companion object {
-        val SESSION_ID = stringPreferencesKey("SESSION_ID")
-        val USERNAME = stringPreferencesKey("USERNAME")
-        val AVATAR = stringPreferencesKey("AVATAR")
+        val SESSION_ID = stringPreferencesKey(SessionManager.SESSION_ID)
+        val USERNAME = stringPreferencesKey(SessionManager.USERNAME)
+        val AVATAR = stringPreferencesKey(SessionManager.AVATAR)
     }
 }

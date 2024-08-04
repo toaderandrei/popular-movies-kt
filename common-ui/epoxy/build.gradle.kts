@@ -23,4 +23,9 @@ dependencies {
     // Dagger/Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    // tests
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

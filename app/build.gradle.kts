@@ -1,5 +1,3 @@
-import java.util.Properties
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -9,16 +7,15 @@ plugins {
     alias(libs.plugins.popular.movies.android.application)
     alias(libs.plugins.popular.movies.android.firebase)
     alias(libs.plugins.gms)
+    alias(libs.plugins.popular.movies.android.lint)
+    alias(libs.plugins.popular.movies.android.config)
 }
 
 android {
 
     defaultConfig {
-        buildConfigField(
-            "String",
-            "TMDB_API_KEY",
-            "\"" + getLocalProperty("API_KEY", "") + "\""
-        )
+        versionCode = 2
+        versionName = "0.1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -27,47 +24,15 @@ android {
         }
     }
 
-    // Add this line
-    namespace = "com.ant.app"
-
-    buildTypes {
-        // todo fix proguard
-        debug {
-//            signingConfig = signingConfigs.getByName("debug")
-//            versionNameSuffix = "-dev"
-//            applicationIdSuffix = ".debug"
-        }
-
-        release {
-//            signingConfig = signingConfigs.getByName("release")
-//            isDebuggable = false
-//            isZipAlignEnabled = true
-//            isMinifyEnabled = true
-//            proguardFile(getDefaultProguardFile("proguard-android.txt"))
-//            // global proguard settings
-//            proguardFile(file("proguard-rules.pro"))
-//            // library proguard settings
-//            val files = rootProject.file("proguard")
-//                .listFiles()
-//                .filter { it.name.startsWith("proguard") }
-//                .toTypedArray()
-//            proguardFiles(*files)
-        }
-    }
-    lint {
-        // Eliminates UnusedResources false positives for resources used in DataBinding layouts
-        checkGeneratedSources = true
-        // Running lint over the debug variant is enough
-        checkReleaseBuilds = false
-        abortOnError = false
-    }
-
     buildFeatures {
         viewBinding = true
         buildConfig = true
         //noinspection DataBindingWithoutKapt
         dataBinding = true
     }
+
+    // Add this line
+    namespace = "com.ant.app"
 }
 
 dependencies {
@@ -81,6 +46,7 @@ dependencies {
     implementation(project(":common-ui:epoxy"))
     implementation(project(":data:source"))
     implementation(project(":domain"))
+    implementation(project(":analytics"))
     implementation(libs.circle.image)
 
     // UI libs
@@ -104,11 +70,11 @@ dependencies {
     // Live data
     implementation(libs.livedata)
 
-    //okhttp client
+    // okhttp client
     implementation(libs.okhttp)
     implementation(libs.okhttpLoggingInterceptor)
 
-    //navigation
+    // navigation
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui)
     implementation(libs.fragmentKtx)
@@ -119,18 +85,15 @@ dependencies {
 
     // firebase
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+
     // check if still needed after plugin
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.data.store)
     implementation(libs.data.store.preferences)
-}
 
-fun getLocalProperty(propertyName: String, defaultValue: String): String {
-    val properties = Properties()
-    val localPropertiesFile = project.rootProject.file("local.properties")
-    if (localPropertiesFile.exists()) {
-        properties.load(localPropertiesFile.inputStream())
-    }
-    return properties.getProperty(propertyName, defaultValue)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
 }

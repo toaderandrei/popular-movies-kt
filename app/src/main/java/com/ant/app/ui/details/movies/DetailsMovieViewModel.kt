@@ -1,6 +1,9 @@
 package com.ant.app.ui.details.movies
 
 import androidx.lifecycle.viewModelScope
+import com.ant.analytics.AnalyticsEvent
+import com.ant.analytics.AnalyticsHelper
+import com.ant.analytics.CrashlyticsHelper
 import com.ant.app.ui.base.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
@@ -14,6 +17,7 @@ import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import logAnalytics
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,6 +26,8 @@ class DetailsMovieViewModel @Inject constructor(
     val movieDetailsUseCase: MovieDetailsUseCase,
     val movieSaveDetailsUseCase: SaveMovieDetailsUseCase,
     val movieDeleteDetailsUseCase: DeleteMovieDetailsUseCase,
+    private val analyticsHelper: AnalyticsHelper,
+    private val crashlyticsHelper: CrashlyticsHelper,
 ) : BaseViewModel<MoviesState<MovieDetails>>(MoviesState()) {
     fun loadMovieDetails(movieId: Long) {
         viewModelScope.launch {
@@ -37,7 +43,17 @@ class DetailsMovieViewModel @Inject constructor(
                 )
             ).collectAndSetState {
                 logger.d("state: $this")
-                parseResponse(response = it)
+                parseResponse(response = it,
+                    onSuccess = { sucess ->
+                        analyticsHelper.logAnalytics(
+                            type = AnalyticsEvent.Types.MOVIES_DETAILS_SCREEN,
+                            key = AnalyticsEvent.ParamKeys.MOVIES_NAME,
+                            value = sucess?.movieData?.name
+                        )
+                    },
+                    onError = { error ->
+                        crashlyticsHelper.logError(error)
+                    })
             }
         }
     }

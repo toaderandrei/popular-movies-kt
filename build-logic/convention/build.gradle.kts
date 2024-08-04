@@ -19,6 +19,8 @@ tasks.withType<KotlinCompile>().configureEach {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.firebase.crashlytics.gradlePlugin)
+
 }
 
 tasks {
@@ -41,6 +43,14 @@ gradlePlugin {
         register("androidFirebase") {
             id = "popular.movies.android.firebase"
             implementationClass = "AndroidApplicationFirebaseConventionPlugin"
+        }
+        register("androidLint") {
+            id = "popular.movies.android.lint"
+            implementationClass = "AndroidLintConventionPlugin"
+        }
+        register("androidConfig") {
+            id = "popular.movies.android.config"
+            implementationClass = "AndroidBuildConfigPlugin"
         }
     }
 }

@@ -3,10 +3,10 @@ name: Branches
 on:
   pull_request:
     branches:
-      - '**' # Run on all branches
+      - '**'
   push:
     branches:
-      - '**' # Run on all branches
+      - '**'
   workflow_dispatch:
 
 jobs:
@@ -32,16 +32,14 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v2.0.10
 
-      # This will create the directory if it doesn't exist and then decode the keystore from base 64 text representation that we have stored in secrets
       - name: Decode Keystore
         env:
           SIGNING_KEY_BASE64: ${{ secrets.SIGNING_KEY_BASE64 }}
-
         run: |
           mkdir -p $HOME/.android
           chmod +x $HOME/.android
           echo "$SIGNING_KEY_BASE64" | base64 -d > $HOME/.android/release.keystore
-          ls -la $HOME/.android # Verify the keystore file is created
+          ls -la $HOME/.android
 
       - name: Build Release apk
         run: ./gradlew assembleRelease --stacktrace
@@ -60,11 +58,11 @@ jobs:
       - name: Zip Files
         uses: papeloto/action-zip@v1
         with:
-          files: ${{ steps.releaseAab.outputs.aabfile }} ${{ steps.releaseApk.outputs.apkfile }}
-          dest: ${{ steps.releaseApk.outputs.apkfile }}.zip
+          files: ${{ env.aabfile }} ${{ env.apkfile }}
+          dest: ${{ env.apkfile }}.zip
 
       - name: Upload Release Build to Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: release-artifacts
-          path: ${{ steps.releaseApk.outputs.apkfile }}
+          path: ${{ env.apkfile }}

@@ -19,6 +19,9 @@
 .externalNativeBuild
 .cxx
 
+# release
+app/release
+
 # local
 /local.properties
 local.properties

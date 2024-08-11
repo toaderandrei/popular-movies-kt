@@ -13,7 +13,7 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "Popular-Movies-V2"
+rootProject.name = "Popular-Movies"
 // ui
 include ':app'
 include ':common-ui:adapters'

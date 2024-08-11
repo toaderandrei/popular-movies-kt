@@ -45,6 +45,7 @@ gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+popular-movies-version = "0.1.2"
 
 [libraries]
 junit = { module = "junit:junit", version.ref = "junit" }

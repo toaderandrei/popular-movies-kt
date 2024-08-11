@@ -67,30 +67,24 @@ jobs:
           path: ${{ env.apkfile }}
 
   release:
-    needs: build
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Set Release Version
+        run: echo "RELEASE_VERSION=$(echo ${{ github.ref }} | sed 's/refs\/tags\///')" >> $GITHUB_ENV
+
       - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5 # 1.14.0
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
-          body: |
-            Automated release for version ${{ github.ref_name }}.
-          draft: false
-          prerelease: false
+          token: ${{ secrets.PAT_TOKEN }}
+          tag: ${{ env.RELEASE_VERSION }}
+          generateReleaseNotes: true
 
       - name: Upload APK to Release
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ env.apkfile }}
@@ -99,10 +93,19 @@ jobs:
 
       - name: Upload AAB to Release
         uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ env.aabfile }}
           asset_name: $(basename ${{ env.aabfile }})
           asset_content_type: application/octet-stream
+
+      - name: Update App Version
+        run: ./gradlew -b scripts/update-release-version.gradle.kts updateVersion
+
+      - name: Commit updated version
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add lib.versions.toml
+          git commit -m "Bump app version after release [skip ci]"
+          git push origin HEAD:${{ github.ref }}

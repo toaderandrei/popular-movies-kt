@@ -1,0 +1,29 @@
+name: Update Dependencies
+
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Update Dependencies
+        run: ./gradlew -b scripts/update-dependencies.gradle.kts updateDependencies
+
+      - name: Commit updated versions
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add gradle/libs.versions.toml
+          git commit -m "Update dependencies [skip ci]"
+          git push origin master

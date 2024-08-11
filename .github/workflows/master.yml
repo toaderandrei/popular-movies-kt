@@ -67,8 +67,8 @@ jobs:
           path: ${{ env.apkfile }}
 
   release:
+    needs: build
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -106,6 +106,6 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add lib.versions.toml
+          git add gradle/libs.versions.toml
           git commit -m "Bump app version after release [skip ci]"
           git push origin HEAD:${{ github.ref }}

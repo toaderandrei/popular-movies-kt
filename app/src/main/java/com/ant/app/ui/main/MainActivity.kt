@@ -13,7 +13,7 @@ import com.ant.analytics.AnalyticsHelper
 import com.ant.app.R
 import com.ant.app.databinding.ActivityMainBinding
 import com.ant.app.ui.extensions.setInsets
-import com.ant.app.ui.main.base.ToolbarWithNavigation
+import com.ant.common.listeners.ToolbarWithNavigation
 import com.ant.common.logger.TmdbLogger
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

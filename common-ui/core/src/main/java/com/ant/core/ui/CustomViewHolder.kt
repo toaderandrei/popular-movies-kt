@@ -1,4 +1,4 @@
-package com.ant.adapters
+package com.ant.core.ui
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView

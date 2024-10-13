@@ -16,7 +16,7 @@ dependencyResolutionManagement {
 rootProject.name = "Popular-Movies"
 // ui
 include ':app'
-include ':common-ui:adapters'
+include ':common-ui:core'
 include ':common-ui:epoxy'
 include ':common-ui:layouts'
 include ':common-ui:bindings'

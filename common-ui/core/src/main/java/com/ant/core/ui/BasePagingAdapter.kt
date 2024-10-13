@@ -1,33 +1,17 @@
-package com.ant.adapters
+package com.ant.core.ui
 
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.asExecutor
 
-abstract class BaseListAdapter<T, V : ViewDataBinding>(
+abstract class BasePagingAdapter<T : Any, V : ViewDataBinding>(
     dispatcher: CoroutineDispatcher, diffCallback: DiffUtil.ItemCallback<T>
-) : ListAdapter<T, CustomViewHolder<V>>(
-    AsyncDifferConfig
-        .Builder(diffCallback).setBackgroundThreadExecutor(dispatcher.asExecutor())
-        .build()
+) : PagingDataAdapter<T, CustomViewHolder<V>>(
+    diffCallback = diffCallback,
+    workerDispatcher = dispatcher,
 ) {
-    protected var attachedRecyclerView: RecyclerView? = null
-
-    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        super.onAttachedToRecyclerView(recyclerView)
-        attachedRecyclerView = recyclerView
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView)
-        attachedRecyclerView = null
-    }
-
 
     override fun onCreateViewHolder(
         viewGroup: ViewGroup, layoutId: Int
@@ -40,7 +24,7 @@ abstract class BaseListAdapter<T, V : ViewDataBinding>(
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder<V>, position: Int) {
-        bind(holder, getItem(position))
+        bind(holder, getItem(position)!!)
         holder.binding.executePendingBindings()
     }
 

@@ -33,6 +33,7 @@ dependencies {
 
     api(libs.room.runtime)
     implementation(libs.roomRxjava)
+    //noinspection KaptUsageInsteadOfKsp
     kapt(libs.room.compiler)
 
     testImplementation(libs.junit)

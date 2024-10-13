@@ -25,5 +25,5 @@ class TvSeriesMapper @Inject constructor(
 }
 
 private fun List<Int>.filterGenres(genres: List<Genre>?): List<Genre> {
-    return genres?.filter { genre: Genre -> this.contains(genre.id) } ?: emptyList()
+    return genres?.filter { genre: Genre -> genre.id?.let { this.contains(it) } == true } ?: emptyList()
 }

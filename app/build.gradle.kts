@@ -39,7 +39,7 @@ dependencies {
     // module dependency
     implementation(project(":common"))
     implementation(project(":data:models"))
-    implementation(project(":common-ui:adapters"))
+    implementation(project(":common-ui:core"))
     implementation(project(":common-ui:resources"))
     implementation(project(":common-ui:bindings"))
     implementation(project(":common-ui:layouts"))

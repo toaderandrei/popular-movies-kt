@@ -6,6 +6,7 @@ import androidx.navigation.fragment.findNavController
 import com.ant.app.ui.main.base.movies.BaseMainListMoviesFragment
 import com.ant.models.entities.MovieData
 import dagger.hilt.android.AndroidEntryPoint
+import com.ant.app.R
 
 @AndroidEntryPoint
 class UpcomingMoviesFragment :
@@ -19,5 +20,9 @@ class UpcomingMoviesFragment :
 
     override fun getThisFragment(): Fragment {
         return this@UpcomingMoviesFragment
+    }
+
+    override fun getToolbarId(): Int {
+        return R.id.toolbar
     }
 }

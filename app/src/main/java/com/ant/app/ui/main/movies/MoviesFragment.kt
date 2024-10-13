@@ -57,13 +57,13 @@ class MoviesFragment : NavigationFragment<MoviesViewModel, FragmentMoviesBinding
         }
 
         with(viewModel) {
-            viewModel.refresh()
             stateAsFlow.observe(viewLifecycleOwner, ::updateUi)
         }
     }
 
     private fun updateUi(moviesListState: MoviesListState?) {
         moviesListState?.let {
+            logger.d("updateUi: $moviesListState")
             controller.state = it
             binding.state = it
         }

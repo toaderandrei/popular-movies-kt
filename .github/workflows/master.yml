@@ -60,7 +60,13 @@ jobs:
           files: ${{ env.aabfile }} ${{ env.apkfile }}
           dest: ${{ env.apkfile }}.zip
 
+      - name: Check Environment Variables
+        run: |
+          echo "GITHUB_ACTIONS: $GITHUB_ACTIONS"
+          echo "ACTIONS_RUNTIME_TOKEN: $ACTIONS_RUNTIME_TOKEN"
+
       - name: Upload Release Build to Artifacts
+        if: ${{ env.GITHUB_ACTIONS == 'true' }}  # Only run this on GitHub Actions
         uses: actions/upload-artifact@v4
         with:
           name: release-artifacts

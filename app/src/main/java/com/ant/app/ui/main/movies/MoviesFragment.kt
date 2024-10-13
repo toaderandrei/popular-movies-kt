@@ -57,7 +57,6 @@ class MoviesFragment : NavigationFragment<MoviesViewModel, FragmentMoviesBinding
         }
 
         with(viewModel) {
-            viewModel.refresh()
             stateAsFlow.observe(viewLifecycleOwner, ::updateUi)
         }
     }

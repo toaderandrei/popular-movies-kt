@@ -118,8 +118,8 @@
             android:id="@+id/details_movie_genres"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_12"
-            android:maxWidth="@dimen/text_max_big"
+            android:layout_marginTop="@dimen/margin_8"
+            android:maxWidth="@dimen/text_size_16"
             android:maxLines="3"
             android:text="@{item.movieData.genres}"
             android:textAppearance="?attr/textAppearanceHeadline6"
@@ -265,7 +265,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="@dimen/margin_20" />
+            app:layout_constraintGuide_begin="@dimen/margin_24" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/mark_as_favourite_group"

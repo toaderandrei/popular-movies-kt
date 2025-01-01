@@ -42,7 +42,7 @@ class DetailsTvSeriesFragment :
 
     private lateinit var tvSeriesCastAdapter: MovieCastsAdapter
     private lateinit var movieVideosAdapter: MovieVideosAdapter
-    private val args: DetailsTvSeriesFragmentArgs by navArgs()
+    // private val args: DetailsTvSeriesFragmentArgs by navArgs()
 
     override fun createViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
@@ -53,7 +53,7 @@ class DetailsTvSeriesFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tmdbMovieId = args.tmdbId
+        tmdbMovieId = 1234
 
         if (tmdbMovieId == 0L) {
             throw IllegalArgumentException("tmdb movie id missing.")

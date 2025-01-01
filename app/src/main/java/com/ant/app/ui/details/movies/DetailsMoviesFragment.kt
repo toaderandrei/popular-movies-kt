@@ -41,7 +41,7 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
 
     private lateinit var movieCastAdapter: MovieCastsAdapter
     private lateinit var movieVideosAdapter: MovieVideosAdapter
-    private val args: DetailsMoviesFragmentArgs by navArgs()
+    //private val args: DetailsMoviesFragmentArgs by navArgs()
 
     override fun createViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
@@ -52,7 +52,7 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tmdbMovieId = args.tmdbId
+        tmdbMovieId = 1234 //args.tmdbId
 
         if (tmdbMovieId == 0L) {
             throw IllegalArgumentException("tmdb movie id missing.")

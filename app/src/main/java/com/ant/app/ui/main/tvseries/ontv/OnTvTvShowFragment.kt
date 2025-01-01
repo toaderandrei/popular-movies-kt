@@ -14,7 +14,7 @@ class OnTvTvShowFragment :
     override val viewModel: OnTvTvShowViewModel by viewModels()
 
     override fun showDetailsScreen(tvShow: TvShow) {
-        findNavController().navigate(OnTvTvShowFragmentDirections.toDetails(tvShow.id))
+       // findNavController().navigate(OnTvTvShowFragmentDirections.toDetails(tvShow.id))
     }
 
     override fun getThisFragment(): Fragment {

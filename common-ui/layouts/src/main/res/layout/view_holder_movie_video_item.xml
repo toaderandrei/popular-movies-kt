@@ -27,8 +27,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/movie_item_video_image"
-            android:layout_width="@dimen/width_video_2"
-            android:layout_height="@dimen/height_video_2"
+            android:layout_width="@dimen/width_100"
+            android:layout_height="@dimen/height_icon_120"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +40,7 @@
             style="?attr/textAppearanceSubtitle1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxWidth="@dimen/text_max_small"
+            android:maxWidth="@dimen/text_size_8"
             android:maxLines="3"
             android:text="@{item.name}"
             android:textStyle="bold"

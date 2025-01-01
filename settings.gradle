@@ -20,7 +20,13 @@ include ':common-ui:adapters'
 include ':common-ui:epoxy'
 include ':common-ui:layouts'
 include ':common-ui:bindings'
-include ':common-ui:resources'
+include ':core:resources'
+
+// features
+include ':features:movies'
+
+// core
+include ':core:ui'
 
 // data
 include ':data:source'

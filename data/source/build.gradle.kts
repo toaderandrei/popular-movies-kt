@@ -1,9 +1,7 @@
 plugins {
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.kapt)
     alias(libs.plugins.popular.movies.android.library)
+    alias(libs.plugins.popular.movies.hilt)
+    alias(libs.plugins.popular.movies.room)
 }
 
 android {
@@ -18,17 +16,7 @@ dependencies {
 
     // image loading
     implementation(libs.coil)
-
-    // Hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-
     implementation(libs.gsonConverter)
-
-    // Room
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    kapt(libs.room.compiler)
 
     implementation(libs.firebase.auth)
     implementation(libs.data.store.preferences)

@@ -61,7 +61,7 @@
             android:id="@+id/details_movie_poster_image"
             android:layout_width="@dimen/poster_image_width"
             android:layout_height="@dimen/poster_image_height"
-            android:layout_marginStart="@dimen/margin_12"
+            android:layout_marginStart="@dimen/margin_8"
             android:contentDescription="@string/movie_poster"
             android:scaleType="centerCrop"
             app:dimension="@{posterSizes.W154.wSize}"
@@ -75,7 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_8"
-            android:maxWidth="@dimen/text_max_large"
+            android:maxWidth="@dimen/text_size_16"
             android:maxLines="3"
             android:text="@{item.movieData.name}"
             android:textAppearance="?attr/textAppearanceSubtitle1"
@@ -200,6 +200,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="@dimen/margin_12" />
+            app:layout_constraintGuide_end="@dimen/margin_8" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

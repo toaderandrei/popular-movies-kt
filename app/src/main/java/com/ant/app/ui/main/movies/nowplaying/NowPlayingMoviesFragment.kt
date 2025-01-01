@@ -14,7 +14,7 @@ class NowPlayingMoviesFragment :
     override val viewModel: NowPlayingMoviesViewModel by viewModels()
 
     override fun showDetailsScreen(movieData: MovieData) {
-        findNavController().navigate(NowPlayingMoviesFragmentDirections.toDetails(movieData.id))
+      //  findNavController().navigate(NowPlayingMoviesFragmentDirections.toDetails(movieData.id))
     }
 
     override fun getThisFragment(): Fragment {

@@ -14,7 +14,7 @@ class PopularTvShowFragment :
     override val viewModel: PopularTvShowViewModel by viewModels()
 
     override fun showDetailsScreen(tvShow: TvShow) {
-        findNavController().navigate(PopularTvShowFragmentDirections.toDetails(tvShow.id))
+       // findNavController().navigate(PopularTvShowFragmentDirections.toDetails(tvShow.id))
     }
 
     override fun getThisFragment(): Fragment {

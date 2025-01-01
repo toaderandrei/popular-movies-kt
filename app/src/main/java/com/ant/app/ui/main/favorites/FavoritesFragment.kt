@@ -91,10 +91,10 @@ class FavoritesFragment : NavigationFragment<FavoritesViewModel, FragmentFavorit
     }
 
     private fun showMovieDetailsScreen(movieData: MovieData) {
-        findNavController().navigate(FavoritesFragmentDirections.toMovieDetails(movieData.id))
+       // findNavController().navigate(FavoritesFragmentDirections.toMovieDetails(movieData.id))
     }
 
     private fun showTvSeriesDetailsScreen(tvShow: TvShow) {
-        findNavController().navigate(FavoritesFragmentDirections.toTvshowDetails(tvShow.id))
+       // findNavController().navigate(FavoritesFragmentDirections.toTvshowDetails(tvShow.id))
     }
 }

@@ -27,7 +27,4 @@ abstract class MovieVideosDao {
 
     @Query("DELETE FROM MovieVideo WHERE  movie_id = :movieId")
     abstract suspend fun deleteMovieVideosById(movieId: Long)
-
-    @Transaction
-    open suspend fun withTransaction(tx: suspend () -> Unit) = tx()
 }

@@ -44,8 +44,8 @@ class AccountProfileFragment(
             loginCallback = object : AccountLoginCallback {
                 override fun login() {
                     logger.d("Account login.")
-                    val directions = getLoginDirections()
-                    findNavController().navigate(directions)
+//                    val directions = getLoginDirections()
+//                    findNavController().navigate(directions)
                 }
 
                 override fun logout() {
@@ -56,11 +56,11 @@ class AccountProfileFragment(
         }
     }
 
-    private fun getLoginDirections(logout: Boolean = false): AccountProfileFragmentDirections.ToLoginScreen {
-        val directions = AccountProfileFragmentDirections.toLoginScreen()
-        directions.setLogout(logout)
-        return directions
-    }
+//    private fun getLoginDirections(logout: Boolean = false): AccountProfileFragmentDirections.ToLoginScreen {
+//        val directions = AccountProfileFragmentDirections.toLoginScreen()
+//        directions.setLogout(logout)
+//        return directions
+//    }
 
     private fun updateUi(loginState: MoviesState<UserData>) {
 

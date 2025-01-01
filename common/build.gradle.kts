@@ -2,7 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.hilt)
-    alias(libs.plugins.kapt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.popular.movies.hilt)
     alias(libs.plugins.popular.movies.android.library)
 }
 
@@ -23,17 +24,16 @@ dependencies {
 
     implementation(libs.timber)
     implementation(libs.material)
+    ksp(libs.hilt.compiler)
 
     // retrofit
     implementation(libs.retrofit)
 
     // Dagger - Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
 
     api(libs.room.runtime)
     implementation(libs.roomRxjava)
-    kapt(libs.room.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

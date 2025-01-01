@@ -1,11 +1,12 @@
 plugins {
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kapt)
     alias(libs.plugins.popular.movies.android.library)
+    alias(libs.plugins.popular.movies.hilt)
+    alias(libs.plugins.kapt)
+
 }
 android {
     buildFeatures {
+        //noinspection DataBindingWithoutKapt
         dataBinding = true
     }
     namespace  = "com.ant.bindings"

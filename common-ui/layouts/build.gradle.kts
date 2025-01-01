@@ -1,11 +1,10 @@
 plugins {
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.android.library)
     alias(libs.plugins.kapt)
     alias(libs.plugins.popular.movies.android.library)
 }
 android {
     buildFeatures {
+        //noinspection DataBindingWithoutKapt
         dataBinding = true
     }
     namespace  = "com.ant.layouts"
@@ -13,7 +12,7 @@ android {
 
 dependencies {
     implementation(project(":common"))
-    implementation(project(":common-ui:resources"))
+    implementation(project(":core:resources"))
     implementation(project(":common-ui:bindings"))
     implementation(project(":data:models"))
 

@@ -6,6 +6,7 @@ plugins {
 
 android {
     buildFeatures {
+        //noinspection DataBindingWithoutKapt
         dataBinding = true
     }
     namespace  = "com.ant.adapters"
@@ -14,6 +15,4 @@ android {
 dependencies {
     api(project(":data:models"))
     implementation(libs.recyclerview)
-    // Paging runtime
-    implementation(libs.pagingRuntime)
 }

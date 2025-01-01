@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_8"
-            android:maxWidth="@dimen/text_max_small"
+            android:maxWidth="@dimen/text_size_8"
             android:maxLines="3"
             android:text="@{item.name}"
             app:layout_constraintEnd_toEndOf="parent"

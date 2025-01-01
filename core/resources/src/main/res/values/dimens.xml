@@ -1,0 +1,93 @@
+<resources>
+
+    <!-- Margins -->
+    <dimen name="margin_1">1dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_4">4dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
+    <dimen name="margin_16">16dp</dimen> <!-- Base margin -->
+    <dimen name="margin_24">24dp</dimen>
+    <dimen name="margin_32">32dp</dimen>
+    <dimen name="margin_48">48dp</dimen>
+    <dimen name="margin_64">64dp</dimen>
+    <dimen name="margin_128">128dp</dimen>c
+
+    <!-- Icon Sizes -->
+    <dimen name="icon_size_12">12dp</dimen>
+    <dimen name="icon_size_24">24dp</dimen>
+    <dimen name="icon_size_32">32dp</dimen>
+    <dimen name="icon_size_48">48dp</dimen>
+
+    <!-- Text Sizes -->
+    <dimen name="text_size_4">4sp</dimen>
+    <dimen name="text_size_6">6sp</dimen>
+    <dimen name="text_size_8">8sp</dimen>
+    <dimen name="text_size_10">10sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="text_size_24">24sp</dimen>
+    <dimen name="text_size_32">32sp</dimen>
+
+    <!-- Paddings -->
+    <dimen name="padding_2">2dp</dimen>
+    <dimen name="padding_4">4dp</dimen>
+    <dimen name="padding_8">8dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
+    <dimen name="padding_16">16dp</dimen>
+
+    <!-- Heights -->
+    <dimen name="video_height_60">60dp</dimen>
+    <dimen name="video_height_90">90dp</dimen>
+    <dimen name="video_height_120">120dp</dimen>
+
+    <!-- Navigation -->
+    <dimen name="nav_item_padding">16dp</dimen>
+    <dimen name="nav_item_radius">100dp</dimen>
+
+    <!--Legacy-->
+    <dimen name="text_spacing_0.125">0.125</dimen>
+
+    <!-- Intrinsic height may vary. Use a large radius to ensure a semicircle. -->
+    <dimen name="nav_item_background_corner_radius_left">0dp</dimen>
+    <dimen name="nav_item_background_corner_radius_right">100dp</dimen>
+    <dimen name="nav_item_background_inset_left">0dp</dimen>
+    <dimen name="nav_item_background_inset_right">8dp</dimen>
+
+    <!--Icon's sizes -->
+    <dimen name="width_icon_48">48dp</dimen>
+    <dimen name="height_icon_48">48dp</dimen>
+    <dimen name="backdrop_height">300dp</dimen>
+    <dimen name="collapsing_toolbar_height">300dp</dimen>
+    <dimen name="poster_image_width">80dp</dimen>
+    <dimen name="poster_image_height">120dp</dimen>
+
+    <!-- Widths -->
+    <dimen name="width_100">100dp</dimen>
+    <dimen name="width_140">140dp</dimen>
+    <dimen name="width_200">200dp</dimen>
+    <dimen name="width_300">300dp</dimen>
+
+    <dimen name="width_icon_12">12dp</dimen>
+    <dimen name="height_icon_12">12dp</dimen>
+    <dimen name="width_icon_24">24dp</dimen>
+    <dimen name="height_icon_24">24dp</dimen>
+    <dimen name="width_icon_72">72dp</dimen>
+    <dimen name="height_icon_72">72dp</dimen>
+    <dimen name="width_icon_90">90dp</dimen>
+    <dimen name="height_icon_90">90dp</dimen>
+    <dimen name="width_icon_120">120dp</dimen>
+    <dimen name="height_icon_120">120dp</dimen>
+    <dimen name="width_icon_320">320dp</dimen>
+    <dimen name="height_icon_320">320dp</dimen>
+
+    <dimen name="height_video_1">60dp</dimen>
+    <dimen name="width_video_1">90dp</dimen>
+    <dimen name="height_video_2">120dp</dimen>
+    <dimen name="width_video_2">180dp</dimen>
+    <dimen name="thick_120">120dp</dimen>
+
+    <dimen name="elevation_16">16dp</dimen>
+    <dimen name="appbar_elevation">20dp</dimen>
+    <dimen name="session_keyline">64dp</dimen>
+</resources>

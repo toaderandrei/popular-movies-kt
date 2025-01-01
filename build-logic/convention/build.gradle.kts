@@ -18,8 +18,11 @@ tasks.withType<KotlinCompile>().configureEach {
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
-    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.firebase.crashlytics.gradlePlugin)
+    compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.ksp.gradlePlugin)
+    compileOnly(libs.room.gradlePlugin)
 
 }
 
@@ -35,6 +38,18 @@ gradlePlugin {
         register("androidApplication") {
             id = "popular.movies.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
+        }
+        register("androidApplicationCompose") {
+            id = "popular.movies.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "popular.movies.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+        register("androidFeature") {
+            id = "popular.movies.android.feature"
+            implementationClass = "AndroidFeatureConventionPlugin"
         }
         register("androidLibrary") {
             id = "popular.movies.android.library"
@@ -52,5 +67,14 @@ gradlePlugin {
             id = "popular.movies.android.config"
             implementationClass = "AndroidBuildConfigPlugin"
         }
+        register("hilt") {
+            id = "popular.movies.hilt"
+            implementationClass = "HiltConventionPlugin"
+        }
+        register("androidRoom") {
+            id = "popular.movies.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
+
     }
 }

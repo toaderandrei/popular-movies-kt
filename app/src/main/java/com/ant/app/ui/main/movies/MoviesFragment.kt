@@ -36,19 +36,19 @@ class MoviesFragment : NavigationFragment<MoviesViewModel, FragmentMoviesBinding
     private fun initControllerCallbacks() {
         controller.callbacks = object : MoviesEpoxyController.Callbacks {
             override fun onPopularMoviesClicked() {
-                findNavController().navigate(MoviesFragmentDirections.toPopular())
+               // findNavController().navigate(MoviesFragmentDirections.toPopular())
             }
 
             override fun onTopMoviesClicked() {
-                findNavController().navigate(MoviesFragmentDirections.toToprated())
+                // findNavController().navigate(MoviesFragmentDirections.toToprated())
             }
 
             override fun onNowPlayingMoviesClicked() {
-                findNavController().navigate(MoviesFragmentDirections.toNowplaying())
+               // findNavController().navigate(MoviesFragmentDirections.toNowplaying())
             }
 
             override fun onUpComingMoviesClicked() {
-                findNavController().navigate(MoviesFragmentDirections.toUpcoming())
+               // findNavController().navigate(MoviesFragmentDirections.toUpcoming())
             }
 
             override fun onItemClicked(viewHolderId: Long, item: MovieData) {
@@ -111,7 +111,7 @@ class MoviesFragment : NavigationFragment<MoviesViewModel, FragmentMoviesBinding
     }
 
     private fun showDetailsScreen(movieData: MovieData) {
-        findNavController().navigate(MoviesFragmentDirections.toDetails(movieData.id))
+        // findNavController().navigate(MoviesFragmentDirections.toDetails(movieData.id))
     }
 
     override fun createViewBinding(

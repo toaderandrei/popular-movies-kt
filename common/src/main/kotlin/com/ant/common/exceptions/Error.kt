@@ -1,5 +1,7 @@
 package com.ant.common.exceptions
 
-data class Error(val status_code: Int = 0,
-                 val e: Throwable,
-                 val status_message: String? = null)
+data class Error(
+    val statusCode: Int = 0,
+    val e: Throwable,
+    val statusMessage: String? = null
+)

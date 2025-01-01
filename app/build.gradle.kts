@@ -1,14 +1,11 @@
 plugins {
-    alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kapt)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.safe.args)
     alias(libs.plugins.popular.movies.android.application)
+    alias(libs.plugins.popular.movies.android.application.compose)
     alias(libs.plugins.popular.movies.android.firebase)
     alias(libs.plugins.gms)
     alias(libs.plugins.popular.movies.android.lint)
     alias(libs.plugins.popular.movies.android.config)
+    alias(libs.plugins.popular.movies.hilt)
 }
 
 android {
@@ -40,13 +37,15 @@ dependencies {
     implementation(project(":common"))
     implementation(project(":data:models"))
     implementation(project(":common-ui:adapters"))
-    implementation(project(":common-ui:resources"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:resources"))
     implementation(project(":common-ui:bindings"))
     implementation(project(":common-ui:layouts"))
     implementation(project(":common-ui:epoxy"))
     implementation(project(":data:source"))
     implementation(project(":domain"))
     implementation(project(":analytics"))
+    implementation(project(":features:movies"))
     implementation(libs.circle.image)
 
     // UI libs
@@ -58,6 +57,28 @@ dependencies {
     implementation(libs.cardview)
     implementation(libs.material)
 
+    // Compose
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.material.iconsExtended)
+    implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material3.adaptive)
+    implementation(libs.androidx.compose.material3.adaptive.layout)
+    implementation(libs.androidx.compose.material3.adaptive.navigation)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.navigation.compose)
+
+    implementation(libs.androidx.window)
+    implementation(libs.androidx.window.core)
+
+    implementation(libs.accompanist.adaptive)
+
+    implementation(libs.coil.kt.compose)
+
     // dagger/hilt
     implementation(libs.dagger)
     implementation(libs.daggerAndroidSupport)
@@ -65,7 +86,7 @@ dependencies {
 
     // Dagger - Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Live data
     implementation(libs.livedata)

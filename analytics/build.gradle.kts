@@ -1,9 +1,6 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.kapt)
     alias(libs.plugins.popular.movies.android.library)
+    alias(libs.plugins.popular.movies.hilt)
 }
 
 android {
@@ -13,14 +10,11 @@ android {
 
 dependencies {
     implementation(project(":data:models"))
-    implementation(libs.coreKtx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
+    implementation(project(":common"))
 
     // Dagger - Hilt
     implementation(libs.hilt.android)
-    implementation(project(":common"))
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     // Firebase
     implementation(libs.firebase.analytics)

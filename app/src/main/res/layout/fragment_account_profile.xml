@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             android:paddingHorizontal="@dimen/margin_8"
-            android:paddingBottom="@dimen/margin_12">
+            android:paddingBottom="@dimen/margin_8">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/movies_grid_app_bar"
@@ -52,7 +52,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16"
-                android:layout_marginTop="@dimen/margin_54"
+                android:layout_marginTop="@dimen/margin_48"
                 android:layout_marginEnd="@dimen/margin_16"
                 android:src="@drawable/image_login"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -128,7 +128,7 @@
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_16"
                 android:layout_marginEnd="@dimen/margin_16"
-                android:layout_marginBottom="@dimen/margin_54"
+                android:layout_marginBottom="@dimen/margin_48"
                 android:background="@drawable/blue_button"
                 android:onClick="@{()->loginCallback.login()}"
                 android:text="@string/login"

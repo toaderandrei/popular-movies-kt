@@ -38,19 +38,19 @@ class TvShowFragment : NavigationFragment<TvShowViewModel, FragmentTvshowBinding
     private fun initControllerCallbacks() {
         controller.callbacks = object : TvShowEpoxyController.Callbacks {
             override fun onPopularTvSeriesClicked() {
-                findNavController().navigate(TvShowFragmentDirections.toPopular())
+                // findNavController().navigate(TvShowFragmentDirections.toPopular())
             }
 
             override fun onTopRatedTvSeriesClicked() {
-                findNavController().navigate(TvShowFragmentDirections.toToprated())
+                //  findNavController().navigate(TvShowFragmentDirections.toToprated())
             }
 
             override fun onAiringTodayTvSeriesClicked() {
-                findNavController().navigate(TvShowFragmentDirections.toAiringToday())
+              //  findNavController().navigate(TvShowFragmentDirections.toAiringToday())
             }
 
             override fun onTvNowTvSeriesClicked() {
-                findNavController().navigate(TvShowFragmentDirections.toNowOntv())
+                // findNavController().navigate(TvShowFragmentDirections.toNowOntv())
             }
 
             override fun onItemClicked(viewHolderId: Long, item: TvShow) {
@@ -110,7 +110,7 @@ class TvShowFragment : NavigationFragment<TvShowViewModel, FragmentTvshowBinding
     }
 
     private fun showDetailsScreen(tvShow: TvShow) {
-        findNavController().navigate(TvShowFragmentDirections.toDetails(tvShow.id))
+       // findNavController().navigate(TvShowFragmentDirections.toDetails(tvShow.id))
     }
 
     override fun createViewBinding(

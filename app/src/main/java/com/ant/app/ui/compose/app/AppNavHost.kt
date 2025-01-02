@@ -16,10 +16,10 @@ fun AppNavHost(
     val navController = appState.navController
     NavHost(
         navController = navController,
-        startDestination = startDestination,
+        startDestination = startDestination.route,
         modifier = modifier
     ) {
-        moviesGraph(appState.navController)
+        moviesGraph(navController)
 //        tvSeriesGraph(appState)
 //        favoritesGraph(appState)
 //        accountGraph(appState)

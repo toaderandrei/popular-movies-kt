@@ -20,8 +20,13 @@ class MoviesAppState(
             .currentBackStackEntryAsState().value?.destination
 
     val currentTopLevelDestination: TopLevelDestination?
-        @Composable get() = destinationEntries.find { it.route == currentDestination?.route }
-
+        @Composable get() = when (currentDestination?.route) {
+            TopLevelDestination.MOVIES.route -> TopLevelDestination.MOVIES
+            TopLevelDestination.TV_SERIES.route -> TopLevelDestination.TV_SERIES
+            TopLevelDestination.FAVORITES.route -> TopLevelDestination.FAVORITES
+            TopLevelDestination.ACCOUNT.route -> TopLevelDestination.ACCOUNT
+            else -> null
+        }
 
     private val destinationEntries: List<TopLevelDestination> = TopLevelDestination.entries
 

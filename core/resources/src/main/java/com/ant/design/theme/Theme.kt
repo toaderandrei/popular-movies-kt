@@ -41,7 +41,7 @@ fun PopularMoviesTheme(
 
     MaterialTheme(
         colorScheme = colors,
-        typography = AppTypography,
+        typography = JetcasterTypography,
         content = content
     )
 }

@@ -42,4 +42,8 @@ enum class TopLevelDestination(
         selectedIcon = Icons.Filled.Person,
         unselectedIcon = Icons.Outlined.Person
     );
+
+    companion object {
+        val entriesAsString: List<String> = TopLevelDestination.entries.map { it.route }
+    }
 }

@@ -45,7 +45,14 @@ dependencies {
     implementation(project(":data:source"))
     implementation(project(":domain"))
     implementation(project(":analytics"))
+
+    // features
     implementation(project(":features:movies"))
+    implementation(project(":features:tvshow"))
+    implementation(project(":features:favorites"))
+    implementation(project(":features:search"))
+
+
     implementation(libs.circle.image)
 
     // UI libs
@@ -58,20 +65,28 @@ dependencies {
     implementation(libs.material)
 
     // Compose
+//    implementation(libs.androidx.activity.compose)
+//    implementation(libs.androidx.compose.foundation)
+//    implementation(libs.androidx.compose.material.iconsExtended)
+//    implementation(libs.androidx.compose.material3)
+//    implementation(libs.androidx.compose.material3.adaptive)
+//    implementation(libs.androidx.compose.material3.adaptive.layout)
+//    implementation(libs.androidx.compose.material3.adaptive.navigation)
+//    implementation(libs.androidx.compose.ui)
+//    implementation(libs.androidx.compose.ui.tooling.preview)
+//    implementation(libs.androidx.lifecycle.viewmodel.compose)
+//    implementation(libs.androidx.lifecycle.runtime.compose)
+//    implementation(libs.navigation.compose)
+
+
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.foundation)
-    implementation(libs.androidx.compose.material.iconsExtended)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material3.adaptive)
-    implementation(libs.androidx.compose.material3.adaptive.layout)
-    implementation(libs.androidx.compose.material3.adaptive.navigation)
+    implementation(libs.navigation.compose)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    implementation(libs.androidx.compose.material3.adaptive.navigationSuite)
+    debugImplementation(libs.androidx.compose.ui.tooling)
 
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.lifecycle.runtime.compose)
-    implementation(libs.navigation.compose)
 
     implementation(libs.androidx.window)
     implementation(libs.androidx.window.core)

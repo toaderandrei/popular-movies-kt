@@ -24,6 +24,9 @@ include ':core:resources'
 
 // features
 include ':features:movies'
+include ':features:tvshow'
+include ':features:favorites'
+include ':features:search'
 
 // core
 include ':core:ui'

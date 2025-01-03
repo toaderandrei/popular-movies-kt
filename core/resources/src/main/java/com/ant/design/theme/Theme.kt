@@ -2,9 +2,11 @@ package com.ant.design.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 
-private val LightColors = androidx.compose.material3.lightColorScheme(
+private val LightColors = lightColorScheme(
     primary = primaryColor,
     primaryContainer = primaryVariantColor,
     secondary = secondaryColor,
@@ -18,7 +20,7 @@ private val LightColors = androidx.compose.material3.lightColorScheme(
     onError = onErrorColor
 )
 
-private val DarkColors = androidx.compose.material3.darkColorScheme(
+private val DarkColors = darkColorScheme(
     primary = primaryDarkColor,
     primaryContainer = primaryVariantDarkColor,
     secondary = secondaryDarkColor,

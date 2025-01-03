@@ -3,7 +3,11 @@ package com.ant.app.ui.compose.app
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
-import com.ant.feature.navigation.moviesGraph
+import androidx.navigation.compose.composable
+import com.ant.feature.favorites.navigation.favoritesGraph
+import com.ant.feature.movies.navigation.moviesGraph
+import com.ant.feature.search.navigation.searchGraph
+import com.ant.feature.tvshow.navigation.tvShowGraph
 import com.ant.ui.navigation.TopLevelDestination
 
 @Composable
@@ -20,9 +24,8 @@ fun AppNavHost(
         modifier = modifier
     ) {
         moviesGraph(navController)
-//        tvSeriesGraph(appState)
-//        favoritesGraph(appState)
-//        accountGraph(appState)
-//        searchGraph(appState)
+        tvShowGraph(navController)
+        favoritesGraph(navController)
+        searchGraph(navController)
     }
 }

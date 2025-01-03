@@ -22,13 +22,16 @@ class MoviesAppState(
     val currentTopLevelDestination: TopLevelDestination?
         @Composable get() = when (currentDestination?.route) {
             TopLevelDestination.MOVIES.route -> TopLevelDestination.MOVIES
-            TopLevelDestination.TV_SERIES.route -> TopLevelDestination.TV_SERIES
+            TopLevelDestination.TV_SHOW.route -> TopLevelDestination.TV_SHOW
             TopLevelDestination.FAVORITES.route -> TopLevelDestination.FAVORITES
-            TopLevelDestination.ACCOUNT.route -> TopLevelDestination.ACCOUNT
             else -> null
         }
 
     private val destinationEntries: List<TopLevelDestination> = TopLevelDestination.entries
+
+    val shouldShowTopAppBar: Boolean
+        @Composable get() = currentTopLevelDestination != null
+
 
     fun navigateToDestination(topLevelDestination: TopLevelDestination) {
         val topLevelNavOptions = navOptions {
@@ -41,6 +44,8 @@ class MoviesAppState(
 
         navController.navigate(topLevelDestination.route, navOptions = topLevelNavOptions)
     }
+
+    val topLevelDestinations: List<TopLevelDestination> = TopLevelDestination.entries
 
     fun navigateToSearch() {
         // navController.navigate(SEARCH_ROUTE)

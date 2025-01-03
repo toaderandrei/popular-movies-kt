@@ -1,44 +1,13 @@
 <resources>
     <!-- Begin reviewed -->
     <!-- Base application theme. -->
-    <style name="Base.Theme.PopularMovies" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <!-- Set the navigation bar to 50% translucent white -->
+    <style name="Theme.PopularMovies" parent="android:Theme.Material.NoActionBar"  />
 
-        <item name="colorPrimary">@color/material_white</item>
-        <item name="colorOnPrimary">@color/material_bluegrey700</item>
-        <item name="colorPrimaryVariant">@color/material_indigo300</item>
-        <item name="colorSecondary">@color/material_indigo500</item>
+<!--    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Light" />-->
+<!--    &lt;!&ndash; End reviewed &ndash;&gt;-->
 
-        <!-- Status and Navigation Bar -->
-        <item name="android:windowLightStatusBar">@bool/use_light_bar</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+<!--    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.PopularMovies.Light" />-->
 
-        <!-- Appbar style -->
-        <item name="appBarLayoutStyle">@style/Widget.MaterialComponents.AppBarLayout.Surface</item>
-
-        <!-- toolbar style -->
-        <!--        <item name="toolbarStyle">@style/Widget.PopularMovies.Toolbar</item>-->
-        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
-
-        <!-- Text appearance -->
-
-        <item name="textAppearanceHeadline3">@style/TextAppearance.PopularMovies.Headline3</item>
-        <item name="textAppearanceHeadline4">@style/TextAppearance.PopularMovies.Headline4</item>
-        <item name="textAppearanceHeadline5">@style/TextAppearance.PopularMovies.Headline5</item>
-        <item name="textAppearanceHeadline6">@style/TextAppearance.PopularMovies.Headline6</item>
-        <item name="textAppearanceSubtitle1">@style/TextAppearance.PopularMovies.Subtitle1</item>
-        <item name="textAppearanceSubtitle2">@style/TextAppearance.PopularMovies.Subtitle2</item>
-    </style>
-
-    <style name="Theme.PopularMovies" parent="Base.Theme.PopularMovies" />
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
-    <!-- End reviewed -->
-
-    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.PopularMovies.Light" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+<!--    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
 
 </resources>

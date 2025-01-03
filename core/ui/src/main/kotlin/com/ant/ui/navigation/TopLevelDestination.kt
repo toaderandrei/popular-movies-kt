@@ -3,11 +3,9 @@ package com.ant.ui.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Movie
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Tv
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Movie
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.outlined.Tv
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ant.resources.R as R2
@@ -24,8 +22,8 @@ enum class TopLevelDestination(
         selectedIcon = Icons.Filled.Movie,
         unselectedIcon = Icons.Outlined.Movie
     ),
-    TV_SERIES(
-        route = "tvshows",
+    TV_SHOW(
+        route = "tv_show",
         titleTextId = R2.string.tvshow,
         selectedIcon = Icons.Filled.Tv,
         unselectedIcon = Icons.Outlined.Tv
@@ -35,15 +33,12 @@ enum class TopLevelDestination(
         titleTextId = R2.string.favourites,
         selectedIcon = Icons.Filled.Favorite,
         unselectedIcon = Icons.Outlined.Favorite
-    ),
-    ACCOUNT(
-        route = "account",
-        titleTextId = R2.string.account,
-        selectedIcon = Icons.Filled.Person,
-        unselectedIcon = Icons.Outlined.Person
     );
+}
 
-    companion object {
-        val entriesAsString: List<String> = TopLevelDestination.entries.map { it.route }
-    }
+object Graph {
+    const val ROOT = "root"
+    const val account = "account"
+    const val MOVIES = "movies"
+    const val TVSHOW = "tvshow"
 }

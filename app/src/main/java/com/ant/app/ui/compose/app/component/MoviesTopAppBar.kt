@@ -17,29 +17,22 @@ import androidx.compose.ui.res.stringResource
 @Composable
 fun MoviesTopAppBar(
     titleRes: Int,
-    navigationIcon: ImageVector,
-    navigationIconContentDescription: String,
     actionIcon: ImageVector,
     actionIconContentDescription: String,
     onActionClick: () -> Unit,
-    onNavigationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    TopAppBar(title = { Text(stringResource(titleRes)) }, navigationIcon = {
-        IconButton(onClick = onNavigationClick) {
-            Icon(
-                imageVector = navigationIcon,
-                contentDescription = navigationIconContentDescription
-            )
-        }
-    }, actions = {
-        IconButton(onClick = onActionClick) {
-            Icon(
-                imageVector = actionIcon, contentDescription = actionIconContentDescription
-            )
-        }
-    }, colors = TopAppBarDefaults.topAppBarColors(
-        containerColor = Color.Transparent
-    ), modifier = modifier
+    TopAppBar(
+        title = { Text(stringResource(titleRes)) },
+        actions = {
+            IconButton(onClick = onActionClick) {
+                Icon(
+                    imageVector = actionIcon,
+                    contentDescription = actionIconContentDescription
+                )
+            }
+        }, colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.Transparent
+        ), modifier = modifier
     )
 }

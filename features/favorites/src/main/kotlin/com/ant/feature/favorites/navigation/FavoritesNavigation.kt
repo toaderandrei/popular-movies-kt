@@ -15,7 +15,7 @@ fun NavController.navigateToMovies(navOptions: NavOptions) {}
 fun NavGraphBuilder.favoritesGraph(navController: NavController) {
     navigation(
         startDestination = "favorites/home",
-        route = TopLevelDestination.MOVIES.route,
+        route = TopLevelDestination.FAVORITES.route,
     ) {
         composable("favorites/home") {
             FavoritesRoute(

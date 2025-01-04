@@ -23,14 +23,14 @@ fun FavoritesRoute(
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Text(
-            text = "Movies",
+            text = "Favorites",
             style = MaterialTheme.typography.headlineMedium
         )
-        Button(onClick = { onNavigateToExpandedList("popular") }) {
-            Text("View Popular Movies")
+        Button(onClick = { onNavigateToExpandedList("movies") }) {
+            Text("View Movie favorite")
         }
-        Button(onClick = { onNavigateToExpandedList("top") }) {
-            Text("View Top Movies")
+        Button(onClick = { onNavigateToExpandedList("tvshow") }) {
+            Text("View Favorites tv shows")
         }
     }
 }

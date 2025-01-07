@@ -4,12 +4,12 @@ import androidx.lifecycle.viewModelScope
 import com.ant.analytics.AnalyticsEvent
 import com.ant.analytics.AnalyticsHelper
 import com.ant.analytics.CrashlyticsHelper
-import com.ant.app.ui.base.BaseViewModel
+import com.ant.ui.viewmodels.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.login.LoadAccountProfileUseCase
 import com.ant.domain.usecases.login.LogoutUserAndClearSessionUseCase
-import com.ant.models.model.MoviesState
+import com.ant.models.model.UIState
 import com.ant.models.model.UserData
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
@@ -24,11 +24,11 @@ class AccountProfileViewModel @Inject constructor(
     private val analyticsHelper: AnalyticsHelper,
     private val crashlyticsHelper: CrashlyticsHelper,
     private val logger: TmdbLogger,
-) : BaseViewModel<MoviesState<UserData>>(MoviesState()) {
+) : BaseViewModel<UIState<UserData>>(UIState()) {
 
     fun verifyIfUserIsLoggedIn() {
         viewModelScope.launch {
-            loadUserAccountUseCase.invoke(Repository.Params(RequestType.LoginSessionRequest.GetUser))
+            loadUserAccountUseCase.invoke(Unit)
                 .collectAndSetState {
                     parseResponse(it)
                 }

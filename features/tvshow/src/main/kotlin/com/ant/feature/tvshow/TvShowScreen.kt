@@ -13,10 +13,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun TvShowRoute(
-    onNavigateToDetails: (String) -> Unit,
-    onNavigateToExpandedList: (String) -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: TvShowViewModel = hiltViewModel(),
 ) {
     Column(
         modifier = modifier.padding(16.dp),
@@ -26,11 +24,8 @@ fun TvShowRoute(
             text = "TvShow",
             style = MaterialTheme.typography.headlineMedium
         )
-        Button(onClick = { onNavigateToExpandedList("popular") }) {
+        Button(onClick = { onClick() }) {
             Text("View Popular TvShows")
-        }
-        Button(onClick = { onNavigateToExpandedList("top") }) {
-            Text("View Top TvShows")
         }
     }
 }

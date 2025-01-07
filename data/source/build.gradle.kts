@@ -11,7 +11,7 @@ android {
 dependencies {
     api(project(":data:models"))
     api(project(":data:tmdbApi"))
-    api(project(":common"))
+    api(project(":core:common"))
     implementation(libs.kotlinSerialization)
 
     // image loading

@@ -1,7 +1,7 @@
 package com.ant.app.ui.main.favorites
 
 import androidx.lifecycle.viewModelScope
-import com.ant.app.ui.base.BaseViewModel
+import com.ant.ui.viewmodels.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.domain.usecases.movies.LoadFavoredMoviesUseCase
 import com.ant.domain.usecases.tvseries.LoadFavoredTvSeriesUseCase

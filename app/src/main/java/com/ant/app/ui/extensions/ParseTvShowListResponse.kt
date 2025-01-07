@@ -3,6 +3,7 @@ package com.ant.app.ui.extensions
 import com.ant.models.entities.TvShow
 import com.ant.models.model.Result
 import com.ant.models.model.TvShowListState
+import com.ant.models.model.get
 import com.ant.models.model.getErrorOrNull
 import com.ant.models.model.isLoading
 import com.ant.models.model.isSuccess

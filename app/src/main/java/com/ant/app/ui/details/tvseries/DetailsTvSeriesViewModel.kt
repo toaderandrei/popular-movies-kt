@@ -1,14 +1,14 @@
 package com.ant.app.ui.details.tvseries
 
 import androidx.lifecycle.viewModelScope
-import com.ant.app.ui.base.BaseViewModel
+import com.ant.ui.viewmodels.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.tvseries.DeleteTvSeriesDetailsUseCase
 import com.ant.domain.usecases.tvseries.SaveTvSeriesDetailsUseCase
 import com.ant.domain.usecases.tvseries.TvSeriesDetailsUseCase
 import com.ant.models.entities.TvShowDetails
-import com.ant.models.model.MoviesState
+import com.ant.models.model.UIState
 import com.ant.models.request.RequestType
 import com.ant.models.request.TvSeriesAppendToResponseItem
 import com.ant.models.source.repositories.Repository
@@ -22,7 +22,7 @@ class DetailsTvSeriesViewModel @Inject constructor(
     val tvSeriesDetailsUseCase: TvSeriesDetailsUseCase,
     val tvSeriesSaveDetailsUseCase: SaveTvSeriesDetailsUseCase,
     val tvSeriesDeleteDetailsUseCase: DeleteTvSeriesDetailsUseCase,
-) : BaseViewModel<MoviesState<TvShowDetails>>(MoviesState()) {
+) : BaseViewModel<UIState<TvShowDetails>>(UIState()) {
 
     fun loadMovieDetails(movieId: Long) {
         job?.cancel()

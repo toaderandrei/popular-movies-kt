@@ -32,6 +32,8 @@
     <string name="account">Account</string>
     <string name="tmdb_account">TMDb Account</string>
     <string name="login">Login</string>
+
+    <string name="login_tmdb">Login to Tmdb Account</string>
     <string name="logout">Logout</string>
     <string name="username_account_title">Username: </string>
     <string name="username_account">Username: %s</string>

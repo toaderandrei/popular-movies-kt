@@ -11,7 +11,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":common"))
+    implementation(project(":core:common"))
     implementation(project(":core:resources"))
     implementation(project(":common-ui:bindings"))
     implementation(project(":data:models"))

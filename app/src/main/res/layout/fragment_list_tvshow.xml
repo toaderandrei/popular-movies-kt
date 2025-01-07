@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="com.ant.models.model.MoviesState" />
+        <import type="com.ant.models.model.UIState" />
 
         <import type="com.ant.models.entities.TvShow" />
 
@@ -14,7 +14,7 @@
 
         <variable
             name="state"
-            type="MoviesState&lt;List&lt;TvShow>>" />
+            type="UIState&lt;List&lt;TvShow>>" />
 
         <variable
             name="callback"

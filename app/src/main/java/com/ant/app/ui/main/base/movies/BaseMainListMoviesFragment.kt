@@ -20,7 +20,7 @@ import com.ant.common.listeners.OnScrollCallback
 import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
 import com.ant.models.entities.MovieData
-import com.ant.models.model.MoviesState
+import com.ant.models.model.UIState
 import com.ant.models.model.isError
 import com.ant.models.model.isLoading
 
@@ -91,7 +91,7 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMoviesList<*
         return FragmentListMoviesBinding.inflate(inflater, container, false)
     }
 
-    private fun showData(movieListState: MoviesState<List<MovieData>>?) {
+    private fun showData(movieListState: UIState<List<MovieData>>?) {
         movieListState?.let { moviesState ->
             logger.d("showData: movieListState: $moviesState")
 

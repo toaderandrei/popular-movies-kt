@@ -10,7 +10,7 @@ android {
 
 dependencies {
     implementation(project(":data:models"))
-    implementation(project(":common"))
+    implementation(project(":core:common"))
 
     // Dagger - Hilt
     implementation(libs.hilt.android)

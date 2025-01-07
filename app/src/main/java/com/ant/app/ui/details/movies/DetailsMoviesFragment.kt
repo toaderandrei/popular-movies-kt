@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.ant.app.databinding.FragmentDetailsMoviesBinding
 import com.ant.app.ui.adapters.MovieCastsAdapter
 import com.ant.app.ui.adapters.MovieVideosAdapter
@@ -22,7 +21,7 @@ import com.ant.common.listeners.RetryCallback
 import com.ant.common.logger.TmdbLogger
 import com.ant.common.utils.Constants.TMDB_KEY_ID
 import com.ant.models.entities.MovieDetails
-import com.ant.models.model.MoviesState
+import com.ant.models.model.UIState
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -96,7 +95,7 @@ class DetailsMoviesFragment : BaseFragment<DetailsMovieViewModel, FragmentDetail
         }
     }
 
-    private fun renderModels(moviesState: MoviesState<MovieDetails>?) {
+    private fun renderModels(moviesState: UIState<MovieDetails>?) {
         moviesState?.let {
             logger.d("state: $moviesState")
             with(binding) {

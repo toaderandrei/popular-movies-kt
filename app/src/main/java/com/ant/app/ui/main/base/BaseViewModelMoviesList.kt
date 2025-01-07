@@ -4,13 +4,14 @@ import androidx.lifecycle.viewModelScope
 import com.ant.analytics.AnalyticsEvent
 import com.ant.analytics.AnalyticsHelper
 import com.ant.analytics.CrashlyticsHelper
-import com.ant.app.ui.base.BaseViewModel
+import com.ant.ui.viewmodels.BaseViewModel
 import com.ant.app.ui.extensions.updateMoviesStatePages
 import com.ant.common.flow.CustomStateFlow
 import com.ant.common.flow.MutableCustomStateFlow
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.UseCase
-import com.ant.models.model.MoviesState
+import com.ant.models.model.UIState
+import com.ant.models.model.get
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
 import kotlinx.coroutines.flow.launchIn
@@ -23,7 +24,7 @@ abstract class BaseViewModelMoviesList<P : RequestType, R>(
     val logger: TmdbLogger,
     val useCase: UseCase<Repository.Params<P>, List<R>>,
 
-    ) : BaseViewModel<MoviesState<List<R>>>(MoviesState()) {
+    ) : BaseViewModel<UIState<List<R>>>(UIState()) {
 
     @Inject
     lateinit var crashlyticsHelper: CrashlyticsHelper

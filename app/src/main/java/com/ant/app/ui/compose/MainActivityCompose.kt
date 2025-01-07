@@ -2,34 +2,20 @@ package com.ant.app.ui.compose
 
 import BottomNavigationBar
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.ant.analytics.AnalyticsHelper
 import com.ant.app.ui.compose.app.MainApp
 import com.ant.app.ui.compose.app.component.MoviesTopAppBar
-import com.ant.app.ui.compose.app.rememberMoviesAppState
+import com.ant.app.ui.compose.app.rememberMainContentState
 import com.ant.common.logger.TmdbLogger
 import com.ant.design.theme.PopularMoviesTheme
-import com.ant.ui.navigation.TopLevelDestination
+import com.ant.ui.navigation.MainScreenDestination
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -77,9 +63,8 @@ class MainActivityCompose : ComponentActivity() {
     @Preview(showBackground = true)
     @Composable
     fun PreviewMainApp() {
-        val appState = rememberMoviesAppState()
         PopularMoviesTheme {
-            MainApp(appState)
+            MainApp()
         }
     }
 
@@ -87,10 +72,10 @@ class MainActivityCompose : ComponentActivity() {
     @Composable
     fun PreviewBottomNavigationBar() {
         PopularMoviesTheme {
-            val appState = rememberMoviesAppState()
+            val appState = rememberMainContentState()
 
             BottomNavigationBar(
-                destinations = TopLevelDestination.entries,
+                destinations = MainScreenDestination.entries,
                 navController = appState.navController
             )
         }

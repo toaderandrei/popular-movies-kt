@@ -4,13 +4,13 @@
     <data>
 
         <import type="android.view.View" />
-        <import type="com.ant.models.model.MoviesState" />
+        <import type="com.ant.models.model.UIState" />
         <import type="com.ant.models.entities.TvShow" />
         <import type="java.util.List" />
 
         <variable
             name="result"
-            type="com.ant.models.model.MoviesState&lt;List&lt;TvShow>>" />
+            type="com.ant.models.model.UIState&lt;List&lt;TvShow>>" />
 
         <variable
             name="errorMessage"

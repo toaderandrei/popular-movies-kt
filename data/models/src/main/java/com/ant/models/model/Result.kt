@@ -1,15 +1,21 @@
 package com.ant.models.model
 
-sealed class Result<out T> {
-    open fun get(): T? = null
+sealed interface Result<out T> {
+    data class Success<T>(val data: T) : Result<T>
+    data class Error<T>(val throwable: Throwable) : Result<T>
+    data object Loading : Result<Nothing>
+}
 
-    data class Success<T>(val data: T) : Result<T>() {
-        override fun get(): T = data
+inline fun <R, T> Result<T>.fold(
+    onSuccess: (value: T) -> R,
+    onLoading: () -> R,
+    onFailure: (exception: Throwable) -> R
+): R {
+    return when (this) {
+        is Result.Success -> onSuccess(data)
+        is Result.Error -> onFailure(throwable)
+        else -> onLoading()
     }
-
-    data class Error<T>(val throwable: Throwable) : Result<T>()
-
-    data object Loading : Result<Nothing>()
 }
 
 /**
@@ -29,6 +35,13 @@ val Result<*>.isFailure
  */
 val Result<*>.isLoading
     get() = this is Result.Loading
+
+fun <T> Result<T>.get(): T? {
+    if (this is Result.Success) {
+        return data
+    }
+    return null
+}
 
 fun Result<*>.getErrorOrNull(): Throwable? {
     if (this is Result.Error) {

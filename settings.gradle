@@ -20,25 +20,26 @@ include ':common-ui:adapters'
 include ':common-ui:epoxy'
 include ':common-ui:layouts'
 include ':common-ui:bindings'
-include ':core:resources'
 
 // features
 include ':features:movies'
 include ':features:tvshow'
 include ':features:favorites'
 include ':features:search'
+include ':features:login'
 
 // core
 include ':core:ui'
+include ':core:resources'
+include ':core:domain'
+// core:common
+include ':core:common'
+
 
 // data
 include ':data:source'
 include ':data:models'
 include ':data:tmdbApi'
 
-// common
-include ':common'
-
 // domain
-include ':domain'
 include ':analytics'

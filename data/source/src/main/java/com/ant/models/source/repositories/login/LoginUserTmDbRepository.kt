@@ -10,12 +10,11 @@ import retrofit2.awaitResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
-@Singleton
 class LoginUserTmDbRepository @Inject constructor(
     private val tmDbApi: Tmdb,
     private val loginSessionMapper: LoginSessionMapper,
-) : Repository<Repository.Params<RequestType.LoginSessionRequest.WithCredentials>, UserData> {
-    override suspend fun performRequest(params: Repository.Params<RequestType.LoginSessionRequest.WithCredentials>): UserData {
+) : Repository<RequestType.LoginSessionRequest.WithCredentials, UserData> {
+    override suspend fun performRequest(params: RequestType.LoginSessionRequest.WithCredentials): UserData {
         val authenticationService = tmDbApi.authenticationService()
 
         // First we need to request a token.
@@ -27,8 +26,8 @@ class LoginUserTmDbRepository @Inject constructor(
         // Next we need to validate the token, username and password.
         val validate = tmDbApi.authenticationService()
             .validateToken(
-                params.request.username,
-                params.request.password,
+                params.username,
+                params.password,
                 tokenResponseBody.request_token,
             )
             .awaitResponse()
@@ -45,6 +44,6 @@ class LoginUserTmDbRepository @Inject constructor(
 
         // If successful we return the session.
         val session =  loginSessionMapper.map(accountSession)
-        return session.copy(username = params.request.username)
+        return session.copy(username = params.username)
     }
 }

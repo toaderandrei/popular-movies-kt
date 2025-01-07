@@ -9,16 +9,9 @@ plugins {
 }
 
 android {
-
     defaultConfig {
         versionCode = 2
         versionName = "0.1.0" // X.Y.Z; X = Major, Y = minor, Z = Patch level
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                argument("room.schemaLocation", "$projectDir/schemas")
-            }
-        }
     }
 
     buildFeatures {
@@ -34,7 +27,7 @@ android {
 
 dependencies {
     // module dependency
-    implementation(project(":common"))
+    implementation(project(":core:common"))
     implementation(project(":data:models"))
     implementation(project(":common-ui:adapters"))
     implementation(project(":core:ui"))
@@ -43,7 +36,7 @@ dependencies {
     implementation(project(":common-ui:layouts"))
     implementation(project(":common-ui:epoxy"))
     implementation(project(":data:source"))
-    implementation(project(":domain"))
+    implementation(project(":core:domain"))
     implementation(project(":analytics"))
 
     // features
@@ -51,7 +44,7 @@ dependencies {
     implementation(project(":features:tvshow"))
     implementation(project(":features:favorites"))
     implementation(project(":features:search"))
-
+    implementation(project(":features:login"))
 
     implementation(libs.circle.image)
 
@@ -64,41 +57,28 @@ dependencies {
     implementation(libs.cardview)
     implementation(libs.material)
 
-    // Compose
-//    implementation(libs.androidx.activity.compose)
-//    implementation(libs.androidx.compose.foundation)
-//    implementation(libs.androidx.compose.material.iconsExtended)
-//    implementation(libs.androidx.compose.material3)
-//    implementation(libs.androidx.compose.material3.adaptive)
-//    implementation(libs.androidx.compose.material3.adaptive.layout)
-//    implementation(libs.androidx.compose.material3.adaptive.navigation)
-//    implementation(libs.androidx.compose.ui)
-//    implementation(libs.androidx.compose.ui.tooling.preview)
-//    implementation(libs.androidx.lifecycle.viewmodel.compose)
-//    implementation(libs.androidx.lifecycle.runtime.compose)
-//    implementation(libs.navigation.compose)
-
-
+    // compose
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.navigation.compose)
     implementation(libs.androidx.compose.ui)
-    implementation(libs.androidx.compose.ui.tooling.preview)
+
+    // Navigation compose
+    implementation(libs.androidx.compose.material3.adaptive.navigation)
+    implementation(libs.navigation.compose)
     implementation(libs.androidx.compose.material3.adaptive.navigationSuite)
+    implementation(libs.androidx.hilt.navigation.compose)
+
+    // Tooling and preview
+    implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
+    // Lifecycle runtime and runtime-compose.
+    implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
-    implementation(libs.androidx.window)
-    implementation(libs.androidx.window.core)
-
-    implementation(libs.accompanist.adaptive)
-
+    // Coil compose
     implementation(libs.coil.kt.compose)
-
-    // dagger/hilt
-    implementation(libs.dagger)
-    implementation(libs.daggerAndroidSupport)
-    compileOnly(libs.annotationDagger2)
+    implementation(libs.coil)
 
     // Dagger - Hilt
     implementation(libs.hilt.android)
@@ -117,14 +97,11 @@ dependencies {
     implementation(libs.fragmentKtx)
     implementation(libs.fragment)
 
-    // image loading
-    implementation(libs.coil)
-
     // firebase
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.crashlytics)
 
-    // check if still needed after plugin
+    // TODO check if still needed after plugin
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.data.store)

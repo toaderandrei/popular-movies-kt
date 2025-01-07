@@ -1,7 +1,7 @@
 package com.ant.app.ui.main.tvseries
 
 import androidx.lifecycle.viewModelScope
-import com.ant.app.ui.base.BaseViewModel
+import com.ant.ui.viewmodels.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.domain.usecases.tvseries.TvShowListUseCase
 import com.ant.models.model.TvShowListState

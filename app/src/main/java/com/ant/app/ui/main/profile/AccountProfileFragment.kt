@@ -11,7 +11,7 @@ import com.ant.app.databinding.FragmentAccountProfileBinding
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.extensions.observe
 import com.ant.common.listeners.AccountLoginCallback
-import com.ant.models.model.MoviesState
+import com.ant.models.model.UIState
 import com.ant.models.model.UserData
 import com.ant.models.model.isError
 import com.ant.models.model.isLoading
@@ -62,7 +62,7 @@ class AccountProfileFragment(
 //        return directions
 //    }
 
-    private fun updateUi(loginState: MoviesState<UserData>) {
+    private fun updateUi(loginState: UIState<UserData>) {
 
         when {
             loginState.isLoading -> {

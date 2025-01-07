@@ -4,14 +4,14 @@ import androidx.lifecycle.viewModelScope
 import com.ant.analytics.AnalyticsEvent
 import com.ant.analytics.AnalyticsHelper
 import com.ant.analytics.CrashlyticsHelper
-import com.ant.app.ui.base.BaseViewModel
+import com.ant.ui.viewmodels.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.movies.DeleteMovieDetailsUseCase
 import com.ant.domain.usecases.movies.MovieDetailsUseCase
 import com.ant.domain.usecases.movies.SaveMovieDetailsUseCase
 import com.ant.models.entities.MovieDetails
-import com.ant.models.model.MoviesState
+import com.ant.models.model.UIState
 import com.ant.models.request.MovieAppendToResponseItem
 import com.ant.models.request.RequestType
 import com.ant.models.source.repositories.Repository
@@ -28,7 +28,7 @@ class DetailsMovieViewModel @Inject constructor(
     val movieDeleteDetailsUseCase: DeleteMovieDetailsUseCase,
     private val analyticsHelper: AnalyticsHelper,
     private val crashlyticsHelper: CrashlyticsHelper,
-) : BaseViewModel<MoviesState<MovieDetails>>(MoviesState()) {
+) : BaseViewModel<UIState<MovieDetails>>(UIState()) {
     fun loadMovieDetails(movieId: Long) {
         viewModelScope.launch {
             movieDetailsUseCase(

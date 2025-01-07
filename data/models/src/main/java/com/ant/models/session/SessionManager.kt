@@ -1,5 +1,7 @@
 package com.ant.models.session
 
+import kotlinx.coroutines.flow.StateFlow
+
 interface SessionManager {
 
     /**
@@ -34,9 +36,11 @@ interface SessionManager {
      */
     suspend fun getUsername(): String?
 
+    val isLoggedInFlow: StateFlow<Boolean>
+
     companion object {
-        const val SESSION_ID = "SESSION_ID"
-        const val USERNAME = "USERNAME"
-        const  val AVATAR = "AVATAR"
+        const val SESSION_ID = "session_id"
+        const val USERNAME = "username"
+        const val AVATAR = "avatar"
     }
 }

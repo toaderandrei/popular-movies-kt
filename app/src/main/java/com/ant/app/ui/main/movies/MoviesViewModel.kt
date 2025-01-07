@@ -1,7 +1,7 @@
 package com.ant.app.ui.main.movies
 
 import androidx.lifecycle.viewModelScope
-import com.ant.app.ui.base.BaseViewModel
+import com.ant.ui.viewmodels.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.domain.usecases.movies.MovieListUseCase
 import com.ant.models.model.MoviesListState

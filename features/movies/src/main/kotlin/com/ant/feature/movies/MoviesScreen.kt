@@ -13,8 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun MoviesRoute(
-    onNavigateToDetails: (String) -> Unit,
-    onNavigateToExpandedList: (String) -> Unit,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MoviesViewModel = hiltViewModel(),
 ) {
@@ -26,11 +25,8 @@ fun MoviesRoute(
             text = "Movies",
             style = MaterialTheme.typography.headlineMedium
         )
-        Button(onClick = { onNavigateToExpandedList("popular") }) {
+        Button(onClick = { onClick() }) {
             Text("View Popular Movies")
-        }
-        Button(onClick = { onNavigateToExpandedList("top") }) {
-            Text("View Top Movies")
         }
     }
 }

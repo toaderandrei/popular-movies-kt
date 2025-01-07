@@ -17,7 +17,7 @@ import com.ant.common.listeners.OnScrollCallback
 import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
 import com.ant.models.entities.TvShow
-import com.ant.models.model.MoviesState
+import com.ant.models.model.UIState
 import com.ant.models.model.isError
 import com.ant.models.model.isLoading
 
@@ -79,7 +79,7 @@ abstract class BaseMainListTvSeriesFragment<VIEW_MODEL : BaseViewModelMoviesList
         return FragmentListTvshowBinding.inflate(inflater, container, false)
     }
 
-    private fun showData(tvSeriesData: MoviesState<List<TvShow>>?) {
+    private fun showData(tvSeriesData: UIState<List<TvShow>>?) {
         tvSeriesData?.let { it ->
             logger.d("showData: ${it.data}")
             binding.tvseriesGridSwipeRefresh.isRefreshing = it.isLoading

@@ -11,7 +11,7 @@ import com.ant.app.databinding.FragmentLoginUserBinding
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.extensions.observe
 import com.ant.common.listeners.LoginCallback
-import com.ant.models.model.MoviesState
+import com.ant.models.model.UIState
 import com.ant.models.model.UserData
 import com.ant.models.model.errorMessage
 import com.ant.models.model.isError
@@ -21,9 +21,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import com.ant.resources.R as R2
 
 @AndroidEntryPoint
-class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBinding>() {
+class LoginFragment : NavigationFragment<LoginViewModelOld, FragmentLoginUserBinding>() {
 
-    override val viewModel: LoginViewModel by viewModels()
+    override val viewModel: LoginViewModelOld by viewModels()
     override fun createViewBinding(
         inflater: LayoutInflater, container: ViewGroup?
     ): FragmentLoginUserBinding {
@@ -78,7 +78,7 @@ class LoginFragment : NavigationFragment<LoginViewModel, FragmentLoginUserBindin
         requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
-    private fun updateUi(loginState: MoviesState<UserData>) {
+    private fun updateUi(loginState: UIState<UserData>) {
         with(binding) {
             when {
                 loginState.isLoading -> {

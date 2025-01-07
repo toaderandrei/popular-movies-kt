@@ -6,7 +6,7 @@
 
     <data>
 
-        <import type="com.ant.models.model.MoviesState" />
+        <import type="com.ant.models.model.UIState" />
         <import type="java.util.List" />
 
         <variable

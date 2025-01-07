@@ -1,15 +1,13 @@
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.ant.ui.navigation.TopLevelDestination
+import com.ant.ui.navigation.MainScreenDestination
 
 @Composable
 fun BottomNavigationBar(
-    destinations: List<TopLevelDestination>,
+    destinations: List<MainScreenDestination>,
     navController: NavController
 ) {
     val currentBackStack = navController.currentBackStackEntryAsState()

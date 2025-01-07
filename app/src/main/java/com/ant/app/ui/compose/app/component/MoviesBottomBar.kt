@@ -9,12 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination
-import com.ant.ui.navigation.TopLevelDestination
+import com.ant.ui.navigation.MainScreenDestination
 
 @Composable
 fun MoviesBottomBar(
-    destinations: List<TopLevelDestination>,
-    onNavigateToDestination: (TopLevelDestination) -> Unit,
+    destinations: List<MainScreenDestination>,
+    onNavigateToDestination: (MainScreenDestination) -> Unit,
     currentDestination: NavDestination?,
     modifier: Modifier = Modifier
 ) {

@@ -14,9 +14,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:models"))
-    implementation(project(":data:source"))
+    implementation(project(":core:models"))
     implementation(project(":core:common"))
+    implementation(project(":core:data"))
 
     // Hilt
     implementation(libs.hilt.android)

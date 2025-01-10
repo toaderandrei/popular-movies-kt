@@ -4,11 +4,9 @@ import com.ant.common.qualifiers.IoDispatcher
 import com.ant.domain.usecases.UseCase
 import com.ant.models.model.UserData
 import com.ant.models.request.RequestType
-import com.ant.models.source.repositories.Repository
-import com.ant.models.source.repositories.login.LoginUserTmDbRepository
+import com.ant.data.repositories.login.LoginUserTmDbRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
-import javax.inject.Singleton
 
 class LoginUserToTmDbUseCase @Inject constructor(
     private val repository: LoginUserTmDbRepository,

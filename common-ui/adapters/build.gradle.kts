@@ -13,6 +13,6 @@ android {
 }
 
 dependencies {
-    api(project(":data:models"))
+    api(project(":core:models"))
     implementation(libs.recyclerview)
 }

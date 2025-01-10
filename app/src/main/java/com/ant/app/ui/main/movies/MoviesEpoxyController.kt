@@ -13,11 +13,9 @@ import com.ant.layouts.infiniteLoading
 import com.ant.models.entities.ImageEntity
 import com.ant.models.entities.MovieData
 import com.ant.models.extensions.toReadableError
-import com.ant.models.model.Error
 import com.ant.models.model.MoviesListState
-import com.ant.models.model.errorMessage
 import com.ant.models.model.isError
-import com.ant.models.source.extensions.observable
+import com.ant.ui.extensions.observable
 import com.ant.tmdb.old.PosterSizes
 import dagger.hilt.android.qualifiers.ActivityContext
 import javax.inject.Inject

@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ant.app.databinding.FragmentLoginUserBinding
 import com.ant.app.ui.main.base.NavigationFragment
-import com.ant.common.extensions.observe
+import com.ant.ui.extensions.observe
 import com.ant.common.listeners.LoginCallback
 import com.ant.models.model.UIState
 import com.ant.models.model.UserData

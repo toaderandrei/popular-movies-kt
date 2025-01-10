@@ -13,9 +13,9 @@ import com.ant.app.databinding.FragmentDetailsTvshowBinding
 import com.ant.app.ui.adapters.MovieCastsAdapter
 import com.ant.app.ui.adapters.MovieVideosAdapter
 import com.ant.app.ui.base.BaseFragment
-import com.ant.common.decorator.MarginItemDecoration
-import com.ant.common.extensions.observe
-import com.ant.common.listeners.AppBarStateChangeListener
+import com.ant.ui.decorator.MarginItemDecoration
+import com.ant.ui.extensions.observe
+import com.ant.ui.extensions.AppBarStateChangeListener
 import com.ant.common.listeners.FavoriteCallback
 import com.ant.common.listeners.RetryCallback
 import com.ant.common.logger.TmdbLogger

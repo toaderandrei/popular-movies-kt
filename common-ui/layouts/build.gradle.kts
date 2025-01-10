@@ -14,7 +14,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:resources"))
     implementation(project(":common-ui:bindings"))
-    implementation(project(":data:models"))
+    implementation(project(":core:models"))
 
     // UI libs
     implementation(libs.coreKtx)

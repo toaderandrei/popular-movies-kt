@@ -32,14 +32,11 @@ include ':features:login'
 include ':core:ui'
 include ':core:resources'
 include ':core:domain'
-// core:common
 include ':core:common'
-
-
-// data
-include ':data:source'
-include ':data:models'
-include ':data:tmdbApi'
-
-// domain
-include ':analytics'
+include ':core:network'
+include ':core:models'
+include ':core:tmdbApi'
+include ':core:analytics'
+include ':core:database'
+include ':core:data'
+include ':core:datastore'

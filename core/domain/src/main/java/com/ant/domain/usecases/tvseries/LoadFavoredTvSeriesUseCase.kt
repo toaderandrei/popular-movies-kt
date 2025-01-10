@@ -1,7 +1,7 @@
 package com.ant.domain.usecases.tvseries
 
 import com.ant.models.entities.TvShow
-import com.ant.models.source.repositories.tvseries.LoadFavoredTvSeriesListRepository
+import com.ant.data.repositories.tvseries.LoadFavoredTvSeriesListRepository
 import com.ant.common.qualifiers.IoDispatcher
 import com.ant.domain.usecases.UseCase
 import kotlinx.coroutines.CoroutineDispatcher

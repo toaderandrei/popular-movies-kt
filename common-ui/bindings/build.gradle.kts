@@ -13,7 +13,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:source"))
+    implementation(project(":core:common"))
+    implementation(project(":core:models"))
+    implementation(project(":core:tmdbApi"))
 
     // UI libs
     implementation(libs.coreKtx)

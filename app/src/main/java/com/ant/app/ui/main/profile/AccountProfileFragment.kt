@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ant.app.databinding.FragmentAccountProfileBinding
 import com.ant.app.ui.main.base.NavigationFragment
-import com.ant.common.extensions.observe
+import com.ant.ui.extensions.observe
 import com.ant.common.listeners.AccountLoginCallback
 import com.ant.models.model.UIState
 import com.ant.models.model.UserData

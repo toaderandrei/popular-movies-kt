@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.ant.analytics.AnalyticsEvent
 import com.ant.analytics.AnalyticsHelper
 import com.ant.analytics.CrashlyticsHelper
-import com.ant.ui.viewmodels.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.login.LoginUserAndSaveSessionUseCase
@@ -13,7 +12,7 @@ import com.ant.models.model.UIState
 import com.ant.models.model.UserData
 import com.ant.models.request.RequestType
 import com.ant.models.session.SessionManager
-import com.ant.models.source.repositories.Repository
+import com.ant.ui.viewmodels.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -94,10 +93,8 @@ class LoginViewModelOld @Inject constructor(
                 return@launch
             }
             logoutUserUseCase.invoke(
-                Repository.Params(
-                    RequestType.LoginSessionRequest.Logout(
-                        username = sessionManager.getUsername(),
-                    )
+                RequestType.LoginSessionRequest.Logout(
+                    username = sessionManager.getUsername(),
                 )
             ).collectAndSetState {
                 parseResponse(

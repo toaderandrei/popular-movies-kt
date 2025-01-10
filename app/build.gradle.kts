@@ -28,16 +28,16 @@ android {
 dependencies {
     // module dependency
     implementation(project(":core:common"))
-    implementation(project(":data:models"))
+    implementation(project(":core:models"))
     implementation(project(":common-ui:adapters"))
     implementation(project(":core:ui"))
     implementation(project(":core:resources"))
     implementation(project(":common-ui:bindings"))
     implementation(project(":common-ui:layouts"))
     implementation(project(":common-ui:epoxy"))
-    implementation(project(":data:source"))
     implementation(project(":core:domain"))
-    implementation(project(":analytics"))
+    implementation(project(":core:analytics"))
+    implementation(project(":core:tmdbApi"))
 
     // features
     implementation(project(":features:movies"))
@@ -76,10 +76,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.lifecycle.runtime.compose)
 
-    // Coil compose
-    implementation(libs.coil.kt.compose)
-    implementation(libs.coil)
-
     // Dagger - Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
@@ -89,7 +85,7 @@ dependencies {
 
     // okhttp client
     implementation(libs.okhttp)
-    implementation(libs.okhttpLoggingInterceptor)
+    implementation(libs.okhttp.logging)
 
     // navigation
     implementation(libs.navigation.fragment.ktx)

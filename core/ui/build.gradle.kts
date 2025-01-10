@@ -8,9 +8,19 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
     implementation(project(":core:resources"))
-    implementation(libs.accompanist.permissions)
+    implementation(project(":core:models"))
+    implementation(project(":core:tmdbApi"))
 
+
+    // Coil compose
+    implementation(libs.coil.kt.compose)
+    implementation(libs.coil)
+
+    implementation(libs.coreKtx)
+    implementation(libs.navigation.ui)
+    implementation(libs.accompanist.permissions)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
     implementation(libs.navigation.compose)

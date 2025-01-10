@@ -8,13 +8,12 @@ import android.view.ViewGroup
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.ant.resources.R as R2
 import com.ant.app.databinding.FragmentTvshowBinding
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.app.ui.main.movies.MoviesFragment
-import com.ant.common.extensions.doOnSizeChange
-import com.ant.common.extensions.observe
+import com.ant.ui.extensions.doOnSizeChange
+import com.ant.ui.extensions.observe
 import com.ant.epoxy.extensions.init
 import com.ant.models.entities.TvShow
 import com.ant.models.model.TvShowListState

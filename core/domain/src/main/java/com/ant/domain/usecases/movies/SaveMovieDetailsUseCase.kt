@@ -2,13 +2,13 @@ package com.ant.domain.usecases.movies
 
 import com.ant.common.qualifiers.IoDispatcher
 import com.ant.models.entities.MovieDetails
-import com.ant.models.source.repositories.movies.SaveMovieDetailsToLocalRepository
+import com.ant.data.repositories.movies.SaveMovieDetailsToLocalRepository
 import com.ant.domain.usecases.UseCase
 import com.ant.models.request.FavoriteType
 import com.ant.models.request.RequestType
 import com.ant.models.session.SessionManager
-import com.ant.models.source.repositories.Repository
-import com.ant.models.source.repositories.favorites.FavoriteDetailsToRemoteRepository
+import com.ant.data.repositories.Repository
+import com.ant.data.repositories.favorites.FavoriteDetailsToRemoteRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -23,13 +23,11 @@ class SaveMovieDetailsUseCase @Inject constructor(
             .also {
                 sessionManager.getSessionId()?.let { sessionId ->
                     favoriteToRemoteRepository.performRequest(
-                        Repository.Params(
-                            RequestType.FavoriteRequest(
-                                sessionId = sessionId,
-                                favorite = true,
-                                favoriteId = parameters.movieData.id.toInt(),
-                                mediaType = FavoriteType.MOVIE
-                            )
+                        RequestType.FavoriteRequest(
+                            sessionId = sessionId,
+                            favorite = true,
+                            favoriteId = parameters.movieData.id.toInt(),
+                            mediaType = FavoriteType.MOVIE
                         )
                     )
                 }

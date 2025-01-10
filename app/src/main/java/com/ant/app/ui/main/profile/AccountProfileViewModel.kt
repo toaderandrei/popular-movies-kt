@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.ant.analytics.AnalyticsEvent
 import com.ant.analytics.AnalyticsHelper
 import com.ant.analytics.CrashlyticsHelper
-import com.ant.ui.viewmodels.BaseViewModel
 import com.ant.app.ui.extensions.parseResponse
 import com.ant.common.logger.TmdbLogger
 import com.ant.domain.usecases.login.LoadAccountProfileUseCase
@@ -12,7 +11,7 @@ import com.ant.domain.usecases.login.LogoutUserAndClearSessionUseCase
 import com.ant.models.model.UIState
 import com.ant.models.model.UserData
 import com.ant.models.request.RequestType
-import com.ant.models.source.repositories.Repository
+import com.ant.ui.viewmodels.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,10 +37,8 @@ class AccountProfileViewModel @Inject constructor(
     fun logout(username: String?) {
         viewModelScope.launch {
             logoutUserAndClearSessionUseCase.invoke(
-                Repository.Params(
-                    RequestType.LoginSessionRequest.Logout(
-                        username = username
-                    )
+                RequestType.LoginSessionRequest.Logout(
+                    username = username
                 )
             ).collectAndSetState {
                 parseResponse(it, onSuccess = { success ->

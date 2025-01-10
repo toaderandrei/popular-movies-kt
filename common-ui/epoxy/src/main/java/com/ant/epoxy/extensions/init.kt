@@ -2,7 +2,7 @@ package com.ant.epoxy.extensions
 
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.EpoxyRecyclerView
-import com.ant.common.decorator.MarginItemDecoration
+import com.ant.ui.decorator.MarginItemDecoration
 
 fun EpoxyRecyclerView.init(
     controller: EpoxyController,

@@ -11,7 +11,6 @@ import com.ant.models.entities.TvShowDetails
 import com.ant.models.model.UIState
 import com.ant.models.request.RequestType
 import com.ant.models.request.TvSeriesAppendToResponseItem
-import com.ant.models.source.repositories.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -68,7 +67,7 @@ class DetailsTvSeriesViewModel @Inject constructor(
         }
     }
 
-    private fun getTvSeriesRequestDetailsParams(movieId: Long) = Repository.Params(
+    private fun getTvSeriesRequestDetailsParams(movieId: Long) =
         RequestType.TvSeriesRequestDetails(
             tmdbTvSeriesId = movieId,
             appendToResponseItems = mutableListOf(
@@ -77,5 +76,4 @@ class DetailsTvSeriesViewModel @Inject constructor(
                 TvSeriesAppendToResponseItem.CREDITS,
             )
         )
-    )
 }

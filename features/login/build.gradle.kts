@@ -8,12 +8,15 @@ android {
 }
 
 dependencies {
-    implementation(project(":analytics"))
+    // Projects
+    implementation(project(":core:analytics"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
-    implementation(project(":data:models"))
+    implementation(project(":core:models"))
     implementation(project(":core:domain"))
     implementation(project(":core:resources"))
+
+    // Libraries
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.hilt.navigation.compose)

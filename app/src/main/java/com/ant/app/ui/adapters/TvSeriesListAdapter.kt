@@ -8,7 +8,6 @@ import com.ant.adapters.BaseListAdapter
 import com.ant.adapters.CustomViewHolder
 import com.ant.models.entities.TvShow
 import com.ant.layouts.databinding.ViewHolderTvseriesItemDetailedBinding
-import com.ant.models.entities.MovieData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 

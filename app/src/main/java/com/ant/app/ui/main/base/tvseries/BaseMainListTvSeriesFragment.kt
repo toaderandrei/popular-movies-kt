@@ -10,11 +10,11 @@ import com.ant.app.databinding.FragmentListTvshowBinding
 import com.ant.app.ui.adapters.TvSeriesListAdapter
 import com.ant.app.ui.main.base.BaseViewModelMoviesList
 import com.ant.app.ui.main.base.NavigationFragment
-import com.ant.common.decorator.MarginItemDecoration
-import com.ant.common.extensions.doOnSizeChange
-import com.ant.common.extensions.observe
-import com.ant.common.listeners.OnScrollCallback
-import com.ant.common.listeners.RecyclerViewScrollListener
+import com.ant.ui.decorator.MarginItemDecoration
+import com.ant.ui.extensions.doOnSizeChange
+import com.ant.ui.extensions.observe
+import com.ant.ui.extensions.OnScrollCallback
+import com.ant.ui.extensions.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
 import com.ant.models.entities.TvShow
 import com.ant.models.model.UIState

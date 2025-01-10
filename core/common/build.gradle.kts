@@ -1,11 +1,8 @@
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.popular.movies.hilt)
     alias(libs.plugins.popular.movies.android.library)
+    alias(libs.plugins.popular.movies.hilt)
 }
+
 
 android {
     // Add this line
@@ -13,27 +10,15 @@ android {
 }
 
 dependencies {
-    implementation(project(":data:models"))
-    // Circle ImageView
-
-    //navigation
-    implementation(libs.fragment)
-    implementation(libs.fragmentKtx)
-    implementation(libs.navigation.ui)
-    implementation(libs.navigation.fragment.ktx)
-
-    implementation(libs.timber)
-    implementation(libs.material)
-    ksp(libs.hilt.compiler)
-
-    // retrofit
+    implementation(project(":core:models"))
     implementation(libs.retrofit)
 
-    // Dagger - Hilt
-    implementation(libs.hilt.android)
+    //navigation
+    implementation(libs.timber)
 
-    api(libs.room.runtime)
-    implementation(libs.roomRxjava)
+    // Dagger - Hilt
+//    implementation(libs.hilt.android)
+//    ksp(libs.hilt.compiler)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

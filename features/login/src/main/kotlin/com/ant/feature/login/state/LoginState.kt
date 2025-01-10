@@ -1,7 +1,5 @@
 package com.ant.feature.login.state
 
-import com.ant.models.model.Result
-
 sealed interface LoginState {
     data object Idle : LoginState
     data object Loading : LoginState

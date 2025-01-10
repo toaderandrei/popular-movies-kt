@@ -7,7 +7,6 @@ import com.ant.domain.usecases.movies.MovieListUseCase
 import com.ant.models.model.MoviesListState
 import com.ant.models.request.MovieType
 import com.ant.models.request.RequestType
-import com.ant.models.source.repositories.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -32,22 +31,15 @@ class MoviesViewModel @Inject constructor(
         viewModelScope.launch {
             coroutineScope {
                 val popularMoviesDeferred = async {
-                    loadMovieListUseCase(
-                        Repository.Params(
-                            RequestType.MovieRequest(MovieType.POPULAR),
-                            1,
-                        )
-                    ).collectAndSetState {
-                        parseResponse(it, MovieType.POPULAR)
-                    }
+                    loadMovieListUseCase(RequestType.MovieRequest(MovieType.POPULAR))
+                        .collectAndSetState {
+                            parseResponse(it, MovieType.POPULAR)
+                        }
                 }
 
                 val topRatedDeferred = async {
                     loadMovieListUseCase(
-                        Repository.Params(
-                            RequestType.MovieRequest(MovieType.TOP_RATED),
-                            1,
-                        )
+                        RequestType.MovieRequest(MovieType.TOP_RATED),
                     ).collectAndSetState {
                         parseResponse(it, MovieType.TOP_RATED)
                     }
@@ -55,10 +47,7 @@ class MoviesViewModel @Inject constructor(
 
                 val nowPlayingDeferred = async {
                     loadMovieListUseCase(
-                        Repository.Params(
-                            RequestType.MovieRequest(MovieType.NOW_PLAYING),
-                            1,
-                        )
+                        RequestType.MovieRequest(MovieType.NOW_PLAYING),
                     ).collectAndSetState {
                         parseResponse(it, MovieType.NOW_PLAYING)
                     }
@@ -66,10 +55,7 @@ class MoviesViewModel @Inject constructor(
 
                 val upcomingDeferred = async {
                     loadMovieListUseCase(
-                        Repository.Params(
-                            RequestType.MovieRequest(MovieType.UPCOMING),
-                            1,
-                        )
+                        RequestType.MovieRequest(MovieType.UPCOMING),
                     ).collectAndSetState {
                         parseResponse(it, MovieType.UPCOMING)
                     }

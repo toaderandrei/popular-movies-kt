@@ -12,7 +12,7 @@ import com.ant.epoxy.extensions.withModelsFrom
 import com.ant.layouts.*
 import com.ant.models.model.TvShowListState
 import com.ant.models.model.isError
-import com.ant.models.source.extensions.observable
+import com.ant.ui.extensions.observable
 import com.ant.tmdb.old.PosterSizes
 import javax.inject.Inject
 

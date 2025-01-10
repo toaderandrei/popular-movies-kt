@@ -1,6 +1,6 @@
 package com.ant.app.di
 
-import com.ant.app.application.CoilInitializer
+import com.ant.ui.image.CoilInitializer
 import com.ant.app.application.TimberInitializer
 import com.ant.common.di.Initializer
 import com.ant.common.logger.Logger

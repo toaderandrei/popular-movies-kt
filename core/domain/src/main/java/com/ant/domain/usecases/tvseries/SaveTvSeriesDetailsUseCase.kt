@@ -1,14 +1,13 @@
 package com.ant.domain.usecases.tvseries
 
-import com.ant.models.entities.TvShowDetails
-import com.ant.models.source.repositories.tvseries.SaveTvSeriesDetailsRepository
 import com.ant.common.qualifiers.IoDispatcher
+import com.ant.data.repositories.favorites.FavoriteDetailsToRemoteRepository
+import com.ant.data.repositories.tvseries.SaveTvSeriesDetailsRepository
 import com.ant.domain.usecases.UseCase
+import com.ant.models.entities.TvShowDetails
 import com.ant.models.request.FavoriteType
 import com.ant.models.request.RequestType
 import com.ant.models.session.SessionManager
-import com.ant.models.source.repositories.Repository
-import com.ant.models.source.repositories.favorites.FavoriteDetailsToRemoteRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
@@ -23,13 +22,11 @@ class SaveTvSeriesDetailsUseCase @Inject constructor(
             .also {
                 sessionManager.getSessionId()?.let { sessionId ->
                     favoriteToRemoteRepository.performRequest(
-                        Repository.Params(
-                            RequestType.FavoriteRequest(
-                                sessionId = sessionId,
-                                favorite = true,
-                                favoriteId = parameters.tvSeriesData.id.toInt(),
-                                mediaType = FavoriteType.MOVIE
-                            )
+                        RequestType.FavoriteRequest(
+                            sessionId = sessionId,
+                            favorite = true,
+                            favoriteId = parameters.tvSeriesData.id.toInt(),
+                            mediaType = FavoriteType.MOVIE
                         )
                     )
                 }

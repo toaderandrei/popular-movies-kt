@@ -14,7 +14,6 @@ import com.ant.models.entities.MovieDetails
 import com.ant.models.model.UIState
 import com.ant.models.request.MovieAppendToResponseItem
 import com.ant.models.request.RequestType
-import com.ant.models.source.repositories.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import logAnalytics
@@ -32,14 +31,13 @@ class DetailsMovieViewModel @Inject constructor(
     fun loadMovieDetails(movieId: Long) {
         viewModelScope.launch {
             movieDetailsUseCase(
-                Repository.Params(
-                    RequestType.MovieRequestDetails(
-                        tmdbMovieId = movieId, appendToResponseItems = mutableListOf(
-                            MovieAppendToResponseItem.REVIEWS,
-                            MovieAppendToResponseItem.VIDEOS,
-                            MovieAppendToResponseItem.CREDITS,
-                        )
+                RequestType.MovieRequestDetails(
+                    tmdbMovieId = movieId, appendToResponseItems = mutableListOf(
+                        MovieAppendToResponseItem.REVIEWS,
+                        MovieAppendToResponseItem.VIDEOS,
+                        MovieAppendToResponseItem.CREDITS,
                     )
+
                 )
             ).collectAndSetState {
                 logger.d("state: $this")

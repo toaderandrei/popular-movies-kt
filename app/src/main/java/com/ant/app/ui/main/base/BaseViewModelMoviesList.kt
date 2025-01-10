@@ -13,7 +13,6 @@ import com.ant.domain.usecases.UseCase
 import com.ant.models.model.UIState
 import com.ant.models.model.get
 import com.ant.models.request.RequestType
-import com.ant.models.source.repositories.Repository
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -22,7 +21,7 @@ import javax.inject.Inject
 
 abstract class BaseViewModelMoviesList<P : RequestType, R>(
     val logger: TmdbLogger,
-    val useCase: UseCase<Repository.Params<P>, List<R>>,
+    val useCase: UseCase<P, List<R>>,
 
     ) : BaseViewModel<UIState<List<R>>>(UIState()) {
 
@@ -87,10 +86,8 @@ abstract class BaseViewModelMoviesList<P : RequestType, R>(
         }
     }
 
-    private fun getParams(page: Int): Repository.Params<P> {
-        return Repository.Params(
-            getRequest(), page = page
-        )
+    private fun getParams(page: Int): P {
+        return getRequest() //todo fix page
     }
 
     abstract fun getRequest(): P

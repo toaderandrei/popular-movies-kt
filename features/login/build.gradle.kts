@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.popular.movies.android.feature)
     alias(libs.plugins.popular.movies.android.library.compose)
+    alias(libs.plugins.popular.movies.hilt)
 }
 
 android {
-    namespace = "com.ant.feature.movies"
+    namespace = "com.ant.feature.login"
 }
 
 dependencies {
@@ -15,11 +16,15 @@ dependencies {
     implementation(project(":core:models"))
     implementation(project(":core:domain"))
     implementation(project(":core:resources"))
+    implementation(project(":core:datastore"))
 
     // Libraries
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.accompanist.adaptive)
+    implementation(libs.accompanist.systembar)
+
     implementation(libs.accompanist.permissions)
 }

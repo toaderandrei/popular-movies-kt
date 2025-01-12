@@ -7,30 +7,28 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.ant.models.session.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.stateIn
 
 class SessionManagerImpl(
     private val dataStore: DataStore<Preferences>,
 ) : SessionManager {
-    private val _isLoggedInFlow = MutableStateFlow(false)
-    override val isLoggedInFlow: StateFlow<Boolean> get() = _isLoggedInFlow
 
-    init {
-        CoroutineScope(Dispatchers.IO).launch {
-            dataStore.data
-                .map { preferences -> preferences[SESSION_ID] != null }
-                .collect { isLoggedIn -> _isLoggedInFlow.value = isLoggedIn }
-        }
-    }
+    private val _userAuthenticationStatus = dataStore.data
+        .map { preferences -> preferences[SESSION_ID] != null }
+        .stateIn(
+            scope = CoroutineScope(Dispatchers.IO),
+            started = SharingStarted.Eagerly,
+            initialValue = null // Use null to represent "loading"
+        )
+
 
     override suspend fun saveSessionId(sessionId: String?): Boolean {
-        return saveInternal(SESSION_ID, sessionId).also {
-            _isLoggedInFlow.value = sessionId != null
-        }
+        return saveInternal(SESSION_ID, sessionId)
     }
 
     override suspend fun saveUsername(username: String?): Boolean {
@@ -49,12 +47,11 @@ class SessionManagerImpl(
     override suspend fun clearSessionAndSignOut(): Boolean {
         if (getSessionId() == null) return false
         dataStore.edit { it.clear() }
-        _isLoggedInFlow.value = false
         return true
     }
 
-    override suspend fun isUserLoggedInToTmdbApi(): Boolean {
-        return _isLoggedInFlow.value
+    override fun getUserAuthenticationStatus(): Flow<Boolean?> {
+        return _userAuthenticationStatus
     }
 
     override suspend fun getSessionId(): String? {

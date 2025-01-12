@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ant.feature.movies"
+    namespace = "com.ant.feature.tvshow"
 }
 
 dependencies {

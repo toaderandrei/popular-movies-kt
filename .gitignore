@@ -3,7 +3,7 @@
 .gradle/
 !gradle/wrapper/gradle-wrapper.jar
 **/.gradle
-
+.kotlin/
 /build-logic/.gradle
 
 

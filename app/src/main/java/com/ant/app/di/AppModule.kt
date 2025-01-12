@@ -2,7 +2,6 @@ package com.ant.app.di
 
 import android.content.Context
 import android.text.format.DateFormat
-import com.ant.analytics.di.AnalyticsModule
 import com.ant.app.BuildConfig
 import com.ant.app.application.PopularMoviesApp
 import com.google.firebase.analytics.FirebaseAnalytics

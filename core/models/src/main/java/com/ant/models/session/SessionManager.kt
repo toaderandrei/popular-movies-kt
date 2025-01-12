@@ -1,6 +1,6 @@
 package com.ant.models.session
 
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.Flow
 
 interface SessionManager {
 
@@ -24,7 +24,7 @@ interface SessionManager {
      * Check if user is logged in with firebase.
      * @return Boolean true if logged in, false otherwise.
      */
-    suspend fun isUserLoggedInToTmdbApi(): Boolean
+    fun getUserAuthenticationStatus(): Flow<Boolean?>
 
     /**
      * Retrieves the current session id.
@@ -35,8 +35,6 @@ interface SessionManager {
      * Retrieves the current user.
      */
     suspend fun getUsername(): String?
-
-    val isLoggedInFlow: StateFlow<Boolean>
 
     companion object {
         const val SESSION_ID = "session_id"

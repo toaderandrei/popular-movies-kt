@@ -28,7 +28,7 @@
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/movie_item_video_image"
             android:layout_width="@dimen/width_100"
-            android:layout_height="@dimen/height_icon_120"
+            android:layout_height="@dimen/height_120"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

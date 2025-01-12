@@ -11,8 +11,22 @@ fun NavGraphBuilder.loginGraph(navController: NavHostController) {
     composable(LoginScreenDestination.LOGIN.route) {
         LoginScreen(
             onLoginSuccess = {
-                navController.popBackStack()
-                navController.navigate(Graph.MAIN)
+                navController.navigate(Graph.MAIN) {
+                    popUpTo(Graph.AUTHENTICATION) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
+            },
+            onLoginCanceled = {
+                navController.navigate(Graph.MAIN) {
+                    popUpTo(Graph.AUTHENTICATION) {
+                        inclusive = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
+                }
             }
         )
     }

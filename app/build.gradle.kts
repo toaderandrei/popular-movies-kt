@@ -38,6 +38,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:analytics"))
     implementation(project(":core:tmdbApi"))
+    implementation(project(":core:datastore"))
 
     // features
     implementation(project(":features:movies"))

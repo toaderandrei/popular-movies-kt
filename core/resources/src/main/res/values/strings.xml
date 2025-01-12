@@ -32,7 +32,7 @@
     <string name="account">Account</string>
     <string name="tmdb_account">TMDb Account</string>
     <string name="login">Login</string>
-
+    <string name="checking_authentication_state">Checking authentication state</string>
     <string name="login_tmdb">Login to Tmdb Account</string>
     <string name="logout">Logout</string>
     <string name="username_account_title">Username: </string>
@@ -43,7 +43,9 @@
     <string name="error_login">Error during login: %s</string>
 
     <string name="signup">Signup</string>
-    <string name="no_account">No account</string>
+    <string name="no_account">No account?</string>
+    <string name="continue_local">Continue without logging in</string>
+
 
     <!--Movies-->
     <string name="movies">Movies</string>

@@ -63,8 +63,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/details_tvseries_language_image"
-            android:layout_width="@dimen/width_icon_24"
-            android:layout_height="@dimen/height_icon_24"
+            android:layout_width="@dimen/width_24"
+            android:layout_height="@dimen/height_24"
             android:layout_marginStart="@dimen/margin_16"
             app:layout_constraintStart_toEndOf="@+id/details_tvseries_seasons_title"
             app:layout_constraintTop_toBottomOf="@+id/top_margin_guideline"

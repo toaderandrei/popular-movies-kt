@@ -50,8 +50,8 @@ class LoginViewModelOld @Inject constructor(
     ) {
         job?.cancel()
         job = viewModelScope.launch {
-            if (sessionManager.isUserLoggedInToTmdbApi()) {
-                logger.d("User is already logged in.")
+            if (!sessionManager.getSessionId().isNullOrBlank()) {
+                logger.d("User ${sessionManager.getUsername()} is already logged in.")
                 return@launch
             }
 
@@ -88,7 +88,7 @@ class LoginViewModelOld @Inject constructor(
         job?.cancel()
         job = viewModelScope.launch {
             logger.d("Logout user.")
-            if (!sessionManager.isUserLoggedInToTmdbApi()) {
+            if (!sessionManager.getSessionId().isNullOrBlank()) {
                 logger.d("User is already logged out.")
                 return@launch
             }

@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-abstract class AppModuleBinds {
+abstract class InitializersModule {
     @Binds
     @IntoSet
     abstract fun provideTimberInitializer(bind: TimberInitializer): Initializer

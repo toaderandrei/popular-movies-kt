@@ -10,9 +10,12 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScope
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hierarchy
+import com.ant.ui.navigation.MainScreenDestination
 
 @Composable
-fun NavigationSuiteScaffold(
+fun PopularMoviesNavigationSuiteScaffold(
     navigationSuiteItems: NavigationSuiteScope.() -> Unit,
     modifier: Modifier = Modifier,
     windowAdaptiveInfo: WindowAdaptiveInfo = currentWindowAdaptiveInfo(),
@@ -33,3 +36,9 @@ fun NavigationSuiteScaffold(
         content()
     }
 }
+
+fun NavDestination?.isTopLevelDestinationInHierarchy(destination: MainScreenDestination) =
+    this?.hierarchy?.any {
+        it.route?.contains(destination.name, true) ?: false
+    } ?: false
+

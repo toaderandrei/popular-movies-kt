@@ -28,6 +28,10 @@
     <dimen name="text_size_20">20sp</dimen>
     <dimen name="text_size_24">24sp</dimen>
     <dimen name="text_size_32">32sp</dimen>
+    <dimen name="text_size_40">40sp</dimen>
+    <dimen name="text_size_48">48sp</dimen>
+    <dimen name="text_size_54">54sp</dimen>
+    <dimen name="text_size_62">62sp</dimen>
 
     <!-- Paddings -->
     <dimen name="padding_2">2dp</dimen>
@@ -68,23 +72,21 @@
     <dimen name="width_200">200dp</dimen>
     <dimen name="width_300">300dp</dimen>
 
-    <dimen name="width_icon_12">12dp</dimen>
-    <dimen name="height_icon_12">12dp</dimen>
-    <dimen name="width_icon_24">24dp</dimen>
-    <dimen name="height_icon_24">24dp</dimen>
-    <dimen name="width_icon_72">72dp</dimen>
-    <dimen name="height_icon_72">72dp</dimen>
-    <dimen name="width_icon_90">90dp</dimen>
-    <dimen name="height_icon_90">90dp</dimen>
-    <dimen name="width_icon_120">120dp</dimen>
-    <dimen name="height_icon_120">120dp</dimen>
-    <dimen name="width_icon_320">320dp</dimen>
-    <dimen name="height_icon_320">320dp</dimen>
+    <dimen name="width_12">12dp</dimen>
+    <dimen name="height_12">12dp</dimen>
+    <dimen name="width_24">24dp</dimen>
+    <dimen name="height_24">24dp</dimen>
+    <dimen name="height_60">60dp</dimen>
+    <dimen name="width_60">60dp</dimen>
+    <dimen name="width_72">72dp</dimen>
+    <dimen name="height_72">72dp</dimen>
+    <dimen name="width_90">90dp</dimen>
+    <dimen name="height_90">90dp</dimen>
+    <dimen name="width_120">120dp</dimen>
+    <dimen name="height_120">120dp</dimen>
+    <dimen name="width_320">320dp</dimen>
+    <dimen name="height_320">320dp</dimen>
 
-    <dimen name="height_video_1">60dp</dimen>
-    <dimen name="width_video_1">90dp</dimen>
-    <dimen name="height_video_2">120dp</dimen>
-    <dimen name="width_video_2">180dp</dimen>
     <dimen name="thick_120">120dp</dimen>
 
     <dimen name="elevation_16">16dp</dimen>

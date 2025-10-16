@@ -34,3 +34,4 @@ build-logic/convention/build
 **/build-logic/build/**/build
 **/build-logic/.gradle/**
 
+/reference/

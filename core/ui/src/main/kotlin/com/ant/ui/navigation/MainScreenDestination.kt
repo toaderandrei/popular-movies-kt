@@ -5,9 +5,11 @@ import androidx.compose.material.icons.automirrored.filled.Login
 import androidx.compose.material.icons.automirrored.outlined.Login
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Movie
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Tv
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Movie
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Tv
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ant.resources.R as R2
@@ -35,6 +37,18 @@ enum class MainScreenDestination(
         titleTextId = R2.string.tvshow,
         selectedIcon = Icons.Filled.Tv,
         unselectedIcon = Icons.Outlined.Tv
+    ),
+    FAVORITES(
+        route = "favorites",
+        titleTextId = R2.string.favorites,
+        selectedIcon = Icons.Filled.Favorite,
+        unselectedIcon = Icons.Outlined.Favorite
+    ),
+    SETTINGS(
+        route = "settings",
+        titleTextId = R2.string.settings,
+        selectedIcon = Icons.Filled.Settings,
+        unselectedIcon = Icons.Outlined.Settings
     );
 }
 

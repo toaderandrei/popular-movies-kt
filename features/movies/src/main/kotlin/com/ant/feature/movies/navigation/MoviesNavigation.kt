@@ -1,22 +1,32 @@
 package com.ant.feature.movies.navigation
 
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.ant.feature.movies.MoviesRoute
-import com.ant.feature.movies.details.MovieDetailsRoute
-import com.ant.ui.navigation.MainScreenDestination
+import com.ant.feature.movies.ui.MoviesRoute
+import com.ant.models.request.MovieType
 
-fun NavGraphBuilder.moviesNavigation(navController: NavHostController) {
-    composable(MainScreenDestination.MOVIES.route) {
+const val MOVIES_ROUTE = "movies"
+
+/**
+ * Navigate to the Movies screen
+ */
+fun NavController.navigateToMovies(navOptions: NavOptions? = null) {
+    navigate(MOVIES_ROUTE, navOptions)
+}
+
+/**
+ * Add Movies screen to the navigation graph
+ */
+fun NavGraphBuilder.moviesScreen(
+    onNavigateToDetails: (movieId: Long) -> Unit,
+    onNavigateToCategory: (MovieType) -> Unit = {},
+) {
+    composable(route = MOVIES_ROUTE) {
         MoviesRoute(
-            onClick = {}
+            onNavigateToDetails = onNavigateToDetails,
+            onNavigateToCategory = onNavigateToCategory,
         )
-    }
-    composable("movies/details/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")
-        id?.let {
-            MovieDetailsRoute(id = it)
-        }
     }
 }

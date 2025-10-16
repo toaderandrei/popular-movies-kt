@@ -4,35 +4,28 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigation
-import com.ant.feature.favorites.FavoritesRoute
-import com.ant.feature.favorites.details.FavoritesDetailsRoute
-import com.ant.ui.navigation.Graph
-import com.ant.ui.navigation.MainScreenDestination
+import com.ant.feature.favorites.ui.FavoritesRoute
 
+const val FAVORITES_ROUTE = "favorites"
 
-fun NavController.navigateToMovies(navOptions: NavOptions) {}
+/**
+ * Navigate to the Favorites screen
+ */
+fun NavController.navigateToFavorites(navOptions: NavOptions? = null) {
+    navigate(FAVORITES_ROUTE, navOptions)
+}
 
-fun NavGraphBuilder.favoritesGraph(navController: NavController) {
-//    navigation(
-//        route = "${Graph.MAIN}/${MainScreenDestination.FAVORITES.route}",
-//        startDestination = "${MainScreenDestination.FAVORITES.route}/home", // Use TopLevelDestination
-//    ) {
-//        composable("${MainScreenDestination.FAVORITES.route}/home") {
-//            FavoritesRoute(
-//                onNavigateToDetails = { id ->
-//                    navController.navigate("${MainScreenDestination.FAVORITES.route}/details/$id")
-//                },
-//                onNavigateToExpandedList = { type ->
-//                    navController.navigate("${MainScreenDestination.FAVORITES.route}/list/$type")
-//                }
-//            )
-//        }
-//        composable("${MainScreenDestination.FAVORITES.route}/details/{id}") { backStackEntry ->
-//            val id = backStackEntry.arguments?.getString("id")
-//            id?.let {
-//                FavoritesDetailsRoute(id = it)
-//            }
-//        }
-//    }
+/**
+ * Add Favorites screen to the navigation graph
+ */
+fun NavGraphBuilder.favoritesScreen(
+    onNavigateToMovieDetails: (movieId: Long) -> Unit,
+    onNavigateToTvShowDetails: (tvShowId: Long) -> Unit,
+) {
+    composable(route = FAVORITES_ROUTE) {
+        FavoritesRoute(
+            onMovieClick = onNavigateToMovieDetails,
+            onTvShowClick = onNavigateToTvShowDetails,
+        )
+    }
 }

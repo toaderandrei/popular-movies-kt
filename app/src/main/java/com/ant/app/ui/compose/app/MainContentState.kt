@@ -23,7 +23,8 @@ class MainContentState(
         @Composable get() = when (currentDestination?.route) {
             MainScreenDestination.MOVIES.route -> MainScreenDestination.MOVIES
             MainScreenDestination.TV_SHOW.route -> MainScreenDestination.TV_SHOW
-            //MainScreenDestination.FAVORITES.route -> MainScreenDestination.FAVORITES
+            MainScreenDestination.FAVORITES.route -> MainScreenDestination.FAVORITES
+            MainScreenDestination.SETTINGS.route -> MainScreenDestination.SETTINGS
             else -> null
         }
 

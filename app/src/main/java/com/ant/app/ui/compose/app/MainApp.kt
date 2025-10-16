@@ -34,15 +34,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navigation
+import com.ant.app.ui.compose.app.component.PopularMoviesTopAppBar
 import com.ant.app.ui.compose.app.component.ktx.PopularMoviesNavigationSuiteScaffold
 import com.ant.app.ui.compose.app.component.ktx.isTopLevelDestinationInHierarchy
 import com.ant.app.ui.compose.app.viewmodel.MainActivityViewModel
 import com.ant.app.ui.compose.themes.GradientColors
 import com.ant.app.ui.compose.themes.PopularMoviesBackground
 import com.ant.app.ui.compose.themes.PopularMoviesGradientBackground
-import com.ant.feature.login.navigation.loginGraph
-import com.ant.feature.movies.navigation.moviesNavigation
-import com.ant.feature.tvshow.navigation.tvShowNavigation
+import com.ant.feature.login.navigation.loginScreen
+import com.ant.feature.movies.navigation.moviesScreen
+import com.ant.feature.tvshow.navigation.tvShowScreen
+import com.ant.feature.favorites.navigation.favoritesScreen
+import com.ant.feature.search.navigation.searchScreen
 import com.ant.ui.navigation.Graph
 import com.ant.ui.navigation.LoginScreenDestination
 import com.ant.ui.navigation.MainScreenDestination
@@ -162,14 +165,57 @@ fun MainContent(
             .consumeWindowInsets(outerPadding)
             .padding(outerPadding)
     ) {
-        Scaffold { paddingValues ->
+        Scaffold(
+            topBar = {
+                PopularMoviesTopAppBar(
+                    currentDestination = mainContentState.currentMainScreenDestinations,
+                    onSearchClick = {
+                        mainNavController.navigate("search")
+                    },
+                    onAccountClick = {
+                        mainNavController.navigate("account")
+                    }
+                )
+            }
+        ) { paddingValues ->
             NavHost(
                 navController = mainNavController,
                 startDestination = MainScreenDestination.MOVIES.route,
                 modifier = Modifier.padding(paddingValues)
             ) {
-                moviesNavigation(mainNavController)
-                tvShowNavigation(mainNavController)
+                moviesScreen(
+                    onNavigateToDetails = { /* TODO */ },
+                    onNavigateToCategory = { /* TODO: Navigate to category detail */ }
+                )
+                tvShowScreen(
+                    onNavigateToDetails = { /* TODO */ }
+                )
+                favoritesScreen(
+                    onNavigateToMovieDetails = { /* TODO */ },
+                    onNavigateToTvShowDetails = { /* TODO */ }
+                )
+                // Settings screen (placeholder for now)
+                composable(MainScreenDestination.SETTINGS.route) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("Settings Screen - Coming Soon")
+                    }
+                }
+
+                // Search screen (accessible from top bar)
+                searchScreen(
+                    onNavigateToMovieDetails = { /* TODO */ },
+                    onNavigateToTvShowDetails = { /* TODO */ }
+                )
+
+                // Account/Profile screen (accessible from top bar)
+                composable("account") {
+                    loginScreen(
+                        onLoginSuccess = { /* Already logged in, show profile */ }
+                    )
+                }
             }
         }
     }
@@ -181,6 +227,12 @@ fun NavGraphBuilder.authGraph(navController: NavHostController) {
         startDestination = LoginScreenDestination.LOGIN.route,
         route = Graph.AUTHENTICATION,
     ) {
-        loginGraph(navController)
+        loginScreen(
+            onLoginSuccess = {
+                navController.navigate(Graph.MAIN) {
+                    popUpTo(Graph.AUTHENTICATION) { inclusive = true }
+                }
+            }
+        )
     }
 }

@@ -20,6 +20,8 @@
     <string name="home">Home</string>
     <string name="discover">Discover</string>
     <string name="favourites">Favourites</string>
+    <string name="favorites">Favorites</string>
+    <string name="search">Search</string>
     <string name="app_settings">App Settings</string>
     <string name="login_title">Login to save your preferences!</string>
     <string name="retry">Retry</string>

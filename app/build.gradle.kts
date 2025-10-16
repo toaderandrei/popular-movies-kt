@@ -15,10 +15,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         buildConfig = true
-        //noinspection DataBindingWithoutKapt
-        dataBinding = true
     }
 
     // Add this line
@@ -29,12 +26,8 @@ dependencies {
     // module dependency
     implementation(project(":core:common"))
     implementation(project(":core:models"))
-    implementation(project(":common-ui:adapters"))
     implementation(project(":core:ui"))
     implementation(project(":core:resources"))
-    implementation(project(":common-ui:bindings"))
-    implementation(project(":common-ui:layouts"))
-    implementation(project(":common-ui:epoxy"))
     implementation(project(":core:domain"))
     implementation(project(":core:analytics"))
     implementation(project(":core:tmdbApi"))

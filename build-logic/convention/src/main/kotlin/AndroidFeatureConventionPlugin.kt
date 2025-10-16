@@ -8,6 +8,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
         with(target) {
             pluginManager.apply {
                 apply("popular.movies.android.library")
+                apply("popular.movies.hilt")
             }
 
             dependencies {

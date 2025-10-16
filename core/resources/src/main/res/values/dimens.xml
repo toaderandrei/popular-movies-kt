@@ -10,7 +10,7 @@
     <dimen name="margin_32">32dp</dimen>
     <dimen name="margin_48">48dp</dimen>
     <dimen name="margin_64">64dp</dimen>
-    <dimen name="margin_128">128dp</dimen>c
+    <dimen name="margin_128">128dp</dimen>ca
 
     <!-- Icon Sizes -->
     <dimen name="icon_size_12">12dp</dimen>

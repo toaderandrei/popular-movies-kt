@@ -2,22 +2,26 @@ package com.ant.feature.tvshow.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import com.ant.feature.tvshow.TvShowRoute
-import com.ant.feature.tvshow.details.TvShowDetailsRoute
-import com.ant.ui.navigation.MainScreenDestination
+import com.ant.feature.tvshow.ui.TvShowRoute
 
+const val TV_SHOW_ROUTE = "tvshow"
 
-fun NavGraphBuilder.tvShowNavigation(navController: NavController) {
-    composable(MainScreenDestination.TV_SHOW.route) {
-        TvShowRoute(
-            onClick = {}
-        )
-    }
-    composable("${MainScreenDestination.TV_SHOW.route}/details/{id}") { backStackEntry ->
-        val id = backStackEntry.arguments?.getString("id")
-        id?.let {
-            TvShowDetailsRoute(id = it)
-        }
+/**
+ * Navigate to the TV Show screen
+ */
+fun NavController.navigateToTvShow(navOptions: NavOptions? = null) {
+    navigate(TV_SHOW_ROUTE, navOptions)
+}
+
+/**
+ * Add TV Show screen to the navigation graph
+ */
+fun NavGraphBuilder.tvShowScreen(
+    onNavigateToDetails: (tvShowId: Long) -> Unit,
+) {
+    composable(route = TV_SHOW_ROUTE) {
+        TvShowRoute(onNavigateToDetails = onNavigateToDetails)
     }
 }

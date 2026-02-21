@@ -6,7 +6,7 @@ on:
       - main
       - master
     tags:
-      - 'v*.*.*'  # Triggers the workflow on version tags like v1.0.0
+      - 'v*.*.*'
 
 jobs:
   build:
@@ -46,38 +46,36 @@ jobs:
       - name: Build Release bundle
         run: ./gradlew bundleRelease --stacktrace
 
-      - name: Get release file aab path
-        id: releaseAab
-        run: echo "aabfile=$(find app/build/outputs/bundle/release/*.aab)" >> $GITHUB_ENV
-
-      - name: Get release file apk path
-        id: releaseApk
-        run: echo "apkfile=$(find app/build/outputs/apk/release/*.apk)" >> $GITHUB_ENV
-
-      - name: Zip Files
-        uses: papeloto/action-zip@v1
-        with:
-          files: ${{ env.aabfile }} ${{ env.apkfile }}
-          dest: ${{ env.apkfile }}.zip
-
-      - name: Check Environment Variables
-        run: |
-          echo "GITHUB_ACTIONS: $GITHUB_ACTIONS"
-          echo "ACTIONS_RUNTIME_TOKEN: $ACTIONS_RUNTIME_TOKEN"
-
       - name: Upload Release Build to Artifacts
-        if: ${{ env.GITHUB_ACTIONS == 'true' }}  # Only run this on GitHub Actions
         uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
-          path: ${{ env.apkfile }}
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/*.aab
 
   release:
     needs: build
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: build-artifacts
 
       - name: Set Release Version
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
@@ -88,25 +86,10 @@ jobs:
           token: ${{ secrets.PAT_TOKEN }}
           tag: ${{ env.RELEASE_VERSION }}
           generateReleaseNotes: true
-
-      - name: Upload APK to Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.apkfile }}
-          asset_name: $(basename ${{ env.apkfile }})
-          asset_content_type: application/vnd.android.package-archive
-
-      - name: Upload AAB to Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ env.aabfile }}
-          asset_name: $(basename ${{ env.aabfile }})
-          asset_content_type: application/octet-stream
+          artifacts: "build-artifacts/**/*.apk,build-artifacts/**/*.aab"
 
       - name: Update App Version
-        run: ./gradlew -b scripts/update-release-version.gradle.kts updateVersion
+        run: ./gradlew updateAppVersion
 
       - name: Commit updated version
         run: |
@@ -114,4 +97,4 @@ jobs:
           git config --local user.name "GitHub Actions"
           git add gradle/libs.versions.toml
           git commit -m "Bump app version after release [skip ci]"
-          git push origin HEAD:${{ github.ref }}
+          git push origin main

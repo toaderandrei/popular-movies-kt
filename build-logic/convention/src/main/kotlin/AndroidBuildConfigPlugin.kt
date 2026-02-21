@@ -3,6 +3,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.extra
 import java.util.Properties
 
 class AndroidBuildConfigPlugin : Plugin<Project> {

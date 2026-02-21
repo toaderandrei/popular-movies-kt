@@ -32,7 +32,7 @@ The project follows the principles of Clean Architecture, focused on separation 
 https://developer.android.com/topic/architecture
 
 
-![android_architecture_diagram.png](pictures/clean_architecture_diagram.png)
+![android_architecture_diagram.png](../pictures/clean_architecture_diagram.png)
 
 It's organized into the following layers:
 - **app**: Contains the main activity and UI components.
@@ -44,7 +44,7 @@ This approach is heavily based on https://developer.squareup.com/blog/herding-el
 - **domain**: Contains the business logic and use cases of the application.
 
 ## Screenshots
-<img src="pictures/popular_movies_2.jpg" alt="popular_movies_2" width="300"/> <img src="pictures/popular_movies_1.jpg" alt="popular_movies_1" width="200"/> <img src="pictures/popular_movies_3.jpg" alt="popular_movies_3" width="200"/>
+<img src="../pictures/popular_movies_2.jpg" alt="popular_movies_2" width="300"/> <img src="../pictures/popular_movies_1.jpg" alt="popular_movies_1" width="200"/> <img src="../pictures/popular_movies_3.jpg" alt="popular_movies_3" width="200"/>
 
 ## Technologies Used
 - Kotlin, Coroutines & Flow, Hilt, Retrofit, MVVM.

@@ -7,6 +7,11 @@ on:
         description: 'Release version tag (e.g. v0.1.3)'
         required: true
         type: string
+      skip_checks:
+        description: 'Skip lint/build/test and use artifacts from latest Master run'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}
@@ -14,6 +19,7 @@ concurrency:
 
 jobs:
   lint:
+    if: ${{ !inputs.skip_checks }}
     runs-on: ubuntu-latest
     env:
       TMDB_API_KEY: ${{ secrets.TMDB_API_KEY }}
@@ -36,6 +42,7 @@ jobs:
         run: ./gradlew lint
 
   build:
+    if: ${{ !inputs.skip_checks }}
     needs: lint
     runs-on: ubuntu-latest
     env:
@@ -81,6 +88,7 @@ jobs:
             app/build/outputs/bundle/release/*.aab
 
   test:
+    if: ${{ !inputs.skip_checks }}
     needs: build
     runs-on: ubuntu-latest
     env:
@@ -104,14 +112,16 @@ jobs:
         run: ./gradlew test
 
   release:
-    needs: test
+    if: ${{ always() && !failure() && !cancelled() }}
+    needs: [test]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           ref: main
-          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -119,11 +129,28 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
-      - name: Download Build Artifacts
+      - name: Download Artifacts (from this workflow)
+        if: ${{ !inputs.skip_checks }}
         uses: actions/download-artifact@v4
         with:
           name: release-artifacts
           path: build-artifacts
+
+      - name: Download Artifacts (from latest Master run)
+        if: ${{ inputs.skip_checks }}
+        uses: dawidd6/action-download-artifact@v8
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          workflow: master.yml
+          branch: main
+          name: release-artifacts
+          path: build-artifacts
+
+      - name: Configure git for push
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: Create Git Tag
         run: |
@@ -141,10 +168,8 @@ jobs:
       - name: Update App Version
         run: ./gradlew updateAppVersion
 
-      - name: Commit updated version
+      - name: Commit and push version bump
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
           git add gradle/libs.versions.toml
           git commit -m "Bump app version after release [skip ci]"
           git push origin main

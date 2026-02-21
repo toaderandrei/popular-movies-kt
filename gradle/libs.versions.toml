@@ -45,6 +45,7 @@ gmsPlugin = "4.4.2"
 firebaseCrashlyticsPlugin = "3.0.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
+benManesVersions = "0.51.0"
 popular-movies-version = "0.1.2"
 
 [libraries]
@@ -153,6 +154,7 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 gms = { id = "com.google.gms.google-services", version.ref = "gmsPlugin" }
 safe-args = { id = "androidx.navigation.safeargs", version.ref = "navigation" }
+ben-manes-versions = { id = "com.github.ben-manes.versions", version.ref = "benManesVersions" }
 
 # Custon plugins
 popular-movies-android-application = { id = "popular.movies.android.application", version = "unspecified" }

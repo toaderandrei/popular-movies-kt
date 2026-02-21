@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.gms) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.safe.args) apply false
-    id("com.github.ben-manes.versions") version "0.46.0"
+    alias(libs.plugins.ben.manes.versions)
 }
 
 tasks.withType<DependencyUpdatesTask> {

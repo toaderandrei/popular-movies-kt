@@ -1,18 +1,4 @@
-import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import groovy.json.JsonSlurper
-
-// Configure the ben-manes dependencyUpdates task to output JSON
-tasks.withType<DependencyUpdatesTask> {
-    outputFormatter = "json"
-
-    // Only suggest stable versions (reject alpha, beta, rc, etc.)
-    rejectVersionIf {
-        val dominated = listOf("alpha", "beta", "rc", "cr", "m", "preview", "dev")
-        dominated.any { qualifier ->
-            candidate.version.lowercase().contains(qualifier)
-        }
-    }
-}
 
 tasks.register("updateDependencies") {
     dependsOn("dependencyUpdates")

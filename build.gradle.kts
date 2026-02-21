@@ -1,3 +1,5 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+
 plugins {
     alias(libs.plugins.android.application) apply false
     alias(libs.plugins.android.library) apply false
@@ -8,6 +10,16 @@ plugins {
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.safe.args) apply false
     id("com.github.ben-manes.versions") version "0.46.0"
+}
+
+tasks.withType<DependencyUpdatesTask> {
+    outputFormatter = "json"
+    rejectVersionIf {
+        val dominated = listOf("alpha", "beta", "rc", "cr", "m", "preview", "dev")
+        dominated.any { qualifier ->
+            candidate.version.lowercase().contains(qualifier)
+        }
+    }
 }
 
 apply(from = "scripts/update-release-version.gradle.kts")

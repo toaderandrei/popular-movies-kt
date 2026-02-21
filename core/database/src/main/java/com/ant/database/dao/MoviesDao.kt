@@ -26,4 +26,7 @@ abstract class MoviesDao {
 
     @Query("SELECT * from MovieData where favored=:favored")
     abstract fun loadFavoredMovies(favored: Boolean): List<MovieData>
+
+    @Query("UPDATE moviedata SET synced_to_remote = :synced WHERE id = :id")
+    abstract suspend fun updateSyncStatus(id: Long, synced: Boolean)
 }

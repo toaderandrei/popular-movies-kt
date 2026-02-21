@@ -36,9 +36,20 @@ interface SessionManager {
      */
     suspend fun getUsername(): String?
 
+    suspend fun setGuestMode(enabled: Boolean): Boolean
+
+    fun isGuestMode(): Flow<Boolean>
+
+    /**
+     * Returns true if the user can skip authentication (logged in OR guest mode).
+     * Returns null while loading.
+     */
+    fun canSkipAuthentication(): Flow<Boolean?>
+
     companion object {
         const val SESSION_ID = "session_id"
         const val USERNAME = "username"
         const val AVATAR = "avatar"
+        const val GUEST_MODE = "guest_mode"
     }
 }

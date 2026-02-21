@@ -48,6 +48,12 @@
     <string name="no_account">No account?</string>
     <string name="continue_local">Continue without logging in</string>
 
+    <!-- Welcome screen -->
+    <string name="welcome_title">Popular Movies</string>
+    <string name="welcome_subtitle">Discover thousands of movies and TV shows</string>
+    <string name="login_with_tmdb">Login with TMDb</string>
+    <string name="continue_as_guest">Continue as Guest</string>
+
 
     <!--Movies-->
     <string name="movies">Movies</string>
@@ -112,6 +118,27 @@
     <string name="back_button">back button</string>
     <string name="plot_text">Plot</string>
     <string name="movie_search" tools:ignore="ExtraTranslation">Search</string>
+
+    <!-- Navigation -->
+    <string name="navigate_back">Navigate back</string>
+
+    <!-- Search -->
+    <string name="search_placeholder">Search for movies or TV shows</string>
+    <string name="clear_search">Clear search</string>
+    <string name="search_tab_movies">Movies (%1$d)</string>
+    <string name="search_tab_tv_shows">TV Shows (%1$d)</string>
+    <string name="search_no_movies">No movies found for \"%1$s\"</string>
+    <string name="search_no_tv_shows">No TV shows found for \"%1$s\"</string>
+    <string name="search_prompt">Search for your favorite movies and TV shows</string>
+
+    <!-- Sync -->
+    <string name="sync_local_only">Stored locally</string>
+    <string name="sync_to_cloud">Synced to TMDb</string>
+    <string name="sync_in_progress">Syncing…</string>
+    <string name="sync_success">Synced to TMDb successfully</string>
+    <string name="sync_error_no_account">Login required to sync favorites to TMDb</string>
+    <string name="sync_error_network">Network error. Check your connection and try again</string>
+    <string name="sync_error_generic">Failed to sync: %s</string>
 
     <!--Error -->
     <string name="unknown_error">Unknown error</string>

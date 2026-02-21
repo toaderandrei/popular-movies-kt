@@ -13,6 +13,8 @@ data class FavoritesUiState(
     val selectedTab: FavoriteTab = FavoriteTab.MOVIES,
     val error: String? = null,
     val isRefreshing: Boolean = false,
+    val syncingIds: Set<Long> = emptySet(),
+    val snackbarMessage: String? = null,
 )
 
 enum class FavoriteTab {

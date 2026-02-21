@@ -64,7 +64,7 @@ class AndroidBuildConfigPlugin : Plugin<Project> {
                 signingConfig = signingConfigs.getByName("release")
                 isDebuggable = false
                 isMinifyEnabled = true
-                proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+                proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
                 val tmdbApiKey = getApiKey(project)
                 buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")

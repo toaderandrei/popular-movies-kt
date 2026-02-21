@@ -4,6 +4,7 @@ import kotlinx.coroutines.delay
 import retrofit2.HttpException
 import retrofit2.Response
 import java.io.IOException
+import kotlin.coroutines.cancellation.CancellationException
 
 fun <T> Response<T>.bodyOrThrow(): T {
     if (!isSuccessful) {
@@ -25,15 +26,18 @@ suspend fun <T> withRetry(
         when {
             response.isSuccess -> return response.getOrThrow()
             response.isFailure -> {
-                val exception = response.exceptionOrNull()!!
+                val exception = response.exceptionOrNull()
+                if (exception is CancellationException) throw exception
 
-                // The response failed, so lets see if we should retry again
-                if (attempt == maxAttempts - 1 || !shouldRetry(exception)) {
-                    throw exception
+                exception?.run {
+                    // The response failed, so lets see if we should retry again
+                    if (attempt == maxAttempts - 1 || !shouldRetry(exception)) {
+                        throw exception
+                    }
+
+                    val nextDelay = attempt * defaultDelay
+                    delay(nextDelay)
                 }
-
-                val nextDelay = attempt * defaultDelay
-                delay(nextDelay)
             }
         }
     }

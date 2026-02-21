@@ -30,7 +30,7 @@ class LoginViewModel @Inject constructor(
     private var job: Job? = null
     private val _loginStateFlow: MutableStateFlow<LoginState> =
         MutableStateFlow(LoginState.Idle)
-    val longStateFlow: StateFlow<LoginState> get() = _loginStateFlow
+    val loginStateFlow: StateFlow<LoginState> get() = _loginStateFlow
 
     fun login(
         username: String,

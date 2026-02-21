@@ -11,6 +11,7 @@ import com.ant.feature.search.SearchViewModel
 fun SearchRoute(
     onMovieClick: (movieId: Long) -> Unit,
     onTvShowClick: (tvShowId: Long) -> Unit,
+    onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
@@ -23,6 +24,7 @@ fun SearchRoute(
         onMovieClick = onMovieClick,
         onTvShowClick = onTvShowClick,
         onClearSearch = viewModel::clearSearch,
+        onNavigateBack = onNavigateBack,
         modifier = modifier,
     )
 }

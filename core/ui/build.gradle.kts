@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.ant.feature.movies"
+    namespace = "com.ant.ui"
 }
 
 dependencies {
@@ -19,9 +19,7 @@ dependencies {
     implementation(libs.coil)
 
     implementation(libs.coreKtx)
-    implementation(libs.navigation.ui)
-    implementation(libs.accompanist.permissions)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.icons)
     implementation(libs.androidx.compose.ui)
-    implementation(libs.navigation.compose)
 }

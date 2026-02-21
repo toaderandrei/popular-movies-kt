@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    api(libs.room.runtime)
     implementation(project(":core:models"))
     implementation(libs.kotlinSerialization)
     implementation(libs.gsonConverter)

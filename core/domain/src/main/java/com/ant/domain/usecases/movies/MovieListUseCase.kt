@@ -1,20 +1,22 @@
 package com.ant.domain.usecases.movies
 
 import com.ant.common.qualifiers.IoDispatcher
-import com.ant.domain.usecases.UseCase
-import com.ant.models.entities.MovieData
-import com.ant.models.request.RequestType
-import com.ant.data.repositories.Repository
 import com.ant.data.repositories.movies.LoadMovieListRepository
+import com.ant.domain.usecases.resultFlow
+import com.ant.models.entities.MovieData
+import com.ant.models.model.Result
+import com.ant.models.request.RequestType
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class MovieListUseCase @Inject constructor(
     private val repository: LoadMovieListRepository,
-    @IoDispatcher dispatcher: CoroutineDispatcher
-) : UseCase<RequestType.MovieRequest, List<MovieData>>(dispatcher) {
-
-    override suspend fun execute(parameters: RequestType.MovieRequest): List<MovieData> {
-        return repository.performRequest(parameters)
+    @IoDispatcher private val dispatcher: CoroutineDispatcher,
+) {
+    operator fun invoke(parameters: RequestType.MovieRequest): Flow<Result<List<MovieData>>> {
+        return resultFlow(dispatcher) {
+            repository.performRequest(parameters)
+        }
     }
 }

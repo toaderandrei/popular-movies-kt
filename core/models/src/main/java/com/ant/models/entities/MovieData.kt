@@ -56,6 +56,9 @@ data class MovieData(
 
     @ColumnInfo(name = "favored")
     var favored: Boolean? = null,
+
+    @ColumnInfo(name = "synced_to_remote")
+    val syncedToRemote: Boolean? = false,
 ) : TmdbEntity {
     @Ignore
     constructor() : this(id = 0)

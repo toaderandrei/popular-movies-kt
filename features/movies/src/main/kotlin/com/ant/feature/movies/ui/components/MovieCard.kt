@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,6 +42,7 @@ fun MovieCard(
     movie: MovieData,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    trailingIcon: @Composable (() -> Unit)? = null,
 ) {
     Card(
         modifier = modifier
@@ -95,12 +97,19 @@ fun MovieCard(
                     .fillMaxWidth()
                     .padding(8.dp)
             ) {
-                Text(
-                    text = movie.name ?: "Unknown Title",
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        text = movie.name ?: "Unknown Title",
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f),
+                    )
+                    trailingIcon?.invoke()
+                }
 
                 Spacer(modifier = Modifier.height(4.dp))
 

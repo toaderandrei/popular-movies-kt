@@ -25,54 +25,87 @@ class TvShowViewModel @Inject constructor(
     val uiState: StateFlow<TvShowUiState> = _uiState.asStateFlow()
 
     init {
-        loadTvShows()
-    }
-
-    fun onCategoryChange(category: TvShowType) {
-        _uiState.update { it.copy(selectedCategory = category) }
-        loadTvShows()
+        loadAllCategories()
     }
 
     fun refresh() {
-        loadTvShows(isRefresh = true)
+        loadAllCategories(isRefresh = true)
     }
 
-    private fun loadTvShows(isRefresh: Boolean = false) {
+    /**
+     * Load TV shows for all categories to display in sections
+     */
+    private fun loadAllCategories(isRefresh: Boolean = false) {
+        val categories = listOf(
+            TvShowType.POPULAR,
+            TvShowType.TOP_RATED,
+            TvShowType.AIRING_TODAY,
+            TvShowType.ONTV_NOW
+        )
+
+        if (!isRefresh) {
+            _uiState.update { it.copy(isLoading = true) }
+        } else {
+            _uiState.update { it.copy(isRefreshing = true) }
+        }
+
+        categories.forEach { category ->
+            loadCategoryTvShows(category, isRefresh)
+        }
+    }
+
+    /**
+     * Load TV shows for a specific category
+     */
+    private fun loadCategoryTvShows(category: TvShowType, isRefresh: Boolean = false) {
         viewModelScope.launch {
             val request = RequestType.TvShowRequest(
-                tvSeriesType = _uiState.value.selectedCategory,
+                tvSeriesType = category,
                 page = 1
             )
 
             tvShowListUseCase(request).collect { result ->
                 when (result) {
                     is Result.Loading -> {
-                        _uiState.update {
-                            it.copy(
-                                isLoading = !isRefresh,
-                                isRefreshing = isRefresh,
-                                error = null
+                        _uiState.update { currentState ->
+                            val updatedSections = currentState.tvShowSections.toMutableMap()
+                            updatedSections[category] = TvShowSection(
+                                category = category,
+                                isLoading = true
                             )
+                            currentState.copy(tvShowSections = updatedSections)
                         }
                     }
 
                     is Result.Success -> {
-                        _uiState.update {
-                            it.copy(
+                        _uiState.update { currentState ->
+                            val updatedSections = currentState.tvShowSections.toMutableMap()
+                            updatedSections[category] = TvShowSection(
+                                category = category,
+                                tvShows = result.data,
+                                isLoading = false
+                            )
+                            currentState.copy(
+                                tvShowSections = updatedSections,
                                 isLoading = false,
                                 isRefreshing = false,
-                                tvShows = result.data,
                                 error = null
                             )
                         }
                     }
 
                     is Result.Error -> {
-                        _uiState.update {
-                            it.copy(
+                        _uiState.update { currentState ->
+                            val updatedSections = currentState.tvShowSections.toMutableMap()
+                            updatedSections[category] = TvShowSection(
+                                category = category,
                                 isLoading = false,
-                                isRefreshing = false,
-                                error = result.throwable.message ?: "An error occurred"
+                                error = result.throwable.message
+                            )
+                            currentState.copy(
+                                tvShowSections = updatedSections,
+                                isLoading = false,
+                                isRefreshing = false
                             )
                         }
                     }

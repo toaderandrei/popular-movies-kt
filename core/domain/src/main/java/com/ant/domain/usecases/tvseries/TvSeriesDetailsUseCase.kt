@@ -2,18 +2,21 @@ package com.ant.domain.usecases.tvseries
 
 import com.ant.common.qualifiers.IoDispatcher
 import com.ant.data.repositories.tvseries.LoadTvSeriesDetailsSummaryRepository
-import com.ant.domain.usecases.UseCase
+import com.ant.domain.usecases.resultFlow
 import com.ant.models.entities.TvShowDetails
+import com.ant.models.model.Result
 import com.ant.models.request.RequestType
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class TvSeriesDetailsUseCase @Inject constructor(
     private val repository: LoadTvSeriesDetailsSummaryRepository,
-    @IoDispatcher dispatcher: CoroutineDispatcher
-) : UseCase<RequestType.TvSeriesRequestDetails, TvShowDetails>(dispatcher) {
-
-    override suspend fun execute(parameters: RequestType.TvSeriesRequestDetails): TvShowDetails {
-        return repository.performRequest(parameters)
+    @IoDispatcher private val dispatcher: CoroutineDispatcher,
+) {
+    operator fun invoke(parameters: RequestType.TvSeriesRequestDetails): Flow<Result<TvShowDetails>> {
+        return resultFlow(dispatcher) {
+            repository.performRequest(parameters)
+        }
     }
 }

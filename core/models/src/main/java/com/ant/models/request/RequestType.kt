@@ -32,6 +32,10 @@ sealed interface RequestType {
         val appendToResponseItems: List<TvSeriesAppendToResponseItem> = mutableListOf()
     ) : RequestType
 
+    // Search
+    data class SearchMovieRequest(val query: String, val page: Int = 1) : RequestType
+    data class SearchTvShowRequest(val query: String, val page: Int = 1) : RequestType
+
     // Favorite
     data class FavoriteRequest(
         val sessionId: String,

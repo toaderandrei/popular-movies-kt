@@ -59,7 +59,10 @@ data class TvShow(
     var _genres: List<String>? = emptyList(),
 
     @ColumnInfo(name = "favored")
-    var favored: Boolean? = false
+    var favored: Boolean? = false,
+
+    @ColumnInfo(name = "synced_to_remote")
+    val syncedToRemote: Boolean? = false,
 ) : TmdbEntity {
 
     @delegate:Ignore

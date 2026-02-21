@@ -26,4 +26,7 @@ abstract class TvSeriesDao {
 
     @Query("SELECT * from TvSeriesData where favored=:favored")
     abstract fun loadFavoredTvSeriesData(favored: Boolean): List<TvShow>
+
+    @Query("UPDATE tvseriesdata SET synced_to_remote = :synced WHERE id = :id")
+    abstract suspend fun updateSyncStatus(id: Long, synced: Boolean)
 }

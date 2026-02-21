@@ -1,16 +1,14 @@
 package com.ant.feature.search
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ant.domain.usecases.movies.MovieListUseCase
-import com.ant.domain.usecases.tvseries.TvShowListUseCase
+import com.ant.domain.usecases.search.SearchMovieUseCase
+import com.ant.domain.usecases.search.SearchTvShowUseCase
 import com.ant.models.model.Result
-import com.ant.models.request.MovieType
-import com.ant.models.request.TvShowType
 import com.ant.models.request.RequestType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,18 +21,17 @@ import javax.inject.Inject
 @OptIn(FlowPreview::class)
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
-    private val movieListUseCase: MovieListUseCase,
-    private val tvShowListUseCase: TvShowListUseCase,
+    private val searchMovieUseCase: SearchMovieUseCase,
+    private val searchTvShowUseCase: SearchTvShowUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SearchUiState())
     val uiState: StateFlow<SearchUiState> = _uiState.asStateFlow()
 
     private val _searchQuery = MutableStateFlow("")
+    private var searchJob: Job? = null
 
     init {
-        // Debounce search queries to avoid excessive API calls
         viewModelScope.launch {
             _searchQuery
                 .debounce(300)
@@ -75,71 +72,63 @@ class SearchViewModel @Inject constructor(
     }
 
     private fun performSearch(query: String) {
-        viewModelScope.launch {
+        searchJob?.cancel()
+        searchJob = viewModelScope.launch {
             _uiState.update { it.copy(isSearching = true, error = null) }
+
+            var moviesComplete = false
+            var tvShowsComplete = false
 
             // Search movies
             launch {
-                val request = RequestType.MovieRequest(
-                    movieType = MovieType.POPULAR,
-                    page = 1
-                )
-                movieListUseCase(request).collect { result ->
+                searchMovieUseCase(RequestType.SearchMovieRequest(query)).collect { result ->
                     when (result) {
                         is Result.Success -> {
+                            moviesComplete = true
                             _uiState.update { state ->
                                 state.copy(
-                                    movieResults = result.data.filter {
-                                        it.name?.contains(query, ignoreCase = true) == true
-                                    },
-                                    isSearching = false
+                                    movieResults = result.data,
+                                    isSearching = !tvShowsComplete,
                                 )
                             }
                         }
                         is Result.Error -> {
+                            moviesComplete = true
                             _uiState.update { state ->
                                 state.copy(
-                                    isSearching = false,
-                                    error = result.throwable.message
+                                    isSearching = !tvShowsComplete,
+                                    error = result.throwable.message,
                                 )
                             }
                         }
-                        Result.Loading -> {
-                            // Already set isSearching = true above
-                        }
+                        Result.Loading -> { /* already set above */ }
                     }
                 }
             }
 
             // Search TV shows
             launch {
-                val request = RequestType.TvShowRequest(
-                    tvSeriesType = TvShowType.POPULAR,
-                    page = 1
-                )
-                tvShowListUseCase(request).collect { result ->
+                searchTvShowUseCase(RequestType.SearchTvShowRequest(query)).collect { result ->
                     when (result) {
                         is Result.Success -> {
+                            tvShowsComplete = true
                             _uiState.update { state ->
                                 state.copy(
-                                    tvShowResults = result.data.filter {
-                                        it.name?.contains(query, ignoreCase = true) == true
-                                    },
-                                    isSearching = false
+                                    tvShowResults = result.data,
+                                    isSearching = !moviesComplete,
                                 )
                             }
                         }
                         is Result.Error -> {
+                            tvShowsComplete = true
                             _uiState.update { state ->
                                 state.copy(
-                                    isSearching = false,
-                                    error = result.throwable.message
+                                    isSearching = !moviesComplete,
+                                    error = result.throwable.message,
                                 )
                             }
                         }
-                        Result.Loading -> {
-                            // Already set isSearching = true above
-                        }
+                        Result.Loading -> { /* already set above */ }
                     }
                 }
             }

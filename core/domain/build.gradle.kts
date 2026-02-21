@@ -1,11 +1,8 @@
 
 plugins {
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.hilt)
-    alias(libs.plugins.ksp)
-    alias(libs.plugins.popular.movies.hilt)
     alias(libs.plugins.popular.movies.android.library)
+    alias(libs.plugins.popular.movies.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {

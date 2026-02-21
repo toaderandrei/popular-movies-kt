@@ -40,20 +40,15 @@ dependencies {
     implementation(project(":features:search"))
     implementation(project(":features:login"))
 
-    implementation(libs.circle.image)
-
     // UI libs
     implementation(libs.coreKtx)
     implementation(libs.appcompat)
-    implementation(libs.recyclerview)
-    implementation(libs.constraintLayout)
-    implementation(libs.swipeRefresh)
-    implementation(libs.cardview)
     implementation(libs.material)
 
     // compose
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.icons)
     implementation(libs.androidx.compose.ui)
 
     // Navigation compose
@@ -74,18 +69,9 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
 
-    // Live data
-    implementation(libs.livedata)
-
     // okhttp client
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging)
-
-    // navigation
-    implementation(libs.navigation.fragment.ktx)
-    implementation(libs.navigation.ui)
-    implementation(libs.fragmentKtx)
-    implementation(libs.fragment)
 
     // firebase
     implementation(libs.firebase.analytics)

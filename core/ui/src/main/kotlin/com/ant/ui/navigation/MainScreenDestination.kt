@@ -33,7 +33,7 @@ enum class MainScreenDestination(
         unselectedIcon = Icons.Outlined.Movie
     ),
     TV_SHOW(
-        route = "tv_show",
+        route = "tvshow",
         titleTextId = R2.string.tvshow,
         selectedIcon = Icons.Filled.Tv,
         unselectedIcon = Icons.Outlined.Tv

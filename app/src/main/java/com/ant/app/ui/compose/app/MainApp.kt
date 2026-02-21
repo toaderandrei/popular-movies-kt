@@ -1,6 +1,9 @@
 package com.ant.app.ui.compose.app
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -41,8 +44,21 @@ import com.ant.app.ui.compose.app.viewmodel.MainActivityViewModel
 import com.ant.app.ui.compose.themes.GradientColors
 import com.ant.app.ui.compose.themes.PopularMoviesBackground
 import com.ant.app.ui.compose.themes.PopularMoviesGradientBackground
+import com.ant.feature.login.account.AccountRoute
+import com.ant.feature.login.navigation.LOGIN_ROUTE
 import com.ant.feature.login.navigation.loginScreen
+import com.ant.feature.login.navigation.navigateToLogin
+import com.ant.feature.login.welcome.navigation.WELCOME_ROUTE
+import com.ant.feature.login.welcome.navigation.welcomeScreen
+import com.ant.feature.movies.navigation.movieCategoryScreen
+import com.ant.feature.movies.navigation.movieDetailsScreen
 import com.ant.feature.movies.navigation.moviesScreen
+import com.ant.feature.movies.navigation.navigateToMovieCategory
+import com.ant.feature.movies.navigation.navigateToMovieDetails
+import com.ant.feature.tvshow.navigation.navigateToTvShowCategory
+import com.ant.feature.tvshow.navigation.navigateToTvShowDetails
+import com.ant.feature.tvshow.navigation.tvShowCategoryScreen
+import com.ant.feature.tvshow.navigation.tvShowDetailsScreen
 import com.ant.feature.tvshow.navigation.tvShowScreen
 import com.ant.feature.favorites.navigation.favoritesScreen
 import com.ant.feature.search.navigation.searchScreen
@@ -73,7 +89,7 @@ fun MainApp(
     ) { paddingValues ->
 
         when {
-            isLoading -> {
+            isLoading || authenticationState == null -> {
                 LoadingScreen()
             }
 
@@ -128,36 +144,40 @@ fun MainContent(
     // Identify window size & adapt. Could pass your own windowAdaptiveInfo if desired
     val windowAdaptiveInfo = currentWindowAdaptiveInfo()
 
+    val isTopLevelDestination = mainContentState.shouldShowTopAppBar
+
     PopularMoviesNavigationSuiteScaffold(
         navigationSuiteItems = {
-            mainContentState.topLevelDestinations.forEach { destination ->
-                val selected = currentDestination
-                    .isTopLevelDestinationInHierarchy(destination)
-                item(
-                    selected = selected,
-                    onClick = {
-                        mainContentState.navigateToDestination(destination)
-                    },
+            if (isTopLevelDestination) {
+                mainContentState.topLevelDestinations.forEach { destination ->
+                    val selected = currentDestination
+                        .isTopLevelDestinationInHierarchy(destination)
+                    item(
+                        selected = selected,
+                        onClick = {
+                            mainContentState.navigateToDestination(destination)
+                        },
 
-                    icon = {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.padding(16.dp) // Optional padding for spacing
+                        icon = {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                modifier = Modifier.padding(16.dp)
 
-                        ) {
-                            Icon(
-                                imageVector = if (!selected) destination.unselectedIcon else destination.selectedIcon,
-                                contentDescription = null,
-                            )
-                            Text(
-                                text = stringResource(destination.titleTextId),
-                                style = MaterialTheme.typography.labelSmall,
-                                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(top = 4.dp)
-                            )
+                            ) {
+                                Icon(
+                                    imageVector = if (!selected) destination.unselectedIcon else destination.selectedIcon,
+                                    contentDescription = null,
+                                )
+                                Text(
+                                    text = stringResource(destination.titleTextId),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.padding(top = 4.dp)
+                                )
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         },
         windowAdaptiveInfo = windowAdaptiveInfo,
@@ -167,15 +187,21 @@ fun MainContent(
     ) {
         Scaffold(
             topBar = {
-                PopularMoviesTopAppBar(
-                    currentDestination = mainContentState.currentMainScreenDestinations,
-                    onSearchClick = {
-                        mainNavController.navigate("search")
-                    },
-                    onAccountClick = {
-                        mainNavController.navigate("account")
-                    }
-                )
+                AnimatedVisibility(
+                    visible = isTopLevelDestination,
+                    enter = slideInVertically(initialOffsetY = { -it }),
+                    exit = slideOutVertically(targetOffsetY = { -it }),
+                ) {
+                    PopularMoviesTopAppBar(
+                        currentDestination = mainContentState.currentMainScreenDestinations,
+                        onSearchClick = {
+                            mainNavController.navigate("search")
+                        },
+                        onAccountClick = {
+                            mainNavController.navigate("account")
+                        }
+                    )
+                }
             }
         ) { paddingValues ->
             NavHost(
@@ -184,15 +210,16 @@ fun MainContent(
                 modifier = Modifier.padding(paddingValues)
             ) {
                 moviesScreen(
-                    onNavigateToDetails = { /* TODO */ },
-                    onNavigateToCategory = { /* TODO: Navigate to category detail */ }
+                    onNavigateToDetails = { mainNavController.navigateToMovieDetails(it) },
+                    onNavigateToCategory = { mainNavController.navigateToMovieCategory(it) },
                 )
                 tvShowScreen(
-                    onNavigateToDetails = { /* TODO */ }
+                    onNavigateToDetails = { mainNavController.navigateToTvShowDetails(it) },
+                    onNavigateToCategory = { mainNavController.navigateToTvShowCategory(it) },
                 )
                 favoritesScreen(
-                    onNavigateToMovieDetails = { /* TODO */ },
-                    onNavigateToTvShowDetails = { /* TODO */ }
+                    onNavigateToMovieDetails = { mainNavController.navigateToMovieDetails(it) },
+                    onNavigateToTvShowDetails = { mainNavController.navigateToTvShowDetails(it) },
                 )
                 // Settings screen (placeholder for now)
                 composable(MainScreenDestination.SETTINGS.route) {
@@ -206,16 +233,42 @@ fun MainContent(
 
                 // Search screen (accessible from top bar)
                 searchScreen(
-                    onNavigateToMovieDetails = { /* TODO */ },
-                    onNavigateToTvShowDetails = { /* TODO */ }
+                    onNavigateToMovieDetails = { mainNavController.navigateToMovieDetails(it) },
+                    onNavigateToTvShowDetails = { mainNavController.navigateToTvShowDetails(it) },
+                    onNavigateBack = { mainNavController.popBackStack() },
+                )
+
+                // Movie detail & category screens
+                movieDetailsScreen(
+                    onNavigateBack = { mainNavController.popBackStack() },
+                )
+                movieCategoryScreen(
+                    onNavigateToDetails = { mainNavController.navigateToMovieDetails(it) },
+                    onNavigateBack = { mainNavController.popBackStack() },
+                )
+
+                // TV Show detail & category screens
+                tvShowDetailsScreen(
+                    onNavigateBack = { mainNavController.popBackStack() },
+                )
+                tvShowCategoryScreen(
+                    onNavigateToDetails = { mainNavController.navigateToTvShowDetails(it) },
+                    onNavigateBack = { mainNavController.popBackStack() },
                 )
 
                 // Account/Profile screen (accessible from top bar)
                 composable("account") {
-                    loginScreen(
-                        onLoginSuccess = { /* Already logged in, show profile */ }
+                    AccountRoute(
+                        onNavigateBack = { mainNavController.popBackStack() },
+                        onNavigateToLogin = { mainNavController.navigate(LOGIN_ROUTE) },
                     )
                 }
+
+                // Login screen (accessible from account screen)
+                loginScreen(
+                    onLoginSuccess = { mainNavController.popBackStack() },
+                    onNavigateBack = { mainNavController.popBackStack() },
+                )
             }
         }
     }
@@ -224,15 +277,28 @@ fun MainContent(
 
 fun NavGraphBuilder.authGraph(navController: NavHostController) {
     navigation(
-        startDestination = LoginScreenDestination.LOGIN.route,
+        startDestination = WELCOME_ROUTE,
         route = Graph.AUTHENTICATION,
     ) {
+        welcomeScreen(
+            onNavigateToLogin = {
+                navController.navigateToLogin()
+            },
+            onGuestModeActivated = {
+                navController.navigate(Graph.MAIN) {
+                    popUpTo(Graph.AUTHENTICATION) { inclusive = true }
+                }
+            },
+        )
         loginScreen(
             onLoginSuccess = {
                 navController.navigate(Graph.MAIN) {
                     popUpTo(Graph.AUTHENTICATION) { inclusive = true }
                 }
-            }
+            },
+            onNavigateBack = {
+                navController.popBackStack()
+            },
         )
     }
 }

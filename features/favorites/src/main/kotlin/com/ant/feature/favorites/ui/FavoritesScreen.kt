@@ -1,9 +1,14 @@
 package com.ant.feature.favorites.ui
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -15,17 +20,20 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ant.feature.favorites.FavoriteTab
 import com.ant.feature.favorites.FavoritesUiState
+import com.ant.feature.favorites.ui.components.SyncStatusIcon
+import com.ant.feature.movies.ui.components.MovieCard
+import com.ant.feature.tvshow.ui.components.TvShowCard
 import com.ant.models.entities.MovieData
 import com.ant.models.entities.TvShow
+import com.ant.models.request.FavoriteType
+import com.ant.resources.R as R2
 
-/**
- * Favorites screen with tabs for Movies and TV Shows
- */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FavoritesScreen(
@@ -34,24 +42,23 @@ fun FavoritesScreen(
     onTvShowClick: (tvShowId: Long) -> Unit,
     onTabChange: (FavoriteTab) -> Unit,
     onRefresh: () -> Unit,
+    onSyncClick: (id: Long, mediaType: FavoriteType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxSize()) {
-        // Tabs
         TabRow(selectedTabIndex = uiState.selectedTab.ordinal) {
             Tab(
                 selected = uiState.selectedTab == FavoriteTab.MOVIES,
                 onClick = { onTabChange(FavoriteTab.MOVIES) },
-                text = { Text("Movies") }
+                text = { Text(stringResource(R2.string.movies)) }
             )
             Tab(
                 selected = uiState.selectedTab == FavoriteTab.TV_SHOWS,
                 onClick = { onTabChange(FavoriteTab.TV_SHOWS) },
-                text = { Text("TV Shows") }
+                text = { Text(stringResource(R2.string.tvshow)) }
             )
         }
 
-        // Content
         val pullToRefreshState = rememberPullToRefreshState()
         PullToRefreshBox(
             isRefreshing = uiState.isRefreshing,
@@ -76,26 +83,33 @@ fun FavoritesScreen(
                         FavoriteTab.MOVIES -> {
                             if (uiState.favoriteMovies.isEmpty()) {
                                 EmptyState(
-                                    message = "No favorite movies yet",
+                                    message = stringResource(R2.string.empty_movie_results),
                                     modifier = Modifier.fillMaxSize()
                                 )
                             } else {
-                                // Reuse MovieCard from movies feature
-                                androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
-                                    columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
-                                    contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
-                                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp),
-                                    verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp),
+                                LazyVerticalGrid(
+                                    columns = GridCells.Fixed(2),
+                                    contentPadding = PaddingValues(16.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp),
                                     modifier = Modifier.fillMaxSize()
                                 ) {
                                     items(
-                                        count = uiState.favoriteMovies.size,
-                                        key = { uiState.favoriteMovies[it].id }
-                                    ) { index ->
-                                        val movie = uiState.favoriteMovies[index]
-                                        com.ant.feature.movies.ui.components.MovieCard(
+                                        items = uiState.favoriteMovies,
+                                        key = { it.id }
+                                    ) { movie ->
+                                        MovieCard(
                                             movie = movie,
-                                            onClick = { onMovieClick(movie.id) }
+                                            onClick = { onMovieClick(movie.id) },
+                                            trailingIcon = {
+                                                SyncStatusIcon(
+                                                    isSynced = movie.syncedToRemote == true,
+                                                    isSyncing = movie.id in uiState.syncingIds,
+                                                    onSyncClick = {
+                                                        onSyncClick(movie.id, FavoriteType.MOVIE)
+                                                    },
+                                                )
+                                            },
                                         )
                                     }
                                 }
@@ -105,26 +119,33 @@ fun FavoritesScreen(
                         FavoriteTab.TV_SHOWS -> {
                             if (uiState.favoriteTvShows.isEmpty()) {
                                 EmptyState(
-                                    message = "No favorite TV shows yet",
+                                    message = stringResource(R2.string.empty_results),
                                     modifier = Modifier.fillMaxSize()
                                 )
                             } else {
-                                // Reuse TvShowCard from tvshow feature
-                                androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
-                                    columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
-                                    contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp),
-                                    horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp),
-                                    verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp),
+                                LazyVerticalGrid(
+                                    columns = GridCells.Fixed(2),
+                                    contentPadding = PaddingValues(16.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp),
                                     modifier = Modifier.fillMaxSize()
                                 ) {
                                     items(
-                                        count = uiState.favoriteTvShows.size,
-                                        key = { uiState.favoriteTvShows[it].id }
-                                    ) { index ->
-                                        val tvShow = uiState.favoriteTvShows[index]
-                                        com.ant.feature.tvshow.ui.components.TvShowCard(
+                                        items = uiState.favoriteTvShows,
+                                        key = { it.id }
+                                    ) { tvShow ->
+                                        TvShowCard(
                                             tvShow = tvShow,
-                                            onClick = { onTvShowClick(tvShow.id) }
+                                            onClick = { onTvShowClick(tvShow.id) },
+                                            trailingIcon = {
+                                                SyncStatusIcon(
+                                                    isSynced = tvShow.syncedToRemote == true,
+                                                    isSyncing = tvShow.id in uiState.syncingIds,
+                                                    onSyncClick = {
+                                                        onSyncClick(tvShow.id, FavoriteType.TV)
+                                                    },
+                                                )
+                                            },
                                         )
                                     }
                                 }
@@ -182,22 +203,71 @@ private fun EmptyState(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun FavoritesScreenPreview() {
+private fun FavoritesScreenContentPreview() {
     MaterialTheme {
         FavoritesScreen(
             uiState = FavoritesUiState(
                 favoriteMovies = listOf(
                     MovieData(id = 1, name = "The Shawshank Redemption"),
-                    MovieData(id = 2, name = "The Godfather")
+                    MovieData(id = 2, name = "The Godfather", syncedToRemote = true),
                 ),
-                selectedTab = FavoriteTab.MOVIES
+                selectedTab = FavoriteTab.MOVIES,
             ),
             onMovieClick = {},
             onTvShowClick = {},
             onTabChange = {},
-            onRefresh = {}
+            onRefresh = {},
+            onSyncClick = { _, _ -> },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun FavoritesScreenLoadingPreview() {
+    MaterialTheme {
+        FavoritesScreen(
+            uiState = FavoritesUiState(isLoading = true),
+            onMovieClick = {},
+            onTvShowClick = {},
+            onTabChange = {},
+            onRefresh = {},
+            onSyncClick = { _, _ -> },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun FavoritesScreenErrorPreview() {
+    MaterialTheme {
+        FavoritesScreen(
+            uiState = FavoritesUiState(error = "Failed to load favorites"),
+            onMovieClick = {},
+            onTvShowClick = {},
+            onTabChange = {},
+            onRefresh = {},
+            onSyncClick = { _, _ -> },
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun FavoritesScreenEmptyPreview() {
+    MaterialTheme {
+        FavoritesScreen(
+            uiState = FavoritesUiState(
+                favoriteMovies = emptyList(),
+                selectedTab = FavoriteTab.MOVIES,
+            ),
+            onMovieClick = {},
+            onTvShowClick = {},
+            onTabChange = {},
+            onRefresh = {},
+            onSyncClick = { _, _ -> },
         )
     }
 }

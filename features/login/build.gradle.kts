@@ -23,8 +23,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
     implementation(libs.accompanist.adaptive)
-    implementation(libs.accompanist.systembar)
-
-    implementation(libs.accompanist.permissions)
+    implementation(libs.coil.kt.compose)
 }

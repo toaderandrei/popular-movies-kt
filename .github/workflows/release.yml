@@ -216,8 +216,15 @@ jobs:
       - name: Update App Version
         run: ./gradlew updateAppVersion
 
-      - name: Commit and push version bump
+      - name: Commit version bump via API
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          git add gradle/libs.versions.toml
-          git commit -m "Bump app version after release [skip ci]"
-          git push origin main
+          CONTENT=$(base64 -w 0 gradle/libs.versions.toml)
+          SHA=$(gh api repos/${{ github.repository }}/contents/gradle/libs.versions.toml --jq '.sha')
+          gh api repos/${{ github.repository }}/contents/gradle/libs.versions.toml \
+            -X PUT \
+            -f message="Bump app version after release [skip ci]" \
+            -f content="$CONTENT" \
+            -f sha="$SHA" \
+            -f branch="main"

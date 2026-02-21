@@ -1,0 +1,26 @@
+name: Setup Android SDK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup-sdk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache Android SDK
+        uses: actions/cache@v4
+        with:
+          path: /opt/android-sdk
+          key: android-sdk-${{ runner.os }}-${{ hashFiles('gradle/libs.versions.toml') }}
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept licenses
+        run: yes | $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --licenses || true
+
+      - name: Verify SDK installation
+        run: $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager --list

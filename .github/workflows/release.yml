@@ -1,10 +1,12 @@
-name: Master
+name: Release
 
 on:
-  push:
-    branches:
-      - main
-      - master
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version tag (e.g. v0.1.3)'
+        required: true
+        type: string
 
 jobs:
   lint:
@@ -96,3 +98,49 @@ jobs:
 
       - name: Run Tests
         run: ./gradlew test
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: build-artifacts
+
+      - name: Create Git Tag
+        run: |
+          git tag ${{ inputs.version }}
+          git push origin ${{ inputs.version }}
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5 # 1.14.0
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          tag: ${{ inputs.version }}
+          generateReleaseNotes: true
+          artifacts: "build-artifacts/**/*.apk,build-artifacts/**/*.aab"
+
+      - name: Update App Version
+        run: ./gradlew updateAppVersion
+
+      - name: Commit updated version
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add gradle/libs.versions.toml
+          git commit -m "Bump app version after release [skip ci]"
+          git push origin main

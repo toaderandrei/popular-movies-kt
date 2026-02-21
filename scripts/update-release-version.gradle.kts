@@ -1,7 +1,9 @@
 tasks.register("updateAppVersion") {
+    val tomlPath = project.file("gradle/libs.versions.toml").absolutePath
+
     doLast {
-        val tomlFile = project.file("gradle/libs.versions.toml")
-        val tomlContent = tomlFile.readText()
+        val toml = java.io.File(tomlPath)
+        val tomlContent = toml.readText()
 
         val versionKey = "popular-movies-version"
         val versionLineRegex = """^(\s*${Regex.escape(versionKey)}\s*=\s*")(\d+)\.(\d+)\.(\d+)(".*)$""".toRegex(RegexOption.MULTILINE)
@@ -17,7 +19,7 @@ tasks.register("updateAppVersion") {
             val newVersion = "$major.$minor.$patch"
             val updatedContent = tomlContent.replaceFirst(versionLineRegex, "$prefix$newVersion$suffix")
 
-            tomlFile.writeText(updatedContent)
+            toml.writeText(updatedContent)
             println("Updated $versionKey to version $newVersion")
         } else {
             println("Version key '$versionKey' not found in libs.versions.toml")

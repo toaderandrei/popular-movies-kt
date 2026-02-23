@@ -1,5 +1,6 @@
 package com.ant.app.ui.main.base.movies
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.ant.app.databinding.FragmentListMoviesBinding
 import com.ant.app.ui.adapters.MovieListAdapter
+import com.ant.app.ui.base.BaseFragment
 import com.ant.app.ui.main.base.BaseViewModelMoviesList
 import com.ant.app.ui.main.base.BaseViewModelMoviesList.Companion.FIRST_PAGE
 import com.ant.app.ui.main.base.NavigationFragment
@@ -19,17 +21,37 @@ import com.ant.common.extensions.observe
 import com.ant.common.listeners.OnScrollCallback
 import com.ant.common.listeners.RecyclerViewScrollListener
 import com.ant.common.listeners.RetryCallback
+import com.ant.common.logger.TmdbLogger
+import com.ant.core.ui.ToolbarNavigationManager
 import com.ant.models.entities.MovieData
 import com.ant.models.model.MoviesState
 import com.ant.models.model.isError
 import com.ant.models.model.isLoading
+import com.ant.app.R
+import javax.inject.Inject
 
 abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMoviesList<*, MovieData>> :
-    NavigationFragment<VIEW_MODEL, FragmentListMoviesBinding>(), OnScrollCallback {
+    BaseFragment<VIEW_MODEL, FragmentListMoviesBinding>(), OnScrollCallback {
 
     private lateinit var movieListAdapter: MovieListAdapter
     private lateinit var recyclerViewScrollListener: RecyclerViewScrollListener
     private var recyclerViewState: Parcelable? = null
+
+    @Inject
+    lateinit var logger: TmdbLogger
+
+    @Inject
+    lateinit var toolbarNavigationManager: ToolbarNavigationManager
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        toolbarNavigationManager.attach(context)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        toolbarNavigationManager.detach()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,7 +103,9 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMoviesList<*
                 }
             }
         }
+        toolbarNavigationManager.setupToolbar(view, getToolbarId())
     }
+
 
     abstract fun showDetailsScreen(movieData: MovieData)
 
@@ -114,6 +138,8 @@ abstract class BaseMainListMoviesFragment<VIEW_MODEL : BaseViewModelMoviesList<*
             viewModel.currentPage.getValue() == 1
         )
     }
+
+    protected abstract fun getToolbarId():Int
 
     override fun onScrollUpdate() {
         logger.d("Scroll update ended.")

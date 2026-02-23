@@ -1,5 +1,6 @@
 package com.ant.app.ui.main.movies
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,10 +9,14 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.ant.app.R
 import com.ant.app.databinding.FragmentMoviesBinding
+import com.ant.app.ui.base.BaseFragment
 import com.ant.app.ui.main.base.NavigationFragment
 import com.ant.common.extensions.doOnSizeChange
 import com.ant.common.extensions.observe
+import com.ant.common.logger.TmdbLogger
+import com.ant.core.ui.ToolbarNavigationManager
 import com.ant.epoxy.extensions.init
 import com.ant.models.entities.MovieData
 import com.ant.models.model.MoviesListState
@@ -20,17 +25,34 @@ import javax.inject.Inject
 import com.ant.resources.R as R2
 
 @AndroidEntryPoint
-class MoviesFragment : NavigationFragment<MoviesViewModel, FragmentMoviesBinding>() {
+class MoviesFragment : BaseFragment<MoviesViewModel, FragmentMoviesBinding>() {
 
     override val viewModel: MoviesViewModel by viewModels()
 
     @Inject
+    lateinit var logger: TmdbLogger
+
+    @Inject
     internal lateinit var controller: MoviesEpoxyController
+
+    @Inject
+    lateinit var toolbarWithNavigationManager: ToolbarNavigationManager
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        toolbarWithNavigationManager.attach(context)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        toolbarWithNavigationManager.detach()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initControllerCallbacks()
         initBindings()
+        toolbarWithNavigationManager.setupToolbar(view, R.id.toolbar)
     }
 
     private fun initControllerCallbacks() {

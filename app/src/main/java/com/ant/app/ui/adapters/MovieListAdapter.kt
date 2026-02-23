@@ -4,8 +4,8 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import com.ant.adapters.BaseListAdapter
-import com.ant.adapters.CustomViewHolder
+import com.ant.core.ui.BaseListAdapter
+import com.ant.core.ui.CustomViewHolder
 import com.ant.layouts.databinding.ViewHolderMovieItemDetailedBinding
 import com.ant.models.entities.MovieData
 import com.ant.tmdb.old.PosterSizes

@@ -1,0 +1,13 @@
+<resources>
+    <!-- Begin reviewed -->
+    <!-- Base application theme. -->
+    <style name="Theme.PopularMovies" parent="android:Theme.Material.NoActionBar"  />
+
+<!--    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Light" />-->
+<!--    &lt;!&ndash; End reviewed &ndash;&gt;-->
+
+<!--    <style name="AppTheme.PopupTheme" parent="ThemeOverlay.PopularMovies.Light" />-->
+
+<!--    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
+</resources>

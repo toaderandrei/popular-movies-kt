@@ -16,20 +16,23 @@ dependencyResolutionManagement {
 rootProject.name = "Popular-Movies"
 // ui
 include ':app'
-include ':common-ui:adapters'
-include ':common-ui:epoxy'
-include ':common-ui:layouts'
-include ':common-ui:bindings'
-include ':common-ui:resources'
 
-// data
-include ':data:source'
-include ':data:models'
-include ':data:tmdbApi'
+// features
+include ':features:movies'
+include ':features:tvshow'
+include ':features:favorites'
+include ':features:search'
+include ':features:login'
 
-// common
-include ':common'
-
-// domain
-include ':domain'
-include ':analytics'
+// core
+include ':core:ui'
+include ':core:resources'
+include ':core:domain'
+include ':core:common'
+include ':core:network'
+include ':core:models'
+include ':core:tmdbApi'
+include ':core:analytics'
+include ':core:database'
+include ':core:data'
+include ':core:datastore'

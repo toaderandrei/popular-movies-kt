@@ -3,7 +3,7 @@
 .gradle/
 !gradle/wrapper/gradle-wrapper.jar
 **/.gradle
-
+.kotlin/
 /build-logic/.gradle
 
 
@@ -23,6 +23,7 @@
 /local.properties
 local.properties
 gradle.properties
+app/google-services.json
 
 # build
 **/.build
@@ -34,6 +35,22 @@ build-logic/convention/build
 **/build-logic/build/**/build
 **/build-logic/.gradle/**
 
+/reference/
+/.andrei/CHANGELOG.md
+/.andrei/proposals/01-concurrency-fixes.md
+/.andrei/proposals/02-viewmodel-fixes.md
+/.andrei/proposals/03-gradle-cleanup.md
+/.andrei/proposals/04-shared-ui-extraction.md
+/.andrei/proposals/05-compose-ui-polish.md
+/.andrei/proposals/06-architecture-improvements.md
+/.andrei/proposals/07-testing-strategy.md
+/.andrei/proposals/08-migration-cleanup.md
+/.andrei/proposals/README.md
+/.andrei/proposals/welcome-screen.md
+/.andrei/reference-code/nowinandroid/
+/com/uwetrottmann/tmdb2/Tmdb.class
+/com/uwetrottmann/tmdb2/services/SearchService.class
+/com/uwetrottmann/tmdb2/services/SearchService.java
 # Personal notes
 .andrei/
 /.kotlin/sessions/kotlin-compiler-5768803993475401477.salive

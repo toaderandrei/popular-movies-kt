@@ -1,13 +1,20 @@
-name: Master
+name: Release
 
 on:
-  push:
-    branches:
-      - main
-      - master
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version tag (e.g. v0.1.3)'
+        required: true
+        type: string
+      skip_checks:
+        description: 'Skip lint/build/test and use artifacts from latest Master run'
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 env:
@@ -16,6 +23,7 @@ env:
 
 jobs:
   lint:
+    if: ${{ !inputs.skip_checks }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -49,6 +57,7 @@ jobs:
         run: ./gradlew lint
 
   build:
+    if: ${{ !inputs.skip_checks }}
     needs: lint
     runs-on: ubuntu-latest
     env:
@@ -121,6 +130,7 @@ jobs:
             app/build/outputs/bundle/release/*.aab
 
   test:
+    if: ${{ !inputs.skip_checks }}
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -153,3 +163,82 @@ jobs:
 
       - name: Run Tests
         run: ./gradlew test
+
+  release:
+    if: ${{ always() && !failure() && !cancelled() }}
+    needs: [test]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 17
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', 'gradle/libs.versions.toml', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-${{ runner.os }}-
+
+      - name: Download Artifacts (from this workflow)
+        if: ${{ !inputs.skip_checks }}
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: build-artifacts
+
+      - name: Download Artifacts (from latest Master run)
+        if: ${{ inputs.skip_checks }}
+        uses: dawidd6/action-download-artifact@v8
+        with:
+          github_token: ${{ secrets.PAT_TOKEN }}
+          workflow: master.yml
+          branch: main
+          name: release-artifacts
+          path: build-artifacts
+
+      - name: Configure git for push
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}.git
+
+      - name: Create Git Tag
+        run: |
+          git tag ${{ inputs.version }}
+          git push origin ${{ inputs.version }}
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@2c591bcc8ecdcd2db72b97d6147f871fcd833ba5 # 1.14.0
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          tag: ${{ inputs.version }}
+          generateReleaseNotes: true
+          artifacts: "build-artifacts/**/*.apk,build-artifacts/**/*.aab"
+
+      - name: Update App Version
+        run: ./gradlew updateAppVersion
+
+      - name: Commit version bump via API
+        env:
+          GH_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          CONTENT=$(base64 -w 0 gradle/libs.versions.toml)
+          SHA=$(gh api repos/${{ github.repository }}/contents/gradle/libs.versions.toml --jq '.sha')
+          gh api repos/${{ github.repository }}/contents/gradle/libs.versions.toml \
+            -X PUT \
+            -f message="Bump app version after release [skip ci]" \
+            -f content="$CONTENT" \
+            -f sha="$SHA" \
+            -f branch="main"

@@ -50,3 +50,6 @@ build-logic/convention/build
 /com/uwetrottmann/tmdb2/Tmdb.class
 /com/uwetrottmann/tmdb2/services/SearchService.class
 /com/uwetrottmann/tmdb2/services/SearchService.java
+# Personal notes
+.andrei/
+/.kotlin/sessions/kotlin-compiler-5768803993475401477.salive

@@ -3,6 +3,7 @@ import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.extra
 import java.util.Properties
 
 class AndroidBuildConfigPlugin : Plugin<Project> {
@@ -15,33 +16,34 @@ class AndroidBuildConfigPlugin : Plugin<Project> {
     }
 
     private fun ApplicationExtension.configureSigningConfigs(project: Project) {
-        signingConfigs {
-            create("release") {
-                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
-                val homePath = System.getenv("HOME")
-                val keystorePath = "$homePath/.android/release.keystore"
-                println("Home path: $homePath")
-                println("Configured release keystore path: $keystorePath")
+        val alias = System.getenv("SIGNING_KEY_ALIAS")
+        val keyPass = System.getenv("SIGNING_KEY_PASSWORD")
+        val storePass = System.getenv("SIGNING_STORE_PASSWORD")
+        val homePath = System.getenv("HOME") ?: ""
+        val keystorePath = "$homePath/.android/release.keystore"
+        val keystoreFile = project.file(keystorePath)
 
-                storeFile = project.file(keystorePath)
-                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+        val signingReady = alias != null && keyPass != null && storePass != null && keystoreFile.exists()
+
+        if (signingReady) {
+            project.logger.lifecycle("Release signing configured with keystore: $keystorePath")
+            signingConfigs {
+                create("release") {
+                    keyAlias = alias
+                    keyPassword = keyPass
+                    storeFile = keystoreFile
+                    storePassword = storePass
+                }
             }
+        } else {
+            project.logger.warn("Release signing NOT configured — APK will be unsigned")
+            if (alias == null) project.logger.warn("  Missing SIGNING_KEY_ALIAS")
+            if (keyPass == null) project.logger.warn("  Missing SIGNING_KEY_PASSWORD")
+            if (storePass == null) project.logger.warn("  Missing SIGNING_STORE_PASSWORD")
+            if (!keystoreFile.exists()) project.logger.warn("  Keystore not found at $keystorePath")
         }
-    }
 
-    private fun ApplicationExtension.configureSigningConfigs2(project: Project) {
-        signingConfigs {
-            create("release") {
-                keyAlias = System.getenv("SIGNING_KEY_ALIAS")
-                keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
-                val keystorePath = project.rootProject.file("release.keystore").absolutePath
-                println("Configured release keystore path: $keystorePath")
-
-                storeFile = project.file(keystorePath)
-                storePassword = System.getenv("SIGNING_STORE_PASSWORD")
-            }
-        }
+        project.extra.set("signingReady", signingReady)
     }
 
     private fun ApplicationExtension.configureDefaultConfig(project: Project) {
@@ -52,6 +54,8 @@ class AndroidBuildConfigPlugin : Plugin<Project> {
     }
 
     private fun ApplicationExtension.configureBuildTypes(project: Project) {
+        val signingReady = project.extra.get("signingReady") as Boolean
+
         buildTypes {
             getByName("debug") {
                 val tmdbApiKey = getApiKey(project)
@@ -61,7 +65,9 @@ class AndroidBuildConfigPlugin : Plugin<Project> {
             }
 
             getByName("release") {
-                signingConfig = signingConfigs.getByName("release")
+                if (signingReady) {
+                    signingConfig = signingConfigs.getByName("release")
+                }
                 isDebuggable = false
                 isMinifyEnabled = true
                 proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")

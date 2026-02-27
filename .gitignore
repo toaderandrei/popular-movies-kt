@@ -23,6 +23,7 @@
 /local.properties
 local.properties
 gradle.properties
+app/google-services.json
 
 # build
 **/.build

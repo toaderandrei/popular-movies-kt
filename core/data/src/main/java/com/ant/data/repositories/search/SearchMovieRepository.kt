@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchMovieRepository @Inject constructor(
+internal class SearchMovieRepository @Inject constructor(
     private val searchMovieDataSource: SearchMovieDataSource,
 ) {
     suspend fun performRequest(params: RequestType.SearchMovieRequest): List<MovieData> {

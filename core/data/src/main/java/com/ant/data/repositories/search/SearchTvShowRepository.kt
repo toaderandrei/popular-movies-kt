@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SearchTvShowRepository @Inject constructor(
+internal class SearchTvShowRepository @Inject constructor(
     private val searchTvShowDataSource: SearchTvShowDataSource,
 ) {
     suspend fun performRequest(params: RequestType.SearchTvShowRequest): List<TvShow> {

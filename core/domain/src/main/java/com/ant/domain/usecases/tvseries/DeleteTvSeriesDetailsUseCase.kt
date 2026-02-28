@@ -1,8 +1,8 @@
 package com.ant.domain.usecases.tvseries
 
 import com.ant.common.qualifiers.IoDispatcher
-import com.ant.data.repositories.favorites.FavoriteDetailsToRemoteRepository
-import com.ant.data.repositories.tvseries.DeleteTvSeriesDetailsRepository
+import com.ant.data.repositories.FavoriteRepository
+import com.ant.data.repositories.TvSeriesRepository
 import com.ant.domain.usecases.resultFlow
 import com.ant.models.entities.TvShowDetails
 import com.ant.models.model.Result
@@ -14,17 +14,17 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class DeleteTvSeriesDetailsUseCase @Inject constructor(
-    private val repository: DeleteTvSeriesDetailsRepository,
+    private val tvSeriesRepository: TvSeriesRepository,
     private val sessionManager: SessionManager,
-    private val updateFavoriteToRemoteRepository: FavoriteDetailsToRemoteRepository,
+    private val favoriteRepository: FavoriteRepository,
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) {
     operator fun invoke(parameters: TvShowDetails): Flow<Result<Unit>> {
         return resultFlow(dispatcher) {
-            repository.performRequest(parameters)
+            tvSeriesRepository.deleteTvSeriesDetails(parameters)
                 .also {
                     sessionManager.getSessionId()?.let { sessionId ->
-                        updateFavoriteToRemoteRepository.performRequest(
+                        favoriteRepository.syncFavoriteToRemote(
                             RequestType.FavoriteRequest(
                                 sessionId = sessionId,
                                 favorite = false,

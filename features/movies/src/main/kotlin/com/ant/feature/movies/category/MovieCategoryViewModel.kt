@@ -35,28 +35,53 @@ class MovieCategoryViewModel @Inject constructor(
     }
 
     fun refresh() {
+        loadJob?.cancel()
+        _uiState.update {
+            it.copy(
+                movies = emptyList(),
+                currentPage = 0,
+                totalPages = 1,
+                error = null,
+            )
+        }
         loadMovies(isRefresh = true)
     }
 
-    private fun loadMovies(isRefresh: Boolean = false) {
+    fun loadNextPage() {
+        if (!_uiState.value.canLoadMore) return
+        loadMovies(page = _uiState.value.currentPage + 1)
+    }
+
+    private fun loadMovies(isRefresh: Boolean = false, page: Int = 1) {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
-            val request = RequestType.MovieRequest(movieType = movieType, page = 1)
+            val request = RequestType.MovieRequest(movieType = movieType, page = page)
             movieListUseCase(request).collect { result ->
                 when (result) {
                     is Result.Loading -> {
                         _uiState.update {
-                            if (isRefresh) it.copy(isRefreshing = true)
-                            else it.copy(isLoading = true)
+                            when {
+                                isRefresh -> it.copy(isRefreshing = true)
+                                page > 1 -> it.copy(isLoadingMore = true)
+                                else -> it.copy(isLoading = true)
+                            }
                         }
                     }
 
                     is Result.Success -> {
                         _uiState.update {
+                            val newItems = if (page > 1) {
+                                (it.movies + result.data.items).distinctBy { movie -> movie.id }
+                            } else {
+                                result.data.items
+                            }
                             it.copy(
-                                movies = result.data,
+                                movies = newItems,
+                                currentPage = result.data.page,
+                                totalPages = result.data.totalPages,
                                 isLoading = false,
                                 isRefreshing = false,
+                                isLoadingMore = false,
                                 error = null,
                             )
                         }
@@ -67,6 +92,7 @@ class MovieCategoryViewModel @Inject constructor(
                             it.copy(
                                 isLoading = false,
                                 isRefreshing = false,
+                                isLoadingMore = false,
                                 error = result.throwable.message,
                             )
                         }

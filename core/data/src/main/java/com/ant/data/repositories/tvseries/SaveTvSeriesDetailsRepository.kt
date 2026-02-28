@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SaveTvSeriesDetailsRepository @Inject constructor(
+internal class SaveTvSeriesDetailsRepository @Inject constructor(
     private val moviesDb: MoviesDb,
 ) {
     suspend fun performRequest(params: TvShowDetails) {

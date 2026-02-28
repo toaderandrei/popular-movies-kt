@@ -10,7 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LoginUserTmDbRepository @Inject constructor(
+internal class LoginUserTmDbRepository @Inject constructor(
     private val tmDbApi: Tmdb,
     private val loginSessionMapper: LoginSessionMapper,
 ) {

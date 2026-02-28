@@ -2,6 +2,43 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Before Writing Code
+- Explain clearly what and why before proposing changes
+- If it is a new topic, do a deep dive first (preferably use architect mode)
+- Always document existing findings and current solution
+- Never write code without user approval
+
+## Writing Code
+- All code should be testable
+- Use SOLID principles as much as possible
+- Use Android guidelines when writing code
+- For Gradle always look at `build-logic/` folder for inspiration or for updating existing plugins
+- Always follow existing naming and formatting conventions in files
+
+## Testing Conventions
+- Test names should always start with "Should"
+- If tests are repeatable, try to use Parameterized tests
+- If a test needs data that is reusable in other tests, try to use a `TestData` class (create one if it doesn't exist)
+- Run single test: `./gradlew :module:test --tests "TestClass.testMethod"`
+
+## Merge Requests
+Use this format for MR descriptions:
+
+### Problem
+- Explain the problem in detail with reproduction steps
+
+### Implementation
+- Explain the solution in detail, why it was chosen, and how it fixes the problem
+
+#### Code Changes
+- Explain code changes at a high level: classes involved and changes made (not implementation details)
+
+### Testing
+- Explain how the solution was tested
+
+### Demo
+- If possible, add a video of the solution working
+
 ## Project Overview
 
 Popular Movies is a Kotlin-based Android application that showcases popular movies and TV series using The Movie Database (TMDb) API. The app follows Clean Architecture principles with MVVM pattern and is organized into feature modules.
@@ -68,7 +105,8 @@ The project follows Clean Architecture with clear separation of concerns:
 ### Key Patterns
 
 - **Result Wrapper**: All use cases return `Flow<Result<T>>` where Result is Loading, Success, or Error
-- **Repository Pattern**: Single responsibility repositories (e.g., `LoadMovieListRepository`, `SaveMovieDetailsToLocalRepository`)
+- **Pagination**: List endpoints return `PaginatedResult<T>` (items + page + totalPages). Category screens implement infinite scroll via `LazyGridState` + `derivedStateOf`. Home/search screens extract `.items` only.
+- **Repository Pattern**: Single responsibility repositories (e.g., `LoadMovieListRepository`, `SaveMovieDetailsToLocalRepository`). Note: currently concrete classes with no interfaces (known tech debt — see proposal 06)
 - **Dependency Injection**: Hilt for DI throughout all layers
 - **Coroutine Dispatchers**: Injected via qualifiers (`@IoDispatcher`, `@DefaultDispatcher`, `@MainDispatcher`, `@MainImmediateDispatcher`)
 - **Application Scope**: `@ApplicationScope CoroutineScope` with `SupervisorJob()` for app-level work (provided by `CoroutinesModule`)
@@ -76,6 +114,8 @@ The project follows Clean Architecture with clear separation of concerns:
 - **Route/Screen Separation**:
   - **Route composables** inject ViewModels and collect state (e.g., `MoviesRoute`)
   - **Screen composables** are pure UI functions receiving state and callbacks (e.g., `MoviesScreen`)
+- **Domain Layer Rule**: ViewModels should always go through use cases, not access repositories/managers directly
+- **Models Trade-off**: `core:models` contains Room annotations (`@Entity`, `@PrimaryKey`) as a pragmatic trade-off to avoid doubling mapping code
 
 ## Build System
 
@@ -195,22 +235,28 @@ Each feature defines its navigation in a dedicated `navigation/` package with:
 - Feature components: `com.ant.feature.<feature>.ui.components`
 
 ### Compose Best Practices
-- Separate Route and Screen composables
+- Separate Route and Screen composables into different files
 - Keep composables pure and stateless when possible
 - Use preview annotations for development
 - Prefer immutable state with data classes
 - Use StateFlow with `.asStateFlow()` for ViewModel state management
-- Use `.update{}` for thread-safe state modifications
+- Use `.update{}` for thread-safe state modifications (never `.value =` directly)
+- Use `SharedFlow(replay = 0)` for one-off events (navigation, logout), never `StateFlow`
 - Side effects (LaunchedEffect for navigation) belong in Route composables only
 
 ### Coroutine Best Practices
 - Always rethrow `CancellationException` in catch blocks
+- Never use `runCatching` with suspend functions (it swallows `CancellationException`)
 - Use `@IoDispatcher` / `@DefaultDispatcher` qualifiers instead of hardcoding `Dispatchers.IO`
-- Use `@ApplicationScope` for app-level coroutine work (not ad-hoc `CoroutineScope()`)
+- Never create ad-hoc `CoroutineScope(dispatcher).launch` — inject `@ApplicationScope` instead
 - Use `flowOn(dispatcher)` in use cases, let ViewModels collect in `viewModelScope`
+- Cancel previous jobs before re-launching on refresh
 
 ## Known Issues & Technical Debt
 
 See `.andrei/proposals/` for detailed review findings and prioritized fix plans.
 
 For architecture documentation, see `documentation/ARCHITECTURE.md`.
+
+## Reference Code
+- Check `/home/andrei29/workspace/workspace-android/reference-code` for best practices and other projects

@@ -35,28 +35,53 @@ class TvShowCategoryViewModel @Inject constructor(
     }
 
     fun refresh() {
+        loadJob?.cancel()
+        _uiState.update {
+            it.copy(
+                tvShows = emptyList(),
+                currentPage = 0,
+                totalPages = 1,
+                error = null,
+            )
+        }
         loadTvShows(isRefresh = true)
     }
 
-    private fun loadTvShows(isRefresh: Boolean = false) {
+    fun loadNextPage() {
+        if (!_uiState.value.canLoadMore) return
+        loadTvShows(page = _uiState.value.currentPage + 1)
+    }
+
+    private fun loadTvShows(isRefresh: Boolean = false, page: Int = 1) {
         loadJob?.cancel()
         loadJob = viewModelScope.launch {
-            val request = RequestType.TvShowRequest(tvSeriesType = tvShowType, page = 1)
+            val request = RequestType.TvShowRequest(tvSeriesType = tvShowType, page = page)
             tvShowListUseCase(request).collect { result ->
                 when (result) {
                     is Result.Loading -> {
                         _uiState.update {
-                            if (isRefresh) it.copy(isRefreshing = true)
-                            else it.copy(isLoading = true)
+                            when {
+                                isRefresh -> it.copy(isRefreshing = true)
+                                page > 1 -> it.copy(isLoadingMore = true)
+                                else -> it.copy(isLoading = true)
+                            }
                         }
                     }
 
                     is Result.Success -> {
                         _uiState.update {
+                            val newItems = if (page > 1) {
+                                (it.tvShows + result.data.items).distinctBy { tvShow -> tvShow.id }
+                            } else {
+                                result.data.items
+                            }
                             it.copy(
-                                tvShows = result.data,
+                                tvShows = newItems,
+                                currentPage = result.data.page,
+                                totalPages = result.data.totalPages,
                                 isLoading = false,
                                 isRefreshing = false,
+                                isLoadingMore = false,
                                 error = null,
                             )
                         }
@@ -67,6 +92,7 @@ class TvShowCategoryViewModel @Inject constructor(
                             it.copy(
                                 isLoading = false,
                                 isRefreshing = false,
+                                isLoadingMore = false,
                                 error = result.throwable.message,
                             )
                         }

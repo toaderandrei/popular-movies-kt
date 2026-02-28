@@ -1,7 +1,7 @@
 package com.ant.domain.usecases.search
 
 import com.ant.common.qualifiers.IoDispatcher
-import com.ant.data.repositories.search.SearchMovieRepository
+import com.ant.data.repositories.SearchRepository
 import com.ant.domain.usecases.resultFlow
 import com.ant.models.entities.MovieData
 import com.ant.models.model.Result
@@ -11,12 +11,12 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SearchMovieUseCase @Inject constructor(
-    private val repository: SearchMovieRepository,
+    private val repository: SearchRepository,
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) {
     operator fun invoke(params: RequestType.SearchMovieRequest): Flow<Result<List<MovieData>>> {
         return resultFlow(dispatcher) {
-            repository.performRequest(params)
+            repository.searchMovies(params)
         }
     }
 }

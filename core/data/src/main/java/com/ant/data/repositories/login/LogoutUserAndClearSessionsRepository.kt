@@ -7,7 +7,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LogoutUserAndClearSessionsRepository @Inject constructor(
+internal class LogoutUserAndClearSessionsRepository @Inject constructor(
     private val tmdbApi: Tmdb,
     private val sessionManager: SessionManager,
 ) {

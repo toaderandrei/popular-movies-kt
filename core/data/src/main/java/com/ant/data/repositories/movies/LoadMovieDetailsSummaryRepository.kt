@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LoadMovieDetailsSummaryRepository @Inject constructor(
+internal class LoadMovieDetailsSummaryRepository @Inject constructor(
     private val tmdbService: Tmdb,
     private val moviesDb: MoviesDb,
     private val movieDetailsMapper: MovieDetailsMapper,

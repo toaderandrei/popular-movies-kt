@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UpdateFavoriteSyncStatusRepository @Inject constructor(
+internal class UpdateFavoriteSyncStatusRepository @Inject constructor(
     private val moviesDb: MoviesDb,
 ) {
     suspend fun updateSyncStatus(id: Long, mediaType: FavoriteType, synced: Boolean) {

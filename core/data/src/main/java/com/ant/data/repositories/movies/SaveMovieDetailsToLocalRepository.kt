@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class SaveMovieDetailsToLocalRepository @Inject constructor(
+internal class SaveMovieDetailsToLocalRepository @Inject constructor(
     private val moviesDb: MoviesDb,
 ) {
     suspend fun performRequest(params: MovieDetails): Boolean {

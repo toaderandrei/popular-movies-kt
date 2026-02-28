@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LoadFavoredMovieListRepository @Inject constructor(
+internal class LoadFavoredMovieListRepository @Inject constructor(
     private val moviesDb: MoviesDb,
 ) {
     suspend fun performRequest(params: Boolean): List<MovieData> {

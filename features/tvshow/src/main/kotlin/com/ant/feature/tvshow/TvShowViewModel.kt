@@ -82,7 +82,7 @@ class TvShowViewModel @Inject constructor(
                             val updatedSections = currentState.tvShowSections.toMutableMap()
                             updatedSections[category] = TvShowSection(
                                 category = category,
-                                tvShows = result.data,
+                                tvShows = result.data.items,
                                 isLoading = false
                             )
                             currentState.copy(

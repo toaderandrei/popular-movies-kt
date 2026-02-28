@@ -31,6 +31,6 @@ class SearchTvShowDataSource @Inject constructor(
         val searchResults = searchResultResponse.bodyOrThrow()
         val genreResults = genreResponse.bodyOrThrow()
 
-        return tvSeriesMapper.map(Pair(searchResults, genreResults))
+        return tvSeriesMapper.map(Pair(searchResults, genreResults)).items
     }
 }

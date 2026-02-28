@@ -21,6 +21,7 @@ fun TvShowCategoryRoute(
         onTvShowClick = onNavigateToDetails,
         onNavigateBack = onNavigateBack,
         onRefresh = viewModel::refresh,
+        onLoadMore = viewModel::loadNextPage,
         modifier = modifier,
     )
 }

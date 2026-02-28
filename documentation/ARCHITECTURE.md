@@ -210,6 +210,31 @@ sealed interface Result<out T> {
 }
 ```
 
+### Pagination
+
+List endpoints (movies, TV shows) return `PaginatedResult<T>` which wraps items with page metadata:
+
+```kotlin
+// core/models/.../PaginatedResult.kt
+data class PaginatedResult<T>(
+    val items: List<T>,
+    val page: Int,
+    val totalPages: Int,
+)
+```
+
+**Data flow:** TMDb API (`BaseResultsPage.page`/`total_pages`) → Mapper wraps into `PaginatedResult` → DataSource → Repository → UseCase returns `Flow<Result<PaginatedResult<T>>>` → ViewModel.
+
+**Category screens** implement infinite scroll:
+- `CategoryUiState` tracks `currentPage`, `totalPages`, `isLoadingMore`, and computed `canLoadMore`
+- `CategoryViewModel.loadNextPage()` guards with `canLoadMore`, appends items with `distinctBy { it.id }` deduplication
+- `CategoryScreen` uses `LazyVerticalGrid` + `rememberLazyGridState()` + `derivedStateOf` to detect when the last visible item is within 6 items of the end, triggering `onLoadMore()`
+- A `CircularProgressIndicator` footer spans the full grid width while loading more
+
+**Home screens** (Movies, TV Shows) only use page 1 and extract `.items` from the result.
+
+**Search screens** also extract `.items` (no pagination yet).
+
 ### Use Case Pattern (Composition)
 
 Use cases use the `resultFlow` top-level function instead of abstract class inheritance:
@@ -350,6 +375,8 @@ Review conducted 2026-02-21 using specialized agents. Issues prioritized by seve
 | DONE | Top bar and bottom nav hidden on detail/nested screens (animated) |
 | DONE | Collapsible MediumTopAppBar on Movie/TV Show detail screens |
 | DONE | Duplicate LazyRow key crash fixed (itemsIndexed fallback) |
+| DONE | Pagination: `PaginatedResult<T>` threading through mappers → datasources → repos → use cases |
+| DONE | Infinite scroll on Movie/TV Show category screens (load next page on scroll near end) |
 | REMAINING | Delete dead `MainActivity.kt` (commented out in manifest) |
 | REMAINING | Delete stale NowInAndroid test files (12 files across 6 modules) |
 | REMAINING | Delete unused drawables (side_nav_bar.xml, ic_camera, ic_gallery, ic_slideshow, fading_snackbar_background) |
@@ -404,6 +431,7 @@ Review conducted 2026-02-21 using specialized agents. Issues prioritized by seve
 | Session impl | `core/datastore/.../SessionManagerImpl.kt` |
 | `resultFlow` helper | `core/domain/.../UseCase.kt` |
 | Result wrapper | `core/models/.../Result.kt` |
+| Pagination model | `core/models/.../PaginatedResult.kt` |
 | Theme | `app/.../themes/Theme.kt` |
 | Convention plugins | `build-logic/convention/src/main/kotlin/` |
 | Version catalog | `gradle/libs.versions.toml` |

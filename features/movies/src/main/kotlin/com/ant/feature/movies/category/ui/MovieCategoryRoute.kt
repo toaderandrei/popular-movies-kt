@@ -21,6 +21,7 @@ fun MovieCategoryRoute(
         onMovieClick = onNavigateToDetails,
         onNavigateBack = onNavigateBack,
         onRefresh = viewModel::refresh,
+        onLoadMore = viewModel::loadNextPage,
         modifier = modifier,
     )
 }

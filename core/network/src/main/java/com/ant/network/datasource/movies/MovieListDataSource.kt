@@ -3,6 +3,7 @@ package com.ant.network.datasource.movies
 import com.ant.common.exceptions.bodyOrThrow
 import com.ant.common.exceptions.withRetry
 import com.ant.models.entities.MovieData
+import com.ant.models.model.PaginatedResult
 import com.ant.models.request.MovieType
 import com.ant.models.request.RequestType
 import com.ant.network.mappers.movies.MoviesListMapper
@@ -21,7 +22,7 @@ class MovieListDataSource @Inject constructor(
 ) {
     suspend operator fun invoke(
         params: RequestType.MovieRequest,
-    ): List<MovieData> {
+    ): PaginatedResult<MovieData> {
         val movieService = tmdb.moviesService()
 
         val movieResultsPageResponse = when (params.movieType) {

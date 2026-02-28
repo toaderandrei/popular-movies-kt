@@ -42,7 +42,7 @@ class WelcomeViewModel @Inject constructor(
                         _uiState.update { it.copy(isLoading = true) }
                     }
                     is Result.Success -> {
-                        val movie = result.data
+                        val movie = result.data.items
                             .filter { !it.backDropPath.isNullOrBlank() }
                             .randomOrNull()
                         _uiState.update {

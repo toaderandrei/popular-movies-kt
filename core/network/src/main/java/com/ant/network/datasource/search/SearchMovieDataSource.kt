@@ -33,6 +33,6 @@ class SearchMovieDataSource @Inject constructor(
         val searchResults = searchResultResponse.bodyOrThrow()
         val genreResults = genreResponse.bodyOrThrow()
 
-        return moviesListMapper.map(Pair(searchResults, genreResults))
+        return moviesListMapper.map(Pair(searchResults, genreResults)).items
     }
 }

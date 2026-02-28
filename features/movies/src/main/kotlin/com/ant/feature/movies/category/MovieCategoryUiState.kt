@@ -9,4 +9,10 @@ data class MovieCategoryUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
     val isRefreshing: Boolean = false,
-)
+    val currentPage: Int = 0,
+    val totalPages: Int = 1,
+    val isLoadingMore: Boolean = false,
+) {
+    val canLoadMore: Boolean
+        get() = currentPage < totalPages && !isLoadingMore && !isLoading && error == null
+}

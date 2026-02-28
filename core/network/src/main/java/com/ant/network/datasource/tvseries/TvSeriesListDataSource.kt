@@ -3,6 +3,7 @@ package com.ant.network.datasource.tvseries
 import com.ant.common.exceptions.bodyOrThrow
 import com.ant.common.exceptions.withRetry
 import com.ant.models.entities.TvShow
+import com.ant.models.model.PaginatedResult
 import com.ant.models.request.RequestType
 import com.ant.models.request.TvShowType
 import com.ant.network.mappers.tvseries.TvSeriesMapper
@@ -17,7 +18,7 @@ class TvSeriesListDataSource(
     private val tmdb: Tmdb,
     private val tvSeriesMapper: TvSeriesMapper,
 ) {
-    suspend operator fun invoke(): List<TvShow> {
+    suspend operator fun invoke(): PaginatedResult<TvShow> {
         val tvService = tmdb.tvService()
         val tvShowResultsPageResponse = when (params.tvSeriesType) {
             TvShowType.ONTV_NOW -> onTheAir(tvService, params)
@@ -32,12 +33,9 @@ class TvSeriesListDataSource(
         val genresList = genreResponse.bodyOrThrow()
         val tvShowResultsPage = tvShowResultsPageResponse.bodyOrThrow()
 
-        val tvShowList = tvShowResultsPageResponse.let {
-            tvSeriesMapper.map(
-                Pair(tvShowResultsPage, genresList)
-            )
-        }
-        return tvShowList
+        return tvSeriesMapper.map(
+            Pair(tvShowResultsPage, genresList)
+        )
     }
 
     private suspend fun airingToday(
